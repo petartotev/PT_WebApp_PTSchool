@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcSchool.Services", "Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcSchool.Services.Models", "Services\MvcSchool.Services.Models\MvcSchool.Services.Models.csproj", "{60976AAA-BA4A-4C61-80B8-ACA7A333FD57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demos", "Demos\Demos.csproj", "{C2C326E0-533C-4BBB-A3C8-71631D83348C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,10 +49,6 @@ Global
 		{60976AAA-BA4A-4C61-80B8-ACA7A333FD57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60976AAA-BA4A-4C61-80B8-ACA7A333FD57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60976AAA-BA4A-4C61-80B8-ACA7A333FD57}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2C326E0-533C-4BBB-A3C8-71631D83348C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2C326E0-533C-4BBB-A3C8-71631D83348C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2C326E0-533C-4BBB-A3C8-71631D83348C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2C326E0-533C-4BBB-A3C8-71631D83348C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
