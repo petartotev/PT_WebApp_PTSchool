@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewData["Title"] = "RegisterPolicy";
+}
+
+<div class="container">
+<h1>Register Policy</h1>
+
+<hr style="height: 5px;" class="bg-dark"/> 
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert" id="myAlert">
+    <h6 class="text-danger"><b>Important: </b>Only the Administration of the School Insitution has the privilege to register new User Profiles!</h6>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<p><b>Permission to access the PTSchool Web Platform would be granted only for the following Members of the School Institution:</b></p>
+<ul>
+    <li><b class="text-primary">Teachers</b> that are <u>currently</u>* working as Employees in it.</li>
+    <li><b class="text-success">Students</b> that are <u>currently</u>* in active practice in it.</li>
+    <li><b class="text-warning">Parents</b> of students <u>currently</u>* studying in it.</li>
+</ul>
+<p><i>* The <b class="text-primary">Teachers</b> that have their employee contracts cancelled, the <b class="text-success">Students</b> that graduate from the school and the <b class="text-warning">Parents</b> of these students would have their User Profiles automatically deleted once the events described here occur.</i></p>
+
+<hr />
+
+<p><b>The Members of the School Institution that satisfy the requirements established here would receive* their personal User Profiles as it follows:</b></p>
+<ul>
+    <li><b class="text-primary">Teachers</b> - from the Administration Office once they officially sign an employment contract with the School Institution.</li>
+    <li><b class="text-success">Students</b> (8th grade) - from the head teacher of the class, on the 1st day of school.</li>
+    <li><b class="text-warning">Parents</b> of students (8th grade) - from the head teacher of the class on the 1st Parents' meeting after the school year starts.</li>
+</ul>
+<p><i>* The User Profiles consist of Username and Password.</i></p>
+<ul>
+    <li><i>The Username would be a function of the first and the last name of the User.</i></li>
+    <li><i>The Password would be randomly generated GUID, consisting of digits, letters and separators.</i></li>
+    <li><i>The User Profile information would be printed and placed in a non-transparent envelope. It would be received by the User as described above.</i></li>
+</ul>
+
+<hr />
+
+<p><b>The Administration of the School Institution <u>strongly</u> recommends all Users of the PTSchool Web Platform to:</b></p>
+<ul>
+    <li>Respect each other's <a href="@Url.Action("Privacy", "Home")"><b>Privacy</b></a>.</li>
+    <li>Change their default passwords which they received from the School after they login into the Web Platform for the first time.</li>
+    <li>Use it as a tool that saves time and makes communication between Parents/Teachers/Students more dynamic, useful and efficient.</li>
+</ul>
+
+<hr style="height: 5px;" class="bg-dark"/>    
+
+<p><b>PTSchool Web Platform could be tested by the following User Profiles:</b></p>
+<ul>
+    <li>Teacher1@teacher.teacher - <b class="text-primary">Teacher</b>'s role.</li>
+    <li>Student1@student.student - <b class="text-success">Student</b>'s role.</li>
+    <li>Parent1@parent.parent - <b class="text-warning">Parent</b>'s role.</li>
+</ul>
+
+</div>
+
+<script>
+    var myAlert = document.getElementById("myAlert");
+    //setTimeout(function () { myAlert.style.display = "none" }, 10000);
+
+</script>

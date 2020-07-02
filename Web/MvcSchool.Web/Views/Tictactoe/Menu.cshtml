@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Menu";
+}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <h1 onmouseover="this.style.fontSize='50px'" onmouseout="this.style.fontSize='40px'">TicTacToe<strong>Menu</strong></h1>
+    </div>
+    <hr style="height: 5px;" class="bg-danger" />
+
+    <div class="row justify-content-center align-items-center">
+        <a class="nav-link btn bg-dark text-white" asp-area="" asp-controller="Tictactoe" asp-action="Create">CREATE GAME [X]</a>
+        &nbsp; &nbsp;
+        <a class="nav-link btn bg-secondary text-white" asp-area="" asp-controller="Tictactoe" asp-action="Join">JOIN GAME [O]</a>
+    </div>
+    <hr />
+</div>

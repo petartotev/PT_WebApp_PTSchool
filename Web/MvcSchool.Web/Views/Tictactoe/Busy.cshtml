@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Busy";
+}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <h1 onmouseover="this.style.fontSize='50px'" onmouseout="this.style.fontSize='40px'">Busy!</h1>
+    </div>
+    <hr style="height: 5px;" class="bg-danger" />
+
+    <div class="alert alert-danger" role="alert">
+        <h6 class="alert-heading">Sorry, someone else has just joined this game...</h6>
+        <hr>
+        <p>Go back and choose another game:</p>
+        <a class="btn btn-large btn-info text-white" onclick="window.location='@Url.Action("Join", "Tictactoe")'">BACK</a>
+    </div>
+    <hr />
+</div>

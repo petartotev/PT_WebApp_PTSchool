@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewData["Title"] = "Draw";
+}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <h1 onmouseover="this.style.fontSize='50px'" onmouseout="this.style.fontSize='40px'">School<strong>Canvas!</strong></h1>
+    </div>
+</div>
+<hr style="height: 5px;" class="bg-danger" />
+
+<div class="text-center">
+    <canvas class="border bg-white" id="canvas"></canvas>
+</div>
+
+<hr />
+<div class="container">
+    <div class="input-group mb-3">
+        <select class="custom-select"
+                id="inputBrushSize"
+                aria-label="Example select with button addon">
+            <option selected="selected">Choose brush size...</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+            <option value="60">60</option>
+            <option value="70">70</option>
+            <option value="80">80</option>
+            <option value="90">90</option>
+            <option value="100">100</option>
+        </select>
+        &nbsp; &nbsp;
+        <select class="custom-select"
+                id="inputBrushColor"
+                aria-label="Example select with button addon">
+            <option selected>Choose brush color...</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="cyan">Cyan</option>
+            <option value="magenta">Magenta</option>
+            <option value="yellow">Yellow</option>
+            <option value="black">Black</option>
+            <option value="white">White</option>
+        </select>
+        &nbsp; &nbsp;
+        <a id="linkSave" class="nav-link btn bg-secondary text-white">Save</a>
+        &nbsp; &nbsp;
+        <a class="nav-link btn bg-dark text-white" asp-area="" asp-controller="Canvas" asp-action="Draw">Reset</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var myConnectionDraw = new signalR.HubConnectionBuilder().withUrl("/canvashub").build();
+
+        var isDrawing;
+
+        var myCanvas = document.getElementById("canvas");
+        myCanvas.width = window.innerWidth * 0.95;
+        myCanvas.height = window.innerHeight * 0.7;
+
+        const canvasContext = myCanvas.getContext("2d");
+
+        var linkToSave = document.getElementById("linkSave");
+        linkToSave.addEventListener("click", (e) => {
+            linkToSave.href = myCanvas.toDataURL();
+            linkToSave.download = "PTSchoolDrawing.jpg";
+        }, false);
+
+        function getBrushSize() {
+            var brushSize = document.getElementById("inputBrushSize").value;
+            var brushSizeToReturn = brushSize;
+            return brushSizeToReturn;
+        }
+
+        function getBrushColor() {
+            var brushColor = document.getElementById("inputBrushColor").value;
+            var brushColorToReturn;
+            switch (brushColor) {
+                case "red":
+                    brushColorToReturn = "#FF0000";
+                    break;
+                case "green":
+                    brushColorToReturn = "#00FF00";
+                    break;
+                case "blue":
+                    brushColorToReturn = "#0000FF";
+                    break;
+                case "cyan":
+                    brushColorToReturn = "#00FFFF";
+                    break;
+                case "magenta":
+                    brushColorToReturn = "#FF00FF";
+                    break;
+                case "yellow":
+                    brushColorToReturn = "#FFFF00";
+                    break;
+                case "white":
+                    brushColorToReturn = "#FFFFFF";
+                    break;
+                case "black":
+                default:
+                    brushColorToReturn = "#000000";
+                    break;
+            }
+            return brushColorToReturn;
+        }
+
+        function drawCircle(x, y, z, c, color) {
+            canvasContext.beginPath();
+            canvasContext.arc(x, y, z, c, 2 * Math.PI);
+            canvasContext.fillStyle = `${color}`;
+            canvasContext.fill();
+        }
+
+        myConnectionDraw.on("SendDrawingToAllJS",
+                function (model) {
+                    drawCircle(model.xCoordinate, model.yCoordinate, model.brushSize, 0, model.brushColor);
+                });
+
+        myCanvas.addEventListener("mousedown", (e) => {
+            isDrawing = true;
+            //drawCircle(e.offsetX, e.offsetY, getBrushSize(), 0, getBrushColor());
+            var brushSizeThis = getBrushSize();
+            var brushColorThis = getBrushColor();
+            //debugger;
+            myConnectionDraw.invoke("SendDrawingToAllCSharp", e.offsetX, e.offsetY, brushSizeThis, brushColorThis);
+            //debugger;
+        });
+
+        myCanvas.addEventListener("mousemove", (e) => {
+            if (isDrawing) {
+                //drawCircle(e.offsetX, e.offsetY, getBrushSize(), 0, getBrushColor());
+                var brushSizeThis = getBrushSize();
+                var brushColorThis = getBrushColor();
+                myConnectionDraw.invoke("SendDrawingToAllCSharp", e.offsetX, e.offsetY, brushSizeThis, brushColorThis);
+            }
+        });
+
+        myCanvas.addEventListener("mouseup", (e) => {
+            isDrawing = false;
+        });
+
+        myConnectionDraw.start().catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        //PT: To escape HTML injection in chat:
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+}

@@ -1,0 +1,41 @@
+﻿@model MvcSchool.Web.Models.Class.ClassProfileFullByClassIdViewModel
+ 
+@{
+    ViewData["Title"] = "Class";
+}
+
+@{ 
+    int num = Model.classProfile.StudentsIds.First();
+}
+
+@{
+    string className = Model.classProfile.Name;
+}
+
+<div class="row">
+    <div class="col-md-2 bg-secondary text-white">
+        <h1 class="text-center mx-auto d-block">@className Class</h1>
+        <hr />
+    </div>
+    <div class="col-md-10">
+        <div class="row">
+            @for (int i = 0; i < Model.classProfile.CountStudents; i++)
+                {
+                    string thisStudentAverageScore = $"{Model.classProfile.StudentsAverageScores.ToList()[i]:F2}";
+
+                    <div class="col-md-2 border">
+                        @*@Model.classProfile.StudentsNames.ToList()[i].ToString()*@
+                        <p class="text-center">@Model.classProfile.StudentsIds.ToList()[i]</p>
+                        <br />
+                        <a href="@Url.Action("Student", "Students", new { id = @Model.classProfile.StudentsIds.ToList()[i] })">
+                        <img class="rounded-circle mx-auto d-block" src="data:image/jpg;base64,@Convert.ToBase64String(@Model.classProfile.StudentsImagesXS.ToList()[i])" alt="Student" width="100" height="100">
+                        </a>
+                        <br />
+                        <p class="text-center">@thisStudentAverageScore</p>
+                        @*@Model.classProfile.StudentsEmails.ToList()[i].ToString()*@
+                    </div>
+                }
+        </div>
+    </div>
+</div>
+
