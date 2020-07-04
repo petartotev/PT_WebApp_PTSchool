@@ -28,9 +28,9 @@ The main functionality of the web application is to facilitate the communication
 **Extra functionalities included:**
 
 - **SchoolChat!** - a real-time platform that involves all participants in 1 mega-chat (SignalR web-socket connection)! 
-- **SchoolCanvas!** - a white canvas that can be used by anybody that has the need to express themselves and get noticed by others.
+- **SchoolCanvas!** - a real-time canvas that can be used by anybody that has the need to express themselves and get noticed by others immediately. 
 
 *If you have the urge to write a "KYP" and run away - this is your chance!*
 
-- **TicTacToeGame** - join a TicTacToe room already created or Create one by yourself and wait for your buddy to join! (SignalR)
-- **PTShooterGame** - a-mouse-click-shooter with no page-reloading (vanilla JS only). Health (3), Gun Reload (5), You-shoot-them-or-they-shoot-you.
+- **TicTacToeGame** - Join a TicTacToe room already created or Create one by yourself and wait for your buddy to join! Then play Tic Tac Toe! (SignalR web-socket connection)
+- **PTShooterGame** - a-mouse-click-shooter with no page-reloading (vanilla JS only). Start with Health = 3, Gun Reload = 5 and you-shoot-them-or-they-shoot-you.
