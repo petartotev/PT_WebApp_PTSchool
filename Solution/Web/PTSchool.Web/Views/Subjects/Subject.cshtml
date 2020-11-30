@@ -1,0 +1,42 @@
+﻿@model PTSchool.Web.Models.Subject.SubjectByIdFullViewModel
+
+@{
+    ViewData["Title"] = "Subject";
+}
+
+<div class="row">
+    <div class="col-md-2 bg-info text-white">
+        <h1 class="text-center mx-auto d-block">Subject</h1>
+        <hr />
+        <img class="rounded-circle mx-auto d-block" src="data:image/jpg;base64,@Convert.ToBase64String(Model.SubjectProfileFullById.ImageM)" alt="subject" width="300" height="300">
+        <h3 class="text-center"><strong>@Model.SubjectProfileFullById.Name</strong></h3>
+        <br />
+        <div class="row">
+            <div class="col col-md-1"></div>
+            <div class="col col-md-10">
+                <h5 class="text-justify font-italic">" @Model.SubjectProfileFullById.Description "</h5>
+            </div>
+            <div class="col col-md-1"></div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Class</td>
+                <td>
+                    @for (int i = 0; i < Model.SubjectProfileFullById.TeachersIds.Count(); i++)
+                    {
+                        <a href="@Url.Action("Teacher", "Teachers", new { id = Model.SubjectProfileFullById.TeachersIds.ToList()[i] })">
+                            <img class="rounded-circle" src="data:image/jpg;base64,@Convert.ToBase64String(Model.SubjectProfileFullById.TeachersImagesXXS.ToList()[i])" alt="teacher" width="50" height="50">
+                        </a>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+

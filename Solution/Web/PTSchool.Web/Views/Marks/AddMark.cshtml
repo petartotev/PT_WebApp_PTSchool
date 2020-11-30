@@ -1,0 +1,60 @@
+﻿@model PTSchool.Web.Models.Mark.MarkToAddFullViewModel
+
+@{
+    ViewData["Title"] = "AddMark";
+}
+
+<h1>Add Mark</h1>
+<h3>StudentId: @Model.StudentId</h3>
+<hr />
+
+<div class="col-md-4">
+    <form asp-controller="Marks" asp-action="AddMark" method="post" class="form" enctype="multipart/form-data">
+
+        <div asp-validation-summary="All" class="text-danger"></div> <!--UL list -->
+
+        <div class="form-group">
+            <label asp-for="ValueMark"></label>
+            <select asp-for="ValueMark" class="form-control" asp-items="@Html.GetEnumSelectList<PTSchool.Data.Models.EnumValueMark>()"></select>
+            <span asp-validation-for="ValueMark" class="text-danger"></span>
+        </div>
+
+        <!--TODO VALIDATION IF THE TEACHER HAS THIS SUBJECT!-->
+        <div class="form-group">
+            <label asp-for="Subject"></label>
+            <select asp-for="Subject" class="form-control" asp-items="@Html.GetEnumSelectList<PTSchool.Web.Models.Mark.Subject>()"></select>
+            <span asp-validation-for="Subject" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Comment"></label>
+            <input asp-for="Comment" class="form-control" />
+            <span asp-validation-for="Comment" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DateReceived"></label>
+            <input asp-for="DateReceived" class="form-control" />
+            <span asp-validation-for="DateReceived" class="text-danger"></span>
+        </div>
+
+        @*<label>Attach your CV</label>
+        <input type="file" name="CV" />*@
+
+        <hr />
+
+        <input type="submit" value="Submit!" class="btn btn-primary" />
+    </form>
+
+    <!-- For the Form to be checked by JavaScript without a Request to be sent for Server Validations. This decreases traffic.-->
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</div>
+

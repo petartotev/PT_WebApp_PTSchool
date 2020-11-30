@@ -1,0 +1,122 @@
+﻿@model PTSchool.Web.Models.Mark.CollectionMarksFullViewModels
+
+@{
+    ViewData["Title"] = "AllMarks";
+}
+
+<div class="row">
+    <div class="col-md-2 bg-success text-white">
+        <h1 class="text-center mx-auto d-block">Marks</h1>
+        <hr />
+        <a href="@Url.Action("Student", "Students", new { id = @Model.MarkProfilesFull.First().StudentId })">
+            <img class="rounded-circle mx-auto d-block" src="data:image/jpg;base64,@Convert.ToBase64String(@Model.MarkProfilesFull.First().StudentImageXS)" alt="Student" width="300" height="300">
+        </a>
+        <h3 class="text-center mx-auto d-block"><strong>@Model.MarkProfilesFull.First().StudentName</strong></h3>
+        <hr />
+        @if (User.IsInRole("Teacher"))
+        {
+            <div class="container">
+                <a class="btn btn-large btn-primary text-white mx-auto d-block" onclick="window.location='@Url.Action("AddMark", "Marks", new { id = Model.MarkProfilesFull.First().StudentId })'">ADD MARK!</a>
+            </div>
+            <hr />
+        }
+        @if (User.IsInRole("Parent"))
+        {
+            @if (Model.IsAllMarksSignedByParent)
+            {
+                <div class="alert alert-success" role="alert">
+                    <h6 class="alert-heading">Well done!</h6>
+                    <hr>
+                    <p>Your child's marks are all signed!</p>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger" role="alert">
+                    Your child has unsigned marks. Please, sign them.
+                </div>
+            }
+            <hr />
+            <p class="alert-success" id="responseWhenButtonClicked"></p>
+            <hr />
+        }
+    </div>
+    <div class="col-md-10">
+
+        <a href="/Marks/AllMarks/@Model.MarkProfilesFull.First().StudentId?page=@Model.FirstPage" class="float-left btn btn-dark text-white @(Model.IsPreviousDisabled ? "disabled" : String.Empty)"><<</a>
+        <a href="/Marks/AllMarks/@Model.MarkProfilesFull.First().StudentId?page=@Model.PreviousPage" class="float-left btn btn-dark text-white @(Model.IsPreviousDisabled ? "disabled" : String.Empty)"><</a>
+        <a href="/Marks/AllMarks/@Model.MarkProfilesFull.First().StudentId?page=@Model.LastPage" class="float-right btn btn-dark text-white @(Model.IsNextDisabled ? "disabled" : String.Empty)">>></a>
+        <a href="/Marks/AllMarks/@Model.MarkProfilesFull.First().StudentId?page=@Model.NextPage" class="float-right btn btn-dark text-white @(Model.IsNextDisabled ? "disabled" : String.Empty)">></a>
+             
+        <div class="row">
+            @for (int i = 0; i < Model.MarkProfilesFull.Count(); i++)
+            {
+                <div class="container">
+                    <table class="table table-striped table-bordered bg-dark text-white">
+                        <tr>
+                            <td>Subject / Teacher</td>
+                            <td>
+                                <a href="@Url.Action("Subject", "Subjects", new { id = @Model.MarkProfilesFull.ToList()[i].SubjectId })">
+                                    <img class="rounded-circle" src="data:image/jpg;base64,@Convert.ToBase64String(@Model.MarkProfilesFull.ToList()[i].SubjectImageXXS)" alt="Student" width="50" height="50">
+                                </a>
+                                <a href="@Url.Action("Teacher", "Teachers", new { id = @Model.MarkProfilesFull.ToList()[i].TeacherId })">
+                                    <img class="rounded-circle" src="data:image/jpg;base64,@Convert.ToBase64String(@Model.MarkProfilesFull.ToList()[i].TeacherImageXXS)" alt="Student" width="50" height="50">
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Value</td>
+                            <td class="font-weight-bold text-warning">@Model.MarkProfilesFull.ToList()[i].ValueMark</td>
+                        </tr>
+                        <tr>
+                            <td class="font-italic">Title / Comment</td>
+                            <td class="font-italic">@Model.MarkProfilesFull.ToList()[i].Title / @Model.MarkProfilesFull.ToList()[i].Comment</td>
+                        </tr>
+                        <tr>
+                            <td>DateReceived</td>
+                            <td>@Model.MarkProfilesFull.ToList()[i].DateReceived</td>
+                        </tr>
+                        <tr>
+                            <td>DateConfirmed</td>
+                            @if (@Model.MarkProfilesFull.ToList()[i].DateConfirmed == DateTime.MinValue)
+                            {
+                                if (User.IsInRole("Parent"))
+                                {
+                                    <td>
+                                        @*<input type="button" class="btn btn-large btn-warning text-dark" value="Sign!" onclick="location.href='@Url.Action("SignMark", "Marks", new { studentId = Model.MarkProfilesFull.First().StudentId, markId = Model.MarkProfilesFull.ToList()[i].Id } )'" />*@
+                                        <input type="button" class="btn btn-large btn-warning text-dark" value="Sign!" onclick="signMarkFunction(this, @Model.MarkProfilesFull.First().StudentId, @Model.MarkProfilesFull.ToList()[i].Id)" />
+                                    </td>
+                                }
+                            }
+                            else
+                            {
+                                <td>@Model.MarkProfilesFull.ToList()[i].DateConfirmed</td>
+                            }
+                        </tr>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@*<td><button onclick="myFunction()" class="btn btn-success">Sign!</button></td>
+    <script>
+        function myFunction() {
+            alert("I am an alert box!")
+        }
+    </script>*@
+
+<script>
+    function signMarkFunction(element, studentId, markId) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {                
+                element.style.display = "none";  
+                document.getElementById("responseWhenButtonClicked").innerHTML = this.responseText;
+            }
+        }
+        xhr.open("GET", "/Marks/SignMark/" + studentId + "/" + markId, true);
+        xhr.send();
+    }
+</script>
