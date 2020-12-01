@@ -71,7 +71,7 @@ SignalR web-socket connection provides a real-time massive **chat** that everybo
 
 SignalR also provides a real-time **canvas** that can be used by anybody to express themselves freely.
 
-\~If you have the urge to write a "KYP" statement in front of the whole school and run away - this is your chance!\~
+\~If you have the urge to write an offensive statement in front of the whole school and run away - this is your chance!\~
 
 ![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_SchoolCanvas.jpg)
 
