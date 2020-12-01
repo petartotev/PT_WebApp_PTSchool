@@ -12,6 +12,7 @@ PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an onlin
 
 - EntityFrameworkCore.SqlServer
 - EntityFrameworkCore.Tools
+- Serilog
 - SignalR
 
 ---
