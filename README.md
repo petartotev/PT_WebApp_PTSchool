@@ -2,7 +2,7 @@
 
 ## General Information
 
-PT_WebApp_PTSchool is an ASP\.NET Core MVC Web Application that provides a platform for different services for Parents, Teachers and Students within a school institution.
+PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an online platform for different services for Parents, Teachers and Students within a school institution.
 
 ![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_0.jpg)
 
