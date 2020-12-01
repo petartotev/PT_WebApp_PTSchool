@@ -1,10 +1,7 @@
 ﻿using PTSchool.Data;
 using PTSchool.Services.Models.Class;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace PTSchool.Services.Implementations
 {
@@ -17,7 +14,7 @@ namespace PTSchool.Services.Implementations
             this.db = db;
         }
 
-        public IEnumerable<ClassFullServiceModel> GetAllClassProfilesFull()
+        public IEnumerable<ClassFullServiceModel> GetAllClasses()
         {
             return this.db.Classes.Select(x => new ClassFullServiceModel
             {
@@ -32,12 +29,12 @@ namespace PTSchool.Services.Implementations
                 CountGirls = x.Students.Where(y => (int)y.Gender == 0).Count(),
                 CountBoys = x.Students.Where(y => (int)y.Gender == 1).Count(),
                 StudentsAverageScores = x.Students.Select(y => y.Marks.Select(z => (double)z.ValueMark).Average()),
-            });           
+            });
         }
 
-        
 
-        public ClassFullServiceModel GetClassProfileFullById(int id)
+
+        public ClassFullServiceModel GetClassById(int id)
         {
             var classServiceModelToGet = this.db.Classes.Where(x => x.Id == id).Select(classToGet => new ClassFullServiceModel
             {

@@ -25,9 +25,9 @@ namespace PTSchool.Web.Controllers
         [RequestSizeLimit(50 * 1024 * 1024)] // LIMIT BODY: 50MB
         public async Task<IActionResult> AllParents(int page = 1)
         {
-            var allParentsFullProfile = this.parentService.GetAllParentProfilesFull(page);
+            var allParentsFullProfile = this.parentService.GetAllParents(page);
 
-            var totalParents = this.parentService.Total();
+            var totalParents = this.parentService.GetCountAllParents();
 
             var model = new CollectionParentsFullViewModels
             {
@@ -42,7 +42,7 @@ namespace PTSchool.Web.Controllers
         [Authorize(Roles = "Teacher, Parent")]
         public IActionResult Parent(int id, int page = 1)
         {
-            var parentProfileFullById = parentService.GetParentProfileFullById(id);
+            var parentProfileFullById = parentService.GetParentById(id);
 
             var model = new ParentByIdFullViewModel
             {

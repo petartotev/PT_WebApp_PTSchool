@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using static PTSchool.Data.Models.DataModelsValidations.Club;
 
 namespace PTSchool.Data.Models

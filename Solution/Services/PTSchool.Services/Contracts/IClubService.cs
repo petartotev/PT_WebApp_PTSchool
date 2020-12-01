@@ -1,20 +1,18 @@
 ﻿using PTSchool.Services.Models.Club;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PTSchool.Services
 {
     public interface IClubService
     {
-        IEnumerable<ClubFullServiceModel> GetAllClubProfilesFull();
+        IEnumerable<ClubFullServiceModel> GetAllClubs();
 
-        ClubFullServiceModel GetClubProfileFullById(int id);
+        ClubFullServiceModel GetClubById(int id);
 
-        int GetAllClubsCount();
+        int GetCountAllClubs();
 
-        int GetAllClubsStudentsCount();
+        int GetCountAllStudentsInClubs();
 
-        int GetAllClubsTeachersCount();
+        int GetCountAllTeachersInClubs();
     }
 }

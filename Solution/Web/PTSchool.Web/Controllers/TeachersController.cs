@@ -23,9 +23,9 @@ namespace PTSchool.Web.Controllers
         [Authorize(Roles = "Teacher, Parent, Student")]
         public IActionResult AllTeachers(int page = 1)
         {
-            var teacherProfilesFull = this.teacherService.GetAllTeacherProfilesFull(page);
+            var teacherProfilesFull = this.teacherService.GetAllTeachers(page);
             var pageSizeCount = this.teacherService.GetPageCountSizing();
-            var totalCount = this.teacherService.GetTotalTeachersCount();
+            var totalCount = this.teacherService.GetCountTotalTeachers();
 
             var model = new CollectionTeachersFullViewModels
             {
@@ -41,7 +41,7 @@ namespace PTSchool.Web.Controllers
         [Authorize(Roles = "Teacher, Parent, Student")]
         public IActionResult Teacher(int id)
         {
-            var teacherProfileFullById = this.teacherService.GetTeacherProfileFullById(id);
+            var teacherProfileFullById = this.teacherService.GetTeacherById(id);
 
             var model = new TeacherByIdFullViewModel
             {

@@ -24,7 +24,7 @@ namespace PTSchool.Web.Controllers
 
         public IActionResult AllMarks(int id, int page = 1)
         {
-            var marksAll = this.markService.GetAllMarksProfilesFullByStudentId(id, page);
+            var marksAll = this.markService.GetAllMarksByStudentId(id, page);
             var pageSizeCount = this.markService.GetPageCountSizing();
             var totalCount = this.markService.GetTotalMarksByStudentId(id);
             var isAllMarksSigned = this.markService.IsAllMarksSignedByParent(id);
@@ -65,7 +65,7 @@ namespace PTSchool.Web.Controllers
                 ValueMark = (int)markProfileToAdd.ValueMark,
             };
 
-            this.markService.AddNewMarkProfileToStudentByStudentId(markProfileServiceModelToAdd);
+            this.markService.AddMarkToStudentByStudentId(markProfileServiceModelToAdd);
 
             //PT: TEMP-DATA
             //PT: It is a KEY-VALUE pair that can be passes until it is used. Then it is automatically deleted!

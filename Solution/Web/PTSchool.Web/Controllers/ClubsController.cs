@@ -18,7 +18,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> AllClubs()
         {
-            var allClubsFull = this.clubService.GetAllClubProfilesFull();
+            var allClubsFull = this.clubService.GetAllClubs();
 
             var model = new CollectionClubsFullViewModels
             {
@@ -30,7 +30,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> Club(int id)
         {
-            var clubById = this.clubService.GetClubProfileFullById(id);
+            var clubById = this.clubService.GetClubById(id);
 
             var model = new ClubByIdFullViewModel
             {
@@ -42,21 +42,21 @@ namespace PTSchool.Web.Controllers
 
         public int GetAllClubsCount()
         {
-            var allClubsCount = this.clubService.GetAllClubsCount();
+            var allClubsCount = this.clubService.GetCountAllClubs();
 
             return allClubsCount;
         }
 
         public int GetAllClubsStudentsCount()
         {
-            var allClubsStudentsCount = this.clubService.GetAllClubsStudentsCount();
+            var allClubsStudentsCount = this.clubService.GetCountAllStudentsInClubs();
 
             return allClubsStudentsCount;
         }
 
         public int GetAllClubsTeachersCount()
         {
-            var allClubsTeachersCount = this.clubService.GetAllClubsTeachersCount();
+            var allClubsTeachersCount = this.clubService.GetCountAllTeachersInClubs();
 
             return allClubsTeachersCount;
         }

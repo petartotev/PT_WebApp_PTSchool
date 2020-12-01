@@ -21,7 +21,7 @@ namespace PTSchool.Services.Implementations
             this.db = db;
         }
 
-        public void AddNewMarkProfileToStudentByStudentId(MarkFullServiceModel markToAdd)
+        public void AddMarkToStudentByStudentId(MarkFullServiceModel markToAdd)
         {
             this.db.Marks.Add(new Mark
             {
@@ -37,7 +37,7 @@ namespace PTSchool.Services.Implementations
             this.db.SaveChanges();
         }
 
-        public IEnumerable<MarkFullServiceModel> GetAllMarksProfilesFullByStudentId(int id, int page = 1)
+        public IEnumerable<MarkFullServiceModel> GetAllMarksByStudentId(int id, int page = 1)
         {     
             return this.db
                 .Marks

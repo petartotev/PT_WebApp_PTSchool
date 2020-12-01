@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using static PTSchool.Data.Models.DataModelsValidations.Mark;
 
 namespace PTSchool.Data.Models
@@ -9,7 +7,7 @@ namespace PTSchool.Data.Models
     public class Mark
     {
         public int Id { get; set; }
-             
+
         public EnumValueMark ValueMark { get; set; }
 
         [MaxLength(MaxLengthTitle)]
@@ -29,5 +27,5 @@ namespace PTSchool.Data.Models
 
         public int TeacherId { get; set; }
         public Teacher Teacher { get; set; }
-    }    
+    }
 }

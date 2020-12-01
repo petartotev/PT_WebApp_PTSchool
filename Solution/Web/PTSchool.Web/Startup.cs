@@ -1,26 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PTSchool.Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Security.Claims;
+using PTSchool.Data;
 using PTSchool.Services;
 using PTSchool.Services.Implementations;
-using PTSchool.Data;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Http;
+using PTSchool.Web.Data;
 using PTSchool.Web.Hubs;
-using Microsoft.AspNetCore.SignalR;
-using PTSchool.Data.Models;
+using System;
+using System.Security.Claims;
 
 namespace PTSchool.Web
 {
@@ -118,7 +110,7 @@ namespace PTSchool.Web
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredUniqueChars = 1; //Default is 1.
-            })                
+            })
                 .AddRoles<IdentityRole>() //PT: ROLES! ADD THIS LINE!!!
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -144,7 +136,7 @@ namespace PTSchool.Web
                 });
 
             services.AddControllersWithViews();
-            services.AddRazorPages();            
+            services.AddRazorPages();
         }
 
 
@@ -166,8 +158,8 @@ namespace PTSchool.Web
             }
 
             //PT: USE WEB SOCKETS! (1) (Computer communication protocol that provides full-duplex (two-way) communication channels, which are provided over a single TCP connection.
-            app.UseWebSockets(new WebSocketOptions 
-            { 
+            app.UseWebSockets(new WebSocketOptions
+            {
                 KeepAliveInterval = TimeSpan.FromSeconds(120),
                 ReceiveBufferSize = 4 * 1024,
             });
@@ -212,7 +204,7 @@ namespace PTSchool.Web
                 //PT: 5. Copy the 2 files from Projects' Views(Folder) - _ViewImports.cshtml, _ViewStart.cshtml  
                 //PT: 6. Paste the 2 files here: Areas(Folder) -> Admin(Folder) -> Views(Folder)
                 //PT: 7. Now you can access it here: https://localhost:5001/Admin/Dashboard/Index/1
-                //PT: ADD SINGLER (2)
+                //PT: ADD SIGNALR (2)
                 endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapHub<PlayHub>("/playhubbb");
                 endpoints.MapHub<CanvasHub>("/canvashub");
@@ -225,54 +217,3 @@ namespace PTSchool.Web
         }
     }
 }
-
-
-
-//PT: DEFAULT STARTUP.CS
-
-//namespace WebApplication1
-//{
-//    public class Startup
-//    {
-//        public Startup(IConfiguration configuration)
-//        {
-//            Configuration = configuration;
-//        }
-
-//        public IConfiguration Configuration { get; }
-
-//        // This method gets called by the runtime. Use this method to add services to the container.
-//        public void ConfigureServices(IServiceCollection services)
-//        {
-//            services.AddControllersWithViews();
-//        }
-
-//        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-//        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-//        {
-//            if (env.IsDevelopment())
-//            {
-//                app.UseDeveloperExceptionPage();
-//            }
-//            else
-//            {
-//                app.UseExceptionHandler("/Home/Error");
-//                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-//                app.UseHsts();
-//            }
-//            app.UseHttpsRedirection();
-//            app.UseStaticFiles();
-
-//            app.UseRouting();
-
-//            app.UseAuthorization();
-
-//            app.UseEndpoints(endpoints =>
-//            {
-//                endpoints.MapControllerRoute(
-//                    name: "default",
-//                    pattern: "{controller=Home}/{action=Index}/{id?}");
-//            });
-//        }
-//    }
-//}

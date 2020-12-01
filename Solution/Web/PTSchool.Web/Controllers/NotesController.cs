@@ -22,7 +22,7 @@ namespace PTSchool.Web.Controllers
 
         public IActionResult AllNotes(int id)
         {
-            var notesAll = this.noteService.GetAllNotesProfilesFullByStudentId(id);
+            var notesAll = this.noteService.GetAllNotesByStudentId(id);
 
             var model = new CollectionNotesFullViewModels
             {
@@ -55,7 +55,7 @@ namespace PTSchool.Web.Controllers
                 StatusNote = (int)noteProfileToAdd.StatusNote,
             };
 
-            this.noteService.AddNewNoteProfileToStudentByStudentId(noteProfileServiceModelToAdd);
+            this.noteService.AddNoteToStudentByStudentId(noteProfileServiceModelToAdd);
 
             return this.RedirectToAction("NoteApproved", new { id = id });
         }

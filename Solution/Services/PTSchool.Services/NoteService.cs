@@ -17,7 +17,7 @@ namespace PTSchool.Services.Implementations
             this.db = db;
         }
 
-        public void AddNewNoteProfileToStudentByStudentId(NoteFullServiceModel noteToAdd)
+        public void AddNoteToStudentByStudentId(NoteFullServiceModel noteToAdd)
         {
             this.db.Notes.Add(new Note
             {
@@ -33,7 +33,7 @@ namespace PTSchool.Services.Implementations
             db.SaveChanges();
         }
 
-        public IEnumerable<NoteFullServiceModel> GetAllNotesProfilesFullByStudentId(int id)
+        public IEnumerable<NoteFullServiceModel> GetAllNotesByStudentId(int id)
         {
             return this.db.Notes.Where(x => x.StudentId == id).Select(x => new NoteFullServiceModel
             {

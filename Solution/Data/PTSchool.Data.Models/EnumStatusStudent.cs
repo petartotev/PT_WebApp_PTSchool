@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PTSchool.Data.Models
+﻿namespace PTSchool.Data.Models
 {
     public enum EnumStatusStudent
     {

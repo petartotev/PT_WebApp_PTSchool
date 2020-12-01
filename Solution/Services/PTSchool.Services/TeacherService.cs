@@ -18,7 +18,7 @@ namespace PTSchool.Services.Implementations
             this.db = db;
         }
 
-        public IEnumerable<TeacherServiceModel> GetAllTeacherProfilesFull(int page = 1)
+        public IEnumerable<TeacherServiceModel> GetAllTeachers(int page = 1)
         {
 
             var allTeacherProfilesFull =  this.db
@@ -57,7 +57,7 @@ namespace PTSchool.Services.Implementations
             return allTeacherProfilesFull;
         }
 
-        public TeacherServiceModel GetTeacherProfileFullById(int id)
+        public TeacherServiceModel GetTeacherById(int id)
         {
             var teacherProfileFullById = this.db.Teachers.Where(x => x.Id == id).Select(x => new TeacherServiceModel
             {
@@ -91,7 +91,7 @@ namespace PTSchool.Services.Implementations
             return teacherProfileFullById.FirstOrDefault();
         }        
 
-        public int GetTotalTeachersCount()
+        public int GetCountTotalTeachers()
         {
             return this.db.Teachers.Count();
         }

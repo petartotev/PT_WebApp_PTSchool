@@ -1,11 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using static PTSchool.Data.Models.DataModelsValidations.Student;
 using static PTSchool.Data.Models.DataModelsValidations.General;
-using System.ComponentModel;
 
 namespace PTSchool.Data.Models
 {

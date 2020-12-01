@@ -24,7 +24,7 @@ namespace PTSchool.Web.Controllers
         [Authorize(Roles = "Teacher, Parent, Student")]
         public IActionResult AllStudents()
         {
-            var allStudentProfilesFullService = this.studentService.GetAllStudentProfilesFull();
+            var allStudentProfilesFullService = this.studentService.GetAllStudents();
 
             var model = new CollectionStudentsFullViewModels
             {
@@ -51,7 +51,7 @@ namespace PTSchool.Web.Controllers
         [Authorize(Roles = "Teacher, Parent, Student")]
         public IActionResult AllStudentsByGender(int id)
         {
-            var allStudentProfilesFullServiceByGender = this.studentService.GetAllStudentProfilesFullByGender(id);
+            var allStudentProfilesFullServiceByGender = this.studentService.GetAllStudentsByGender(id);
 
             var model = new CollectionStudentsFullViewModels
             {
@@ -78,7 +78,7 @@ namespace PTSchool.Web.Controllers
         [Authorize(Roles = "Teacher, Parent, Student")]
         public IActionResult AllStudentsBirthday()
         {
-            var allStudentProfilesFullServiceByBirthday = this.studentService.GetAllStudentProfilesFullByDateOfBirthToday();
+            var allStudentProfilesFullServiceByBirthday = this.studentService.GetAllStudentsThatHaveBirthdayToday();
 
             var model = new CollectionStudentsFullViewModels
             {
@@ -105,7 +105,7 @@ namespace PTSchool.Web.Controllers
         [Authorize(Roles = "Teacher, Parent, Student")]
         public IActionResult AllStudentsByYear(int id)
         {
-            var allStudentProfilesFullServiceByYear = this.studentService.GetAllStudentProfilesFullByYear(id);
+            var allStudentProfilesFullServiceByYear = this.studentService.GetAllStudentsByYear(id);
 
             var model = new CollectionStudentsFullViewModels
             {
@@ -131,7 +131,7 @@ namespace PTSchool.Web.Controllers
 
         public IActionResult AllStudentsByClass(int id)
         {
-            var allStudentProfilesFullServiceByClass = this.studentService.GetAllStudentProfilesFullByClass(id);
+            var allStudentProfilesFullServiceByClass = this.studentService.GetAllStudentsByClassId(id);
 
             var model = new CollectionStudentsFullViewModels
             {
@@ -157,7 +157,7 @@ namespace PTSchool.Web.Controllers
 
         public IActionResult Student(int id)
         {
-            var studentProfileFull = this.studentService.GetStudentProfileFullById(id);
+            var studentProfileFull = this.studentService.GetStudentById(id);
 
             var model = new StudentByIdFullViewModel
             {

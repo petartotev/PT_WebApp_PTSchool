@@ -22,7 +22,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> AllClasses()
         {
-            var allClasses = this.classService.GetAllClassProfilesFull();
+            var allClasses = this.classService.GetAllClasses();
 
             var model = new CollectionClassesFullViewModels
             {
@@ -34,7 +34,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> Class(int id)
         {
-            var classById = this.classService.GetClassProfileFullById(id);
+            var classById = this.classService.GetClassById(id);
 
             var model = new ClassByIdFullViewModel();
 

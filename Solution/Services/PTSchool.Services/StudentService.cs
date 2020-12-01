@@ -19,7 +19,7 @@ namespace PTSchool.Services.Implementations
             this.db = db;
         }
                 
-        public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFull(int page = 1)
+        public IEnumerable<StudentFullServiceModel> GetAllStudents(int page = 1)
         {
             var allStudentProfilesFull = this.db
                 .Students                
@@ -55,7 +55,7 @@ namespace PTSchool.Services.Implementations
 
         public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullOrdered(int orderMethod, int ascending1OrDescending2)
         {
-            var allStudentProfilesFull = GetAllStudentProfilesFull();
+            var allStudentProfilesFull = GetAllStudents();
 
             var allStudentProfilesFullOrdered = OrderBy(orderMethod, ascending1OrDescending2, allStudentProfilesFull);
 
@@ -63,7 +63,7 @@ namespace PTSchool.Services.Implementations
         }
 
 
-        public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullByClass(int id)
+        public IEnumerable<StudentFullServiceModel> GetAllStudentsByClassId(int id)
         {
             var allStudentProfilesFullByClass = db.Students.Where(x => x.Class.Id == id).Select(stdnt => new StudentFullServiceModel
             {
@@ -97,7 +97,7 @@ namespace PTSchool.Services.Implementations
 
         public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullByClassOrdered(int id, int orderMethod, int ascending1OrDescending2)
         {
-            var allStudentProfilesFullByClass = GetAllStudentProfilesFullByClass(id);
+            var allStudentProfilesFullByClass = GetAllStudentsByClassId(id);
 
             var allStudentProfilesFullByClassOrdered = OrderBy(orderMethod, ascending1OrDescending2, allStudentProfilesFullByClass);
 
@@ -105,7 +105,7 @@ namespace PTSchool.Services.Implementations
         }
 
 
-        public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullByClub(int id)
+        public IEnumerable<StudentFullServiceModel> GetAllStudentsByClubId(int id)
         {
             var allStudentProfilesFullByClub = db.Clubs.Where(x => x.Id == id).FirstOrDefault().Students.Select(y => y.Student).Select(stdnt => new StudentFullServiceModel
             {
@@ -139,7 +139,7 @@ namespace PTSchool.Services.Implementations
 
         public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullByClubOrdered(int id, int orderMethod, int ascending1OrDescending2)
         {
-            var allStudentProfilesFullByClub = GetAllStudentProfilesFullByClub(id);
+            var allStudentProfilesFullByClub = GetAllStudentsByClubId(id);
 
             var allStudentProfilesFullByClubOrdered = OrderBy(orderMethod, ascending1OrDescending2, allStudentProfilesFullByClub);
 
@@ -147,7 +147,7 @@ namespace PTSchool.Services.Implementations
         }
 
 
-        public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullByDateOfBirthToday()
+        public IEnumerable<StudentFullServiceModel> GetAllStudentsThatHaveBirthdayToday()
         {
             var allStudentProfilesFullByDateOfBirthToday = db.Students.Where(x => x.DateOfBirth.Month == DateTime.UtcNow.Month).Where(y => y.DateOfBirth.Day == DateTime.UtcNow.Day).Select(stdnt => new StudentFullServiceModel
             {
@@ -181,7 +181,7 @@ namespace PTSchool.Services.Implementations
 
         public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullByDateOfBirthTodayOrdered(int orderMethod, int ascending1OrDescending2)
         {
-            var allStudentProfilesFullByDateOfBirthToday = GetAllStudentProfilesFullByDateOfBirthToday();
+            var allStudentProfilesFullByDateOfBirthToday = GetAllStudentsThatHaveBirthdayToday();
 
             var allStudentProfilesFullByDateOfBirthTodayOrdered = OrderBy(orderMethod, ascending1OrDescending2, allStudentProfilesFullByDateOfBirthToday);
 
@@ -189,7 +189,7 @@ namespace PTSchool.Services.Implementations
         }
 
 
-        public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullByGender(int gender)
+        public IEnumerable<StudentFullServiceModel> GetAllStudentsByGender(int gender)
         {
             var allStudentProfilesFullByGender = db.Students.Where(x => (int)x.Gender == gender).Select(stdnt => new StudentFullServiceModel
             {
@@ -223,7 +223,7 @@ namespace PTSchool.Services.Implementations
 
         public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullByGenderOrdered(int gender, int orderMethod, int ascending1OrDescending2)
         {
-            var allStudentProfilesFullByGender = GetAllStudentProfilesFullByGender(gender);
+            var allStudentProfilesFullByGender = GetAllStudentsByGender(gender);
 
             var allStudentProfilesFullByGenderOrdered = OrderBy(orderMethod, ascending1OrDescending2, allStudentProfilesFullByGender);
 
@@ -231,7 +231,7 @@ namespace PTSchool.Services.Implementations
         }
 
 
-        public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullByYear(int year)
+        public IEnumerable<StudentFullServiceModel> GetAllStudentsByYear(int year)
         {
             var allStudentProfilesFullByYear = db.Students.Where(x => x.Class.Name.StartsWith(year.ToString())).Select(stdnt => new StudentFullServiceModel
             {
@@ -265,7 +265,7 @@ namespace PTSchool.Services.Implementations
 
         public IEnumerable<StudentFullServiceModel> GetAllStudentProfilesFullByYearOrdered(int year, int orderMethod, int ascending1OrDescending2)
         {
-            var allStudentProfilesFullByYear = GetAllStudentProfilesFullByYear(year);
+            var allStudentProfilesFullByYear = GetAllStudentsByYear(year);
 
             var allStudentProfilesFullByYearOrdered = OrderBy(orderMethod, ascending1OrDescending2, allStudentProfilesFullByYear);
 
@@ -358,7 +358,7 @@ namespace PTSchool.Services.Implementations
         }
 
 
-        public StudentFullServiceModel GetStudentProfileFullById(int studentId)
+        public StudentFullServiceModel GetStudentById(int studentId)
         {
             var studentProfileFullById = db.Students.Where(x => x.Id == studentId).Select(stdnt => new StudentFullServiceModel
             {

@@ -1,11 +1,7 @@
 ﻿using PTSchool.Data;
-using PTSchool.Data.Models;
 using PTSchool.Services.Models.Club;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace PTSchool.Services.Implementations
 {
@@ -18,16 +14,8 @@ namespace PTSchool.Services.Implementations
             this.db = db;
         }
 
-        public IEnumerable<ClubFullServiceModel> GetAllClubProfilesFull()
+        public IEnumerable<ClubFullServiceModel> GetAllClubs()
         {
-            //var config = new MapperConfiguration(cfg => {
-            //    cfg.CreateMap<Club, ClubProfileFullServiceModel>();
-            //});
-            //var mapper = config.CreateMapper();
-            //var clubDataModel = this.db.Clubs;
-            //var clubServiceModel = mapper.Map<IEnumerable<ClubProfileFullServiceModel>>(clubDataModel);
-            //return clubServiceModel;
-
             return this.db.Clubs.Select(x => new ClubFullServiceModel
             {
                 Id = x.Id,
@@ -45,26 +33,7 @@ namespace PTSchool.Services.Implementations
             });
         }
 
-        public int GetAllClubsCount()
-        {
-            return this.db.Clubs.Count();
-        }
-
-        public int GetAllClubsStudentsCount()
-        {
-            int test = this.db.Clubs.Select(x => x.Students.Count()).ToList().Sum();
-
-            return test;
-        }
-
-        public int GetAllClubsTeachersCount()
-        {
-            int test = this.db.Clubs.Select(x => x.Teachers.Count()).ToList().Sum();
-
-            return test;
-        }
-
-        public ClubFullServiceModel GetClubProfileFullById(int id)
+        public ClubFullServiceModel GetClubById(int id)
         {
             var clubProfileFullById = this.db.Clubs.Where(z => z.Id == id).Select(x => new ClubFullServiceModel
             {
@@ -83,6 +52,25 @@ namespace PTSchool.Services.Implementations
             });
 
             return clubProfileFullById.FirstOrDefault();
+        }
+
+        public int GetCountAllClubs()
+        {
+            return this.db.Clubs.Count();
+        }
+
+        public int GetCountAllStudentsInClubs()
+        {
+            int test = this.db.Clubs.Select(x => x.Students.Count()).ToList().Sum();
+
+            return test;
+        }
+
+        public int GetCountAllTeachersInClubs()
+        {
+            int test = this.db.Clubs.Select(x => x.Teachers.Count()).ToList().Sum();
+
+            return test;
         }
     }
 }

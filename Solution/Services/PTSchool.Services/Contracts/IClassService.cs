@@ -1,14 +1,12 @@
 ﻿using PTSchool.Services.Models.Class;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PTSchool.Services
 {
     public interface IClassService
     {
-        IEnumerable<ClassFullServiceModel> GetAllClassProfilesFull();
+        IEnumerable<ClassFullServiceModel> GetAllClasses();
 
-        ClassFullServiceModel GetClassProfileFullById(int id);
+        ClassFullServiceModel GetClassById(int id);
     }
 }

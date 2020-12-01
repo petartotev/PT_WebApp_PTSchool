@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PTSchool.Data.Models
+﻿namespace PTSchool.Data.Models
 {
     public static class DataModelsValidations
     {
@@ -37,7 +33,7 @@ namespace PTSchool.Data.Models
 
         public static class Parent
         {
-            public const int MaxLengthOccupation = 20;            
+            public const int MaxLengthOccupation = 20;
         }
 
         public static class Mark

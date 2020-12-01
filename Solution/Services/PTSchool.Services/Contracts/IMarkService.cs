@@ -1,15 +1,13 @@
 ﻿using PTSchool.Services.Models.Mark;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PTSchool.Services
 {
     public interface IMarkService
     {
-        IEnumerable<MarkFullServiceModel> GetAllMarksProfilesFullByStudentId(int id, int page = 1);
+        IEnumerable<MarkFullServiceModel> GetAllMarksByStudentId(int id, int page = 1);
 
-        void AddNewMarkProfileToStudentByStudentId(MarkFullServiceModel markToAdd);
+        void AddMarkToStudentByStudentId(MarkFullServiceModel markToAdd);
 
         void SignMark(int studentId, int markId);
 

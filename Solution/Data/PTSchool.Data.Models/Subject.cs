@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace PTSchool.Data.Models
 {
@@ -23,7 +21,7 @@ namespace PTSchool.Data.Models
         //600x600px
         //public byte[] ImageL { get; set; }
 
-        public string Description { get; set; }        
+        public string Description { get; set; }
 
         public ICollection<Mark> Marks { get; set; } = new HashSet<Mark>();
         public ICollection<Note> Notes { get; set; } = new HashSet<Note>();

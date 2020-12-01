@@ -16,7 +16,7 @@ namespace PTSchool.Services.Implementations
             this.db = db;
         }
 
-        public IEnumerable<SubjectServiceModel> GetAllSubjectProfilesFull()
+        public IEnumerable<SubjectServiceModel> GetAllSubjects()
         {
             return this.db.Subjects.Select(x => new SubjectServiceModel
             {
@@ -31,7 +31,7 @@ namespace PTSchool.Services.Implementations
             });
         }
 
-        public SubjectServiceModel GetSubjectProfileFullById(int id)
+        public SubjectServiceModel GetSubjectById(int id)
         {
             return this.db.Subjects.Where(x => x.Id == id).Select(x => new SubjectServiceModel
             {

@@ -22,7 +22,7 @@ namespace PTSchool.Web.Controllers
 
         public IActionResult AllSubjects()
         {
-            var allSubjects = this.subjectService.GetAllSubjectProfilesFull();
+            var allSubjects = this.subjectService.GetAllSubjects();
 
             var model = new CollectionSubjectsFullViewModels
             {
@@ -34,7 +34,7 @@ namespace PTSchool.Web.Controllers
 
         public IActionResult Subject(int id)
         {
-            var subjectById = this.subjectService.GetSubjectProfileFullById(id);
+            var subjectById = this.subjectService.GetSubjectById(id);
 
             var model = new SubjectByIdFullViewModel
             {
