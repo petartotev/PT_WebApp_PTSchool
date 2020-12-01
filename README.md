@@ -2,9 +2,9 @@
 
 ## General Information
 
-PT_WebApp_PTSchool is an ASP\.NET Core MVC Web Application that provides a platform for different services for Parents, Teachers and Students within a school institution.
+PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an online platform for different services for Parents, Teachers and Students within a school institution.
 
-![WebAppScreenshots](Resources\Screenshots\PTSchool_Screenshot_0.jpg)
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_0.jpg)
 
 ---
 
@@ -65,15 +65,15 @@ The main functionality of the web app is to facilitate the communication between
 
 SignalR web-socket connection provides a real-time massive **chat** that everybody can join and share!
 
-![WebAppScreenshots](Resources\Screenshots\PTSchool_Screenshot_SchoolChat.jpg)
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_SchoolChat.jpg)
 
 ### SchoolCanvas!
 
 SignalR also provides a real-time **canvas** that can be used by anybody to express themselves freely.
 
-~If you have the urge to write a "KYP" in front of the whole school and run away - this is your chance!~
+\~If you have the urge to write an offensive statement in front of the whole school and run away - this is your chance!\~
 
-![WebAppScreenshots](Resources\Screenshots\PTSchool_Screenshot_SchoolCanvas.jpg)
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_SchoolCanvas.jpg)
 
 ### TicTacToeGame!
 
@@ -84,13 +84,13 @@ Thanks to SignalR TicTacToe lets you:
 
 Play TicTacToe!
 
-![WebAppScreenshots](Resources\Screenshots\PTSchool_Screenshot_TicTacToePlay.jpg)
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_TicTacToePlay.jpg)
 
 ### PTShooterGame!!!
 
 A-mouse-click-shooter with no page-reloading (vanilla JS only).  
 Start with Health = 3, Gun Reload = 5 and you-shoot-them-all-or-they-shoot-you.
 
-![WebAppScreenshots](Resources\Screenshots\PTSchool_Screenshot_PTShooter.jpg)
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_PTShooter.jpg)
 
 \~THE END\~
