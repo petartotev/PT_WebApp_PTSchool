@@ -41,7 +41,7 @@ namespace PTSchool.Web.Controllers
         {
             var subject = await this.subjectService.GetSubjectByIdAsync(id);
 
-            var model = this.mapper.Map<SubjectLightViewModel>(subject);
+            var model = this.mapper.Map<SubjectFullViewModel>(subject);
 
             return this.View(model);
         }

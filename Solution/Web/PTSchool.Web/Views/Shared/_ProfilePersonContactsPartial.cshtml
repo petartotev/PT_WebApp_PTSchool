@@ -1,0 +1,30 @@
+﻿@model PTSchool.Web.Models.Abstracts.PersonEntity
+
+<div class="border border-dark">
+    <p>Contacts</p>
+    <table class="table table-striped">
+        <tr>
+            <th>Type</th>
+            <th>Data</th>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>@Model.Address</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td>@Model.Phone</td>
+        </tr>
+        @if (Model.PhoneEmergency != null)
+        {
+            <tr>
+                <td>Phone Emergency</td>
+                <td>@Model.PhoneEmergency</td>
+            </tr>
+        }
+    </table>
+</div>

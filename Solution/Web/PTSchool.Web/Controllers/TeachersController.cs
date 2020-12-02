@@ -45,7 +45,7 @@ namespace PTSchool.Web.Controllers
         {
             var teacher = await this.teacherService.GetTeacherByIdAsync(id);
 
-            var model = this.mapper.Map<TeacherLightViewModel>(teacher);
+            var model = this.mapper.Map<TeacherFullViewModel>(teacher);
 
             return this.View(model);
         }

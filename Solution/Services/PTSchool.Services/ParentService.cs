@@ -28,7 +28,7 @@ namespace PTSchool.Services.Implementations
             var parents = await this.db.Parents
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
-                .Include(x => x.Students)
+                //.Include(x => x.Students)
                 .ToListAsync();
 
             var result = this.mapper.Map<IEnumerable<ParentLightServiceModel>>(parents);

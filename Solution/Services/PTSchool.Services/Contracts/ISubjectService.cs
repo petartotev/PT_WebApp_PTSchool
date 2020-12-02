@@ -10,6 +10,6 @@ namespace PTSchool.Services
     {
         Task<IEnumerable<SubjectLightServiceModel>> GetAllSubjectsAsync(int page = 1);
 
-        Task<SubjectLightServiceModel> GetSubjectByIdAsync(Guid id);
+        Task<SubjectFullServiceModel> GetSubjectByIdAsync(Guid id);
     }
 }

@@ -40,7 +40,7 @@ namespace PTSchool.Web.Controllers
         {
             var club = await this.clubService.GetClubByIdAsync(id);
 
-            var model = this.mapper.Map<ClubLightViewModel>(club);
+            var model = this.mapper.Map<ClubFullViewModel>(club);
 
             return await Task.Run(() => this.View(model));
         }

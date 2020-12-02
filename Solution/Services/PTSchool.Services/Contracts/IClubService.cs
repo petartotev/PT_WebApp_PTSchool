@@ -10,7 +10,7 @@ namespace PTSchool.Services
     {
         Task<IEnumerable<ClubLightServiceModel>> GetAllClubsAsync(int page = 1);
 
-        Task<ClubLightServiceModel> GetClubByIdAsync(Guid id);
+        Task<ClubFullServiceModel> GetClubByIdAsync(Guid id);
 
         int GetTotalCountStudentsInClubs();
         int GetTotalCountTeachersInClubs();

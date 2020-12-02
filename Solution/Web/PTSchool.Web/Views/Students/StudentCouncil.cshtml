@@ -1,0 +1,52 @@
+﻿@using PTSchool.Web.Models.Student 
+
+@model IEnumerable<PTSchool.Web.Models.Student.StudentFullViewModel>
+
+@{
+    List<StudentFullViewModel> studentsRemaining = new List<StudentFullViewModel>();
+    studentsRemaining.AddRange(Model);
+    studentsRemaining = studentsRemaining.OrderBy(x => x.AverageScore + x.AverageBehavior).ToList();
+
+    var chairman = studentsRemaining.First();
+    studentsRemaining.Remove(chairman);
+
+    var viceChairman1 = studentsRemaining.First();
+    studentsRemaining.Remove(viceChairman1);
+
+    var viceChairman2 = studentsRemaining.First();
+    studentsRemaining.Remove(viceChairman2);
+
+    var secretary = studentsRemaining.First();
+    studentsRemaining.Remove(secretary);
+
+    var delegate8thGrade = studentsRemaining.Where(x => x.Class.Name.StartsWith("8")).First();
+    studentsRemaining.Remove(delegate8thGrade);
+
+    var delegate9thGrade = studentsRemaining.Where(x => x.Class.Name.StartsWith("9")).First();
+    studentsRemaining.Remove(delegate9thGrade);
+
+    var delegate10thGrade = studentsRemaining.Where(x => x.Class.Name.StartsWith("10")).First();
+    studentsRemaining.Remove(delegate10thGrade);
+
+    var delegate11thGrade = studentsRemaining.Where(x => x.Class.Name.StartsWith("11")).First();
+    studentsRemaining.Remove(delegate11thGrade);
+
+    var delegate12thGrade = studentsRemaining.Where(x => x.Class.Name.StartsWith("12")).First();
+    studentsRemaining.Remove(delegate12thGrade);
+}
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-2">
+        <p>@chairman.FirstName @chairman.LastName</p>
+        <img src="@chairman.Image" />
+        <p>/Chairman/</p>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-1"></div>
+</div>
+<div class="row"></div>
+
+<div class="row"></div>
+<div class="row"></div>

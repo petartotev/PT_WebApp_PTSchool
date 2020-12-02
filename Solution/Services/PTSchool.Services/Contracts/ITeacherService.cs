@@ -10,6 +10,6 @@ namespace PTSchool.Services.Implementations
     {
         Task<IEnumerable<TeacherLightServiceModel>> GetAllTeachersAsync(int page = 1);
 
-        Task<TeacherLightServiceModel> GetTeacherByIdAsync(Guid id);
+        Task<TeacherFullServiceModel> GetTeacherByIdAsync(Guid id);
     }
 }

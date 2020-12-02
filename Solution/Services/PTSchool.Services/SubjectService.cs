@@ -27,27 +27,28 @@ namespace PTSchool.Services.Implementations
             var subjects = await this.db.Subjects
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
-                .Include(x => x.Classes)
-                .Include(x => x.Marks)
-                .Include(x => x.Notes)
-                .Include(x => x.Teachers)
+                //.Include(x => x.Classes)
+                //.Include(x => x.Marks)
+                //.Include(x => x.Notes)
+                //.Include(x => x.Teachers)
                 .ToListAsync();
 
             var result = this.mapper.Map<IEnumerable<SubjectLightServiceModel>>(subjects);
             return result;
         }
 
-        public async Task<SubjectLightServiceModel> GetSubjectByIdAsync(Guid id)
+        public async Task<SubjectFullServiceModel> GetSubjectByIdAsync(Guid id)
         {
             var subject = await this.db.Subjects
-                .Where(x => x.Id == id)
+                //.Include(x => x.Marks)
+                //.Include(x => x.Notes)
                 .Include(x => x.Classes)
-                .Include(x => x.Marks)
-                .Include(x => x.Notes)
+                .ThenInclude(subjectClass => subjectClass.Class)
                 .Include(x => x.Teachers)
-                .FirstOrDefaultAsync();
+                .ThenInclude(subjectTeacher => subjectTeacher.Teacher)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            var result = this.mapper.Map<SubjectLightServiceModel>(subject);
+            var result = this.mapper.Map<SubjectFullServiceModel>(subject);
             return result;
         }
 

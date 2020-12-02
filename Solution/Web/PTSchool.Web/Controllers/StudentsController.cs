@@ -53,5 +53,14 @@ namespace PTSchool.Web.Controllers
 
             return this.View(model);
         }
+
+        public async Task<IActionResult> StudentCouncil()
+        {
+            var studentCouncilMembers = await this.studentService.GetAllStudentCouncilMembersAsync();
+
+            var model = this.mapper.Map<IEnumerable<StudentFullViewModel>>(studentCouncilMembers);
+
+            return await Task.Run(() => this.View(model));
+        }
     }
 }

@@ -27,23 +27,25 @@ namespace PTSchool.Services.Implementations
             var clubs = await this.db.Clubs
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
-                .Include(x => x.Students)
-                .Include(x => x.Teachers)
+                //.Include(x => x.Students)
+                //.Include(x => x.Teachers)
                 .ToListAsync();
 
             var result = this.mapper.Map<IEnumerable<ClubLightServiceModel>>(clubs);
             return result;
         }
 
-        public async Task<ClubLightServiceModel> GetClubByIdAsync(Guid id)
+        public async Task<ClubFullServiceModel> GetClubByIdAsync(Guid id)
         {
             var club = await this.db.Clubs
                 .Where(x => x.Id == id)
                 .Include(x => x.Students)
+                .ThenInclude(clubStudent => clubStudent.Student)
                 .Include(x => x.Teachers)
+                .ThenInclude(clubTeacher => clubTeacher.Teacher)
                 .FirstOrDefaultAsync();
 
-            var result = this.mapper.Map<ClubLightServiceModel>(club);
+            var result = this.mapper.Map<ClubFullServiceModel>(club);
             return result;
         }
 

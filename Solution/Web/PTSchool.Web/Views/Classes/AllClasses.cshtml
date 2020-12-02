@@ -8,7 +8,7 @@
         {
             <div class="col-md-2">
                 <div class="text-center p-2 border border-dark">
-                    <p>@classById.Id</p>
+                    @*<p>@classById.Id</p>*@
                     <p>@classById.Name</p>
                     <a href="@Url.Action("Class", "Classes", new { id = classById.Id })"><img src="@classById.Image" class="img-circle-sm" /></a>
                 </div>

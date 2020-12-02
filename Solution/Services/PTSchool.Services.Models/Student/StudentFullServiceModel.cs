@@ -29,6 +29,8 @@ namespace PTSchool.Services.Models.Student
 
         public bool IsSchoolCouncilMember { get; set; }
 
+
+
         public int Age { get; set; }
         public DateTime DateBirth { get; set; }
 

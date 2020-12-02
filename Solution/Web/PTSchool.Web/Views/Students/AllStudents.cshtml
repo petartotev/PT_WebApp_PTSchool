@@ -8,7 +8,7 @@
         {
             <div class="col-md-2">
                 <div class="text-center p-2 border border-dark">
-                    <p>@student.Id</p>
+                    @*<p>@student.Id</p>*@
                     <p>@student.FirstName @student.MiddleName[0]. @student.LastName</p>
                     <a href="@Url.Action("Student", "Students", new { id = student.Id })"><img src="@student.Image" class="img-circle-sm" /></a>
                 </div>

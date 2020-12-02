@@ -1,0 +1,30 @@
+﻿@model PTSchool.Web.Models.Abstracts.PersonEntity
+
+<div class="text-center border border-dark p-2">
+    @*<p>@Model.Id</p>*@
+    <p>@Model.FirstName @Model.MiddleName[0]. @Model.LastName</p>
+    <img src="@Model.Image" class="img-circle-sm" />
+    <p class="text-center">@Model.Description</p>
+</div>
+
+<div class="border border-dark">
+    <p>General information</p>
+    <table class="table table-striped">
+        <tr>
+            <th>Type</th>
+            <th>Data</th>
+        </tr>
+        <tr>
+            <td>Date of birth</td>
+            <td>@Model.DateBirth</td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td>@Model.Age</td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>@Model.Gender</td>
+        </tr>
+    </table>
+</div>

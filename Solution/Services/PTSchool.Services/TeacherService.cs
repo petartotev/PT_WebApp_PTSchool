@@ -28,31 +28,33 @@ namespace PTSchool.Services.Implementations
             var teachers = await this.db.Teachers
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
-                .Include(x => x.Classes)
-                .Include(x => x.ClassMastered)
-                .Include(x => x.Clubs)
-                .Include(x => x.Subjects)
-                .Include(x => x.Marks)
-                .Include(x => x.Notes)
+                //.Include(x => x.Classes)
+                //.Include(x => x.ClassMastered)
+                //.Include(x => x.Clubs)
+                //.Include(x => x.Subjects)
+                //.Include(x => x.Marks)
+                //.Include(x => x.Notes)
                 .ToListAsync();
 
             var result = this.mapper.Map<IEnumerable<TeacherLightServiceModel>>(teachers);
             return result;
         }
 
-        public async Task<TeacherLightServiceModel> GetTeacherByIdAsync(Guid id)
+        public async Task<TeacherFullServiceModel> GetTeacherByIdAsync(Guid id)
         {
             var teacher = await this.db.Teachers
-                .Where(x => x.Id == id)
-                                .Include(x => x.Classes)
                 .Include(x => x.ClassMastered)
+                //.Include(x => x.Marks)
+                //.Include(x => x.Notes)
+                .Include(x => x.Classes)
+                .ThenInclude(teacherClass => teacherClass.Class)
                 .Include(x => x.Clubs)
+                .ThenInclude(clubTeacher => clubTeacher.Club)
                 .Include(x => x.Subjects)
-                .Include(x => x.Marks)
-                .Include(x => x.Notes)
-                .FirstOrDefaultAsync();
+                .ThenInclude(subjectTeacher => subjectTeacher.Subject)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            var result = this.mapper.Map<TeacherLightServiceModel>(teacher);
+            var result = this.mapper.Map<TeacherFullServiceModel>(teacher);
             return result;
         }        
 

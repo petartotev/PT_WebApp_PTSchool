@@ -30,15 +30,17 @@ namespace PTSchool.Web.ConfigurationMapper
 
             CreateMap<Class, ClassLightServiceModel>();
             CreateMap<Class, ClassFullServiceModel>()
-                .ForMember(dest => dest.CountStudents, opt => opt.MapFrom(src => src.Students.Count))
-                .ForMember(dest => dest.CountGirls, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Female)))
-                .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Male)));
+                .ForMember(dest => dest.CountStudents, opt => opt.MapFrom(src => src.Students.Count()))
+                .ForMember(dest => dest.CountGirls, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Female).Count()))
+                .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Male).Count()));
 
             CreateMap<Club, ClubLightServiceModel>();
             CreateMap<Club, ClubFullServiceModel>()
-                .ForMember(dest => dest.CountStudents, opt => opt.MapFrom(src => src.Students.Count))
-                .ForMember(dest => dest.CountGirls, opt => opt.MapFrom(src => src.Students.Where(x => x.Student.Gender == PTSchool.Data.Models.Enums.EnumGender.Female)))
-                .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Student.Gender == PTSchool.Data.Models.Enums.EnumGender.Male)));
+                .ForMember(dest => dest.Students, opt => opt.MapFrom(src => src.Students.Select(x => x.Student)))
+                .ForMember(dest => dest.CountStudents, opt => opt.MapFrom(src => src.Students.Count()))
+                .ForMember(dest => dest.CountGirls, opt => opt.MapFrom(src => src.Students.Where(x => x.Student.Gender == PTSchool.Data.Models.Enums.EnumGender.Female).Count()))
+                .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Student.Gender == PTSchool.Data.Models.Enums.EnumGender.Male).Count()))
+                .ForMember(dest => dest.Teachers, opt => opt.MapFrom(src => src.Teachers.Select(x => x.Teacher)));
 
             CreateMap<Mark, MarkLightServiceModel>()
                 .ForMember(dest => dest.ValueMark, opt => opt.MapFrom(src => Convert.ToInt32(src.ValueMark)));
@@ -66,13 +68,19 @@ namespace PTSchool.Web.ConfigurationMapper
                 .ForMember(dest => dest.Clubs, opt => opt.MapFrom(src => src.Clubs.Select(x => x.Club)));
 
             CreateMap<Subject, SubjectLightServiceModel>();
-            CreateMap<Subject, SubjectFullServiceModel>();
+            CreateMap<Subject, SubjectFullServiceModel>()
+                .ForMember(dest => dest.Classes, opt => opt.MapFrom(src => src.Classes.Select(x => x.Class)))
+                .ForMember(dest => dest.Teachers, opt => opt.MapFrom(src => src.Teachers.Select(x => x.Teacher)));
 
             CreateMap<Teacher, TeacherLightServiceModel>();
             CreateMap<Teacher, TeacherFullServiceModel>()
+                //.ForMember(dest => dest.AverageMark, opt => opt.MapFrom(src => src.Marks.Select(x => (int)x.ValueMark).Average()))
+                //.ForMember(dest => dest.AverageNote, opt => opt.MapFrom(src => src.Notes.Select(x => (int)x.StatusNote).Average()))
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => (DateTime.UtcNow - src.DateBirth).TotalDays / 365.25))
-                .ForMember(dest => dest.AverageMark, opt => opt.MapFrom(src => src.Marks.Select(x => Convert.ToInt32(x.ValueMark)).Average()))
-                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()));
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()))
+                .ForMember(dest => dest.Classes, opt => opt.MapFrom(src => src.Classes.Select(x => x.Class)))
+                .ForMember(dest => dest.Clubs, opt => opt.MapFrom(src => src.Clubs.Select(x => x.Club)))
+                .ForMember(dest => dest.Subjects, opt => opt.MapFrom(src => src.Subjects.Select(x => x.Subject)));
 
             CreateMap<Tictactoe, TictactoeServiceModel>();
 

@@ -29,11 +29,11 @@ namespace PTSchool.Services.Implementations
                 .Students
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
-                .Include(x => x.Class)
-                .Include(x => x.Clubs)
-                .Include(x => x.Marks)
-                .Include(x => x.Notes)
-                .Include(x => x.Parents)
+                //.Include(x => x.Class)
+                //.Include(x => x.Clubs)
+                //.Include(x => x.Marks)
+                //.Include(x => x.Notes)
+                //.Include(x => x.Parents)
                 .ToListAsync();
 
             var result = this.mapper.Map<IEnumerable<StudentLightServiceModel>>(students);
@@ -51,6 +51,23 @@ namespace PTSchool.Services.Implementations
                 .Include(x => x.Clubs)
                 .ThenInclude(clubStudent => clubStudent.Club)
                 .FirstOrDefaultAsync(x => x.Id == studentId);
+
+            var result = this.mapper.Map<StudentFullServiceModel>(student);
+            return result;
+        }
+
+        public async Task<StudentFullServiceModel> GetAllStudentCouncilMembersAsync()
+        {
+            var student = await db.Students
+                .Include(x => x.Class)
+                .Include(x => x.Marks)
+                .Include(x => x.Notes)
+                .Include(x => x.Parents)
+                .ThenInclude(studentParent => studentParent.Parent)
+                .Include(x => x.Clubs)
+                .ThenInclude(clubStudent => clubStudent.Club)
+                .Where(x => x.IsSchoolCouncilMember == true)
+                .ToListAsync();
 
             var result = this.mapper.Map<StudentFullServiceModel>(student);
             return result;

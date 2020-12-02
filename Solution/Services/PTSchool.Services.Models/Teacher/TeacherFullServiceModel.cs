@@ -22,6 +22,8 @@ namespace PTSchool.Services.Models.Teacher
 
         public double AverageMark { get; set; }
 
+        public double AverageNote { get; set; }
+
         public bool IsHeadTeacher { get; set; }
 
         public int Age { get; set; }
@@ -37,6 +39,8 @@ namespace PTSchool.Services.Models.Teacher
         public ClassLightServiceModel ClassMastered { get; set; }
 
         public IEnumerable<ClubLightServiceModel> Clubs { get; set; }
+
+        public IEnumerable<ClubLightServiceModel> Classes { get; set; }
 
         public IEnumerable<SubjectLightServiceModel> Subjects { get; set; }
     }

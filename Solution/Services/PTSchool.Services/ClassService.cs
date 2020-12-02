@@ -27,27 +27,26 @@ namespace PTSchool.Services.Implementations
             var classes = await this.db.Classes
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
-                .Include(x => x.MasterTeacher)
-                .Include(x => x.Students)
-                .Include(x => x.Teachers)
-                .Include(x => x.Subjects)
+                //.Include(x => x.MasterTeacher)
+                //.Include(x => x.Students)
+                //.Include(x => x.Teachers)
+                //.Include(x => x.Subjects)
                 .ToListAsync();
 
             var result = this.mapper.Map<IEnumerable<ClassLightServiceModel>>(classes);
             return result;
         }
 
-        public async Task<ClassLightServiceModel> GetClassByIdAsync(Guid id)
+        public async Task<ClassFullServiceModel> GetClassByIdAsync(Guid id)
         {
             var classy = await this.db.Classes
-                .Where(x => x.Id == id)
                 .Include(x => x.MasterTeacher)
                 .Include(x => x.Students)
                 .Include(x => x.Subjects)
                 .Include(x => x.Teachers)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            var result = this.mapper.Map<ClassLightServiceModel>(classy);
+            var result = this.mapper.Map<ClassFullServiceModel>(classy);
             return result;
         }
 

@@ -1,15 +1,53 @@
-﻿@model PTSchool.Web.Models.Subject.SubjectLightViewModel
+﻿@model PTSchool.Web.Models.Subject.SubjectFullViewModel
 
 <div>
     <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <div class="text-center border border-dark p-2">
-                <p>@Model.Id</p>
-                <p>@Model.Name</p>
-                <a href="@Url.Action("Subject", "Subjects", new { id = Model.Id })"><img src="@Model.Image" class="img-circle-sm" /></a>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <partial name="_ProfileBaseGeneralPartial" model="@Model" />
+        </div>
+        <div class="col-md-5">
+            <div class="border border-dark">
+                <p>Teachers</p>
+                <table class="table table-striped ">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                    </tr>
+                    @foreach (var item in Model.Teachers)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.FirstName @item.MiddleName[0]. @item.LastName</td>
+                            <td>
+                                <a href="@Url.Action("Teacher", "Teachers", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="border border-dark">
+                <p>Classes</p>
+                <table class="table table-striped ">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                    </tr>
+                    @foreach (var item in Model.Classes)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>
+                                <a href="@Url.Action("Class", "Classes", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
+                            </td>
+                        </tr>
+                    }
+                </table>
             </div>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-1"></div>
     </div>
 </div>

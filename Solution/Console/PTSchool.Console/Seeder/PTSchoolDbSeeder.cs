@@ -223,6 +223,7 @@ namespace PTSchool.Console.Seeder
             "Fisherman"
         };
 
+
         public static void SeedMarks(PTSchoolDbContext db)
         {
             System.Console.WriteLine($"SeedMarks started.");
@@ -920,7 +921,7 @@ namespace PTSchool.Console.Seeder
         {
             System.Console.WriteLine($"SeedStudentsToClubsRelation started.");
 
-            for (int club = 1; club <= 5; club++)
+            for (int club = 1; club <= 8; club++)
             {
                 for (int i = 1; i <= 25; i++)
                 {
@@ -1332,6 +1333,39 @@ namespace PTSchool.Console.Seeder
                 Image = $"/images/clubs/logo_club_redcross_M.jpg",
                 DateEstablished = DateTime.Now.AddDays(random.Next(1095, 3650) * (-1)),
                 Email = "redcross@club.com"
+            });
+            db.SaveChanges();
+            System.Console.Write($"█");
+
+            db.Clubs.Add(new Club
+            {
+                Name = "Robotics",
+                Description = "A robotics club is a gathering of students who are interested in learning about and working with robots. At school, robotics clubs typically take place after school, in a classroom, and are moderated by a member of the teaching staff or school administration.",
+                Image = $"/images/clubs/logo_club_robotics_M.jpg",
+                DateEstablished = DateTime.Now.AddDays(random.Next(1095, 3650) * (-1)),
+                Email = "robotics@club.com"
+            });
+            db.SaveChanges();
+            System.Console.Write($"█");
+
+            db.Clubs.Add(new Club
+            {
+                Name = "Art Club",
+                Description = "Most of our art lessons are self-contained, which means you can jump in and start drawing with us today. All you need is something to draw with, some paper, and coloring supplies!",
+                Image = $"/images/clubs/logo_club_art_M.jpg",
+                DateEstablished = DateTime.Now.AddDays(random.Next(1095, 3650) * (-1)),
+                Email = "art@club.com"
+            });
+            db.SaveChanges();
+            System.Console.Write($"█");
+
+            db.Clubs.Add(new Club
+            {
+                Name = "Comedy Club Sofia",
+                Description = "Welcome to Comedy Club – the club where the elite of standup meets the up and coming stars! This is what we do: Club nights at Pod Club – podcast recording with live studio audience Comedy Contest – annual search for next comedy Superstar!!!",
+                Image = $"/images/clubs/logo_club_comedy_M.jpg",
+                DateEstablished = DateTime.Now.AddDays(random.Next(1095, 3650) * (-1)),
+                Email = "comedyclubsofia@club.com"
             });
             db.SaveChanges();
             System.Console.Write($"█");
