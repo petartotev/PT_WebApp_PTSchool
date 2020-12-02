@@ -1,77 +1,15 @@
-﻿@model PTSchool.Web.Models.Club.ClubByIdFullViewModel
+﻿@model PTSchool.Web.Models.Club.ClubLightViewModel
 
-@{
-    ViewData["Title"] = "Club";
-}
-
-<div class="row">
-    <div class="col-md-2 bg-secondary text-white">
-        <h1 class="text-center mx-auto d-block">Club</h1>
-        <hr />
-        <img class="rounded-circle mx-auto d-block" src="data:image/jpg;base64,@Convert.ToBase64String(Model.ClubProfileFull.ImageM)" alt="@Model.ClubProfileFull.Name" width="300" height="300">
-        <h3 class="text-center"><strong>@Model.ClubProfileFull.Name</strong></h3>
-        <br />
-        <div class="row">
-            <div class="col col-md-1"></div>
-            <div class="col col-md-10">
-                <h5 class="text-justify font-italic">" @Model.ClubProfileFull.Description "</h5>
+<div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="text-center border border-dark p-2">
+                <p>@Model.Id</p>
+                <p>@Model.Name</p>
+                <a href="@Url.Action("Club", "Clubs", new { id = Model.Id })"><img src="@Model.Image" class="img-circle-sm" /></a>
             </div>
-            <div class="col col-md-1"></div>
         </div>
-    </div>
-    <div class="col-md-10">
-        <table class="table table-striped table-bordered">
-            <tr>
-                <th>Key</th>
-                <th>Value</th>
-            </tr>
-            <tr>
-                <td>Name</td>
-                <td>@Model.ClubProfileFull.Name</td>
-            </tr>
-            <tr>
-                <td>Description</td>
-                <td>@Model.ClubProfileFull.Description</td>
-            </tr>
-            <tr>
-                <td>Date Established</td>
-                <td>@Model.ClubProfileFull.DateOfEstablishment.Year/@Model.ClubProfileFull.DateOfEstablishment.Month/@Model.ClubProfileFull.DateOfEstablishment.Day</td>
-            </tr>
-            <tr>
-                <td>Club Masters</td>
-                <td>
-                    @for (int i = 0; i < Model.ClubProfileFull.TeachersIds.Count(); i++)
-                    {
-                        <a href="@Url.Action("Teacher", "Teachers", new { id = Model.ClubProfileFull.TeachersIds.ToList()[i] })">
-                            <img class="rounded-circle" src="data:image/jpg;base64,@Convert.ToBase64String(Model.ClubProfileFull.TeachersImagesXXS.ToList()[i])" alt="teacher" width="50" height="50">
-                        </a>
-                    }
-                </td>
-            </tr>
-            <tr>
-                <td>Club Members</td>
-                <td>
-                    @for (int i = 0; i < Model.ClubProfileFull.StudentsIds.Count(); i++)
-                    {
-                        <a href="@Url.Action("Student", "Students", new { id = Model.ClubProfileFull.StudentsIds.ToList()[i] })">
-                            <img class="rounded-circle" src="data:image/jpg;base64,@Convert.ToBase64String(Model.ClubProfileFull.StudentsImagesXXS.ToList()[i])" alt="student" width="50" height="50">
-                        </a>
-                    }
-                </td>
-            </tr>
-            <tr>
-                <td>Count Students</td>
-                <td>@Model.ClubProfileFull.CountStudents</td>
-            </tr>
-            <tr>
-                <td>Count Boys</td>
-                <td>@Model.ClubProfileFull.CountBoys</td>
-            </tr>
-            <tr>
-                <td>Count Girls</td>
-                <td>@Model.ClubProfileFull.CountGirls</td>
-            </tr>
-        </table>
+        <div class="col-md-4"></div>
     </div>
 </div>
-

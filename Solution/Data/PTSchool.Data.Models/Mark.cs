@@ -1,31 +1,35 @@
-﻿using System;
+﻿using PTSchool.Data.Models.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
-using static PTSchool.Data.Models.DataModelsValidations.Mark;
+using static PTSchool.Data.Models.Validations.StaticValidator.Mark;
 
 namespace PTSchool.Data.Models
 {
     public class Mark
     {
-        public int Id { get; set; }
+        // GENERAL
+        public Guid Id { get; set; }
+
+        [MaxLength(MaxLengthMarkTitle)]
+        public string Title { get; set; }
+
+        [MaxLength(MaxLengthMarkComment)]
+        public string Comment { get; set; }
 
         public EnumValueMark ValueMark { get; set; }
 
-        [MaxLength(MaxLengthTitle)]
-        public string Title { get; set; }
-
-        [MaxLength(MaxLengthComment)]
-        public string Comment { get; set; }
-
+        // DATES
         public DateTime DateReceived { get; set; }
         public DateTime DateConfirmed { get; set; }
 
-        public int StudentId { get; set; }
+        // RELATIONS
+        public Guid StudentId { get; set; }
         public Student Student { get; set; }
 
-        public int SubjectId { get; set; }
+        public Guid SubjectId { get; set; }
         public Subject Subject { get; set; }
 
-        public int TeacherId { get; set; }
+        public Guid TeacherId { get; set; }
         public Teacher Teacher { get; set; }
     }
 }

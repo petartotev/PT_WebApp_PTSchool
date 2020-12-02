@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PTSchool.Services;
-using PTSchool.Services.Implementations;
-using PTSchool.Services.Models.Student;
 using PTSchool.Web.Models.Student;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PTSchool.Web.Controllers
@@ -15,154 +13,43 @@ namespace PTSchool.Web.Controllers
     public class StudentsController : Controller
     {
         private readonly IStudentService studentService;
+        private readonly IMapper mapper;
 
-        public StudentsController(IStudentService studentService)
+        public StudentsController(IStudentService studentService, IMapper mapper)
         {
             this.studentService = studentService;
+            this.mapper = mapper;
         }
 
         [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult AllStudents()
+        public async Task<IActionResult> AllStudents(int page = 1)
         {
-            var allStudentProfilesFullService = this.studentService.GetAllStudents();
+            var students = await this.studentService.GetAllStudentsAsync(page);
 
-            var model = new CollectionStudentsFullViewModels
+            var model = new CollectionStudentsLightViewModels
             {
-                AllStudentsFull = allStudentProfilesFullService,
+                Students = this.mapper.Map<IEnumerable<StudentLightViewModel>>(students),
+                Url = "/Students/AllStudents",
+                TotalCount = studentService.GetTotalCount(),
+                PageSize = studentService.GetPageSize(),
+                CurrentPage = page,
             };
 
             return this.View(model);
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult AllStudents(CollectionStudentsFullViewModels model)
+        //[HttpPost]
+        //[Authorize(Roles = "Teacher, Parent, Student")]
+        //public async Task<IActionResult> AllStudents(CollectionStudentsLightViewModels model)
+        //{
+        //    return this.View(model);
+        //}
+
+        public async Task<IActionResult> Student(Guid id)
         {
-            int orderByMethod = (int)model.OrderByMethod;
-            int ascendingOrDescending = (int)model.AscendingOrDescending;
+            var student = await this.studentService.GetStudentByIdAsync(id);
 
-            var allStudentsOrdered = this.studentService.GetAllStudentProfilesFullOrdered(orderByMethod, ascendingOrDescending);
-
-            model.AllStudentsFull = allStudentsOrdered;
-
-            return this.View(model);
-        }
-
-        [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult AllStudentsByGender(int id)
-        {
-            var allStudentProfilesFullServiceByGender = this.studentService.GetAllStudentsByGender(id);
-
-            var model = new CollectionStudentsFullViewModels
-            {
-                AllStudentsFull = allStudentProfilesFullServiceByGender
-            };
-
-            return View("AllStudents", model);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult AllStudentsByGender(int id, CollectionStudentsFullViewModels model)
-        {
-            int orderByMethod = (int)model.OrderByMethod;
-            int ascendingOrDescending = (int)model.AscendingOrDescending;
-
-            var allStudentsByGenderOrdered = this.studentService.GetAllStudentProfilesFullByGenderOrdered(id, orderByMethod, ascendingOrDescending);
-
-            model.AllStudentsFull = allStudentsByGenderOrdered;
-
-            return View("AllStudents", model);
-        }
-
-        [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult AllStudentsBirthday()
-        {
-            var allStudentProfilesFullServiceByBirthday = this.studentService.GetAllStudentsThatHaveBirthdayToday();
-
-            var model = new CollectionStudentsFullViewModels
-            {
-                AllStudentsFull = allStudentProfilesFullServiceByBirthday
-            };
-
-            return View("AllStudents", model);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult AllStudentsBirthday(CollectionStudentsFullViewModels model)
-        {
-            int orderByMethod = (int)model.OrderByMethod;
-            int ascendingOrDescending = (int)model.AscendingOrDescending;
-
-            var allStudentsByBirthdayOrdered = this.studentService.GetAllStudentProfilesFullByDateOfBirthTodayOrdered(orderByMethod, ascendingOrDescending);
-
-            model.AllStudentsFull = allStudentsByBirthdayOrdered;
-
-            return View("AllStudents", model);
-        }
-
-        [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult AllStudentsByYear(int id)
-        {
-            var allStudentProfilesFullServiceByYear = this.studentService.GetAllStudentsByYear(id);
-
-            var model = new CollectionStudentsFullViewModels
-            {
-                AllStudentsFull = allStudentProfilesFullServiceByYear
-            };
-
-            return View("AllStudents", model);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult AllStudentsByYear(int id, CollectionStudentsFullViewModels model)
-        {
-            int orderByMethod = (int)model.OrderByMethod;
-            int ascendingOrDescending = (int)model.AscendingOrDescending;
-
-            var allStudentsByYearOrdered = this.studentService.GetAllStudentProfilesFullByYearOrdered(id, orderByMethod, ascendingOrDescending);
-
-            model.AllStudentsFull = allStudentsByYearOrdered;
-
-            return View("AllStudents", model);
-        }
-
-        public IActionResult AllStudentsByClass(int id)
-        {
-            var allStudentProfilesFullServiceByClass = this.studentService.GetAllStudentsByClassId(id);
-
-            var model = new CollectionStudentsFullViewModels
-            {
-                AllStudentsFull = allStudentProfilesFullServiceByClass
-            };
-
-            return View("AllStudents", model);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult AllStudentsByClass(int id, CollectionStudentsFullViewModels model)
-        {
-            int orderByMethod = (int)model.OrderByMethod;
-            int ascendingOrDescending = (int)model.AscendingOrDescending;
-
-            var allStudentsByClassOrdered = this.studentService.GetAllStudentProfilesFullByClassOrdered(id, orderByMethod, ascendingOrDescending);
-
-            model.AllStudentsFull = allStudentsByClassOrdered;
-
-            return View("AllStudents", model);
-        }
-
-        public IActionResult Student(int id)
-        {
-            var studentProfileFull = this.studentService.GetStudentById(id);
-
-            var model = new StudentByIdFullViewModel
-            {
-                StudentProfileFull = studentProfileFull
-            };
+            var model = this.mapper.Map<StudentLightViewModel>(student);
 
             return this.View(model);
         }

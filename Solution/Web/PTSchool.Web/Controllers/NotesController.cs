@@ -20,39 +20,36 @@ namespace PTSchool.Web.Controllers
             this.noteService = noteService;
         }
 
-        public IActionResult AllNotes(int id)
+        public async Task<IActionResult> AllNotes(Guid id)
         {
-            var notesAll = this.noteService.GetAllNotesByStudentId(id);
+            var notesAll = await this.noteService.GetAllNotesByStudentIdAsync(id);
 
             var model = new CollectionNotesFullViewModels
             {
-                NoteProfilesFull = notesAll
+                //NoteProfilesFull = notesAll
             };
 
             return this.View(model);
         }
 
-        public IActionResult AddNote(int id)
+        public IActionResult AddNote(Guid id)
         {
-            var model = new NoteToAddFullViewModel
+            var model = new NoteFullViewModel
             {
-                StudentId = id
+                //StudentId = id
             };
             return this.View(model);
         }
 
         [HttpPost]
-        public IActionResult AddNote(NoteToAddFullViewModel noteProfileToAdd, int id)
+        public IActionResult AddNote(NoteFullViewModel noteProfileToAdd, int id)
         {
             var noteProfileServiceModelToAdd = new NoteFullServiceModel
             {
-                StudentId = id,
-                SubjectId = (int)noteProfileToAdd.Subject,
-                Title = noteProfileToAdd.Title,
-                Comment = noteProfileToAdd.Comment,
-                DateReceived = noteProfileToAdd.DateReceived,
-                TeacherId = 25,
-                StatusNote = (int)noteProfileToAdd.StatusNote,
+                //Title = noteProfileToAdd.Title,
+                //Comment = noteProfileToAdd.Comment,
+                //DateReceived = noteProfileToAdd.DateReceived,
+                //StatusNote = (int)noteProfileToAdd.StatusNote,
             };
 
             this.noteService.AddNoteToStudentByStudentId(noteProfileServiceModelToAdd);

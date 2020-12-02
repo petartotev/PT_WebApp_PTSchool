@@ -1,12 +1,15 @@
-﻿using PTSchool.Services.Models.Class;
+﻿using PTSchool.Services.Contracts;
+using PTSchool.Services.Models.Class;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services
 {
-    public interface IClassService
+    public interface IClassService : IPageable
     {
-        IEnumerable<ClassFullServiceModel> GetAllClasses();
+        Task<IEnumerable<ClassLightServiceModel>> GetAllClassesAsync(int page = 1);
 
-        ClassFullServiceModel GetClassById(int id);
+        Task<ClassLightServiceModel> GetClassByIdAsync(Guid id);
     }
 }

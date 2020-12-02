@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using PTSchool.Data;
 using PTSchool.Services;
 using PTSchool.Services.Implementations;
+using PTSchool.Web.ConfigurationMapper;
 using PTSchool.Web.Data;
 using PTSchool.Web.Hubs;
 using System;
@@ -75,7 +77,7 @@ namespace PTSchool.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<MvcSchoolDbContext>();
+            services.AddDbContext<PTSchoolDbContext>();
 
             services.AddTransient<IParentService, ParentService>();
             services.AddTransient<IStudentService, StudentService>();
@@ -135,8 +137,10 @@ namespace PTSchool.Web
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
+
+            services.AddAutoMapper(cfg => cfg.AddProfile<PTSchoolProfile>());
         }
 
 

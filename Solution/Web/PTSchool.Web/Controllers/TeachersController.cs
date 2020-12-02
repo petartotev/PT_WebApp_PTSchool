@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using PTSchool.Services.Implementations;
@@ -14,39 +15,37 @@ namespace PTSchool.Web.Controllers
     public class TeachersController : Controller
     {
         private readonly ITeacherService teacherService;
+        private readonly IMapper mapper;
 
-        public TeachersController(ITeacherService teacherService)
+        public TeachersController(ITeacherService teacherService, IMapper mapper)
         {
             this.teacherService = teacherService;
+            this.mapper = mapper;
         }
 
         [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult AllTeachers(int page = 1)
+        public async Task<IActionResult> AllTeachers(int page = 1)
         {
-            var teacherProfilesFull = this.teacherService.GetAllTeachers(page);
-            var pageSizeCount = this.teacherService.GetPageCountSizing();
-            var totalCount = this.teacherService.GetCountTotalTeachers();
+            var teachers = await this.teacherService.GetAllTeachersAsync(page);
 
-            var model = new CollectionTeachersFullViewModels
+            var model = new CollectionTeachersLightViewModels
             {
-                AllTeachersFull = teacherProfilesFull,
-                PageSize = pageSizeCount,
+                Teachers = this.mapper.Map<IEnumerable<TeacherLightViewModel>>(teachers),
+                Url = "/Teachers/AllTeachers",
+                TotalCount = teacherService.GetTotalCount(),
+                PageSize = teacherService.GetPageSize(),
                 CurrentPage = page,
-                TotalCount = totalCount,
             };
 
             return this.View(model);
         }
 
         [Authorize(Roles = "Teacher, Parent, Student")]
-        public IActionResult Teacher(int id)
+        public async Task<IActionResult> Teacher(Guid id)
         {
-            var teacherProfileFullById = this.teacherService.GetTeacherById(id);
+            var teacher = await this.teacherService.GetTeacherByIdAsync(id);
 
-            var model = new TeacherByIdFullViewModel
-            {
-                TeacherProfileFullById = teacherProfileFullById
-            };
+            var model = this.mapper.Map<TeacherLightViewModel>(teacher);
 
             return this.View(model);
         }

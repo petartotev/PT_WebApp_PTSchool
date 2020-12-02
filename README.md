@@ -6,16 +6,13 @@ PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an onlin
 
 ![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_0.jpg)
 
----
-
 ## Technologies
 
+- Automapper
 - EntityFrameworkCore.SqlServer
 - EntityFrameworkCore.Tools
 - Serilog
 - SignalR
-
----
 
 ## Contents
 
@@ -31,8 +28,6 @@ The solution contains 4 main directories with 6 projects:
   - PTSchool.Services.Models
 - Web
   - PTSchool\.Web
-
----
 
 ## User Guide
 
@@ -57,8 +52,6 @@ The main functionality of the web app is to facilitate the communication between
 - apply for a Club
 - communicate with each other (S)<>(S)
 - end an email to a (T)eacher or chat directly
-
----
 
 ## Additional Functionalities
 
@@ -89,8 +82,17 @@ Play TicTacToe!
 
 ### PTShooterGame!!!
 
-A-mouse-click-shooter with no page-reloading (vanilla JS only).  
-Start with Health = 3, Gun Reload = 5 and you-shoot-them-all-or-they-shoot-you.
+A mouse-click shooter with no page-reloading.  
+No page reloading, vanilla JavaScript only.
+
+Start with:
+
+- Health = 3
+- Gun Reload = 5
+- Enemies = 12
+
+You-shoot-them-all-or-they-shoot-you.  
+As simple as that!
 
 ![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_PTShooter.jpg)
 

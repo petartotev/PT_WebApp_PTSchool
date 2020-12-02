@@ -1,49 +1,65 @@
-﻿using PTSchool.Data;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PTSchool.Data;
 using PTSchool.Services.Models.Subject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services.Implementations
 {
     public class SubjectService : ISubjectService
     {
-        private readonly MvcSchoolDbContext db;
+        public const int PageSize = 6;
 
-        public SubjectService(MvcSchoolDbContext db)
+        private readonly PTSchoolDbContext db;
+        private readonly IMapper mapper;
+
+        public SubjectService(PTSchoolDbContext db, IMapper mapper)
         {
             this.db = db;
+            this.mapper = mapper;
         }
 
-        public IEnumerable<SubjectServiceModel> GetAllSubjects()
+        public async Task<IEnumerable<SubjectLightServiceModel>> GetAllSubjectsAsync(int page = 1)
         {
-            return this.db.Subjects.Select(x => new SubjectServiceModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                ImageXS = x.ImageXS,
-                Description = x.Description,
-                TeachersIds = x.Teachers.Select(y => y.TeacherId),
-                //TeachersImagesXXS = x.Teachers.Select(y => y.Teacher.ImageXXS),
-                ClassesIds = x.Classes.Select(z => z.ClassId),
-                //ClassesImagesXXS = x.Classes.Select(z => z.Class.ImageXXS)
-            });
+            var subjects = await this.db.Subjects
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .Include(x => x.Classes)
+                .Include(x => x.Marks)
+                .Include(x => x.Notes)
+                .Include(x => x.Teachers)
+                .ToListAsync();
+
+            var result = this.mapper.Map<IEnumerable<SubjectLightServiceModel>>(subjects);
+            return result;
         }
 
-        public SubjectServiceModel GetSubjectById(int id)
+        public async Task<SubjectLightServiceModel> GetSubjectByIdAsync(Guid id)
         {
-            return this.db.Subjects.Where(x => x.Id == id).Select(x => new SubjectServiceModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                ImageM = x.ImageM,
-                Description = x.Description,
-                TeachersIds = x.Teachers.Select(y => y.TeacherId),
-                TeachersImagesXXS = x.Teachers.Select(y => y.Teacher.ImageXXS),
-                ClassesIds = x.Classes.Select(z => z.ClassId),
-                ClassesImagesXXS = x.Classes.Select(z => z.Class.ImageXXS),
-            }).FirstOrDefault();
+            var subject = await this.db.Subjects
+                .Where(x => x.Id == id)
+                .Include(x => x.Classes)
+                .Include(x => x.Marks)
+                .Include(x => x.Notes)
+                .Include(x => x.Teachers)
+                .FirstOrDefaultAsync();
+
+            var result = this.mapper.Map<SubjectLightServiceModel>(subject);
+            return result;
+        }
+
+        public int GetPageSize()
+        {
+            int pageSizeToGet = PageSize;
+            return pageSizeToGet;
+        }
+
+        public int GetTotalCount()
+        {
+            return this.db.Subjects.Count();
         }
     }
 }

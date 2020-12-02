@@ -1,13 +1,13 @@
-﻿namespace PTSchool.Data.Models
+﻿using System;
+
+namespace PTSchool.Data.Models
 {
     public class ClubTeacher
     {
-        public int ClubId { get; set; }
-
+        public Guid ClubId { get; set; }
         public Club Club { get; set; }
 
-        public int TeacherId { get; set; }
-
+        public Guid TeacherId { get; set; }
         public Teacher Teacher { get; set; }
     }
 }

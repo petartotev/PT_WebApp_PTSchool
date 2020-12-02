@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PTSchool.Services;
 using PTSchool.Web.Models.Class;
@@ -15,40 +16,38 @@ namespace PTSchool.Web.Controllers
     public class ParentsController : Controller
     {
         private readonly IParentService parentService;
+        private readonly IMapper mapper;
 
-        public ParentsController(IParentService parentService)
+        public ParentsController(IParentService parentService, IMapper mapper)
         {
             this.parentService = parentService;
+            this.mapper = mapper;
         }
 
         [Authorize(Roles = "Teacher, Parent")]
         [RequestSizeLimit(50 * 1024 * 1024)] // LIMIT BODY: 50MB
         public async Task<IActionResult> AllParents(int page = 1)
         {
-            var allParentsFullProfile = this.parentService.GetAllParents(page);
+            var parents = await this.parentService.GetAllParentsAsync(page);
 
-            var totalParents = this.parentService.GetCountAllParents();
-
-            var model = new CollectionParentsFullViewModels
+            var model = new CollectionParentsLightViewModels
             {
-                AllParentsFull = allParentsFullProfile,
+                Parents = this.mapper.Map<IEnumerable<ParentLightViewModel>>(parents),
+                Url = "/Parents/AllParents",
+                TotalCount = parentService.GetTotalCount(),
+                PageSize = parentService.GetPageSize(),
                 CurrentPage = page,
-                Total = totalParents,
             };
 
             return await Task.Run(() => this.View(model));
         }
 
         [Authorize(Roles = "Teacher, Parent")]
-        public IActionResult Parent(int id, int page = 1)
+        public async Task<IActionResult> Parent(Guid id)
         {
-            var parentProfileFullById = parentService.GetParentById(id);
+            var parent = await parentService.GetParentByIdAsync(id);
 
-            var model = new ParentByIdFullViewModel
-            {
-                ParentProfileFull = parentProfileFullById,
-                Test = page,
-            };
+            var model = this.mapper.Map<ParentLightViewModel>(parent);
 
             return this.View(model);
         }

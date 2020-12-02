@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using PTSchool.Services;
 using PTSchool.Web.Hubs;
-using PTSchool.Web.Models.Chat;
 using PTSchool.Web.Models.Tictactoe;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,7 +30,7 @@ namespace PTSchool.Web.Controllers
 
         public IActionResult Create()
         {
-            string gameId = Guid.NewGuid().ToString();
+            Guid gameId = Guid.NewGuid();
             var nameAspNetUser1 = this.HttpContext.User.Identity.Name;
             this.tictactoeService.CreateNewGame(gameId, nameAspNetUser1);
 
@@ -51,15 +49,15 @@ namespace PTSchool.Web.Controllers
 
             return this.View(userGame);
         }
-        
 
-        public IActionResult JoinPlay(string id, string gameHost)
-        {            
-            string gameId = id;
+
+        public IActionResult JoinPlay(Guid id, string gameHost)
+        {
+            Guid gameId = id;
             var nameAspNetUser2 = this.HttpContext.User.Identity.Name;
-                        
+
             var isMissionAccomplished = this.tictactoeService.JoinGame(gameId, nameAspNetUser2);
-                       
+
             if (isMissionAccomplished)
             {
                 return RedirectToAction("Play", "Tictactoe", new { id = gameId, gameHost = gameHost, nameUser = nameAspNetUser2 });
@@ -67,23 +65,23 @@ namespace PTSchool.Web.Controllers
             else
             {
                 return RedirectToAction("Busy", "Tictactoe");
-            }            
-        }        
+            }
+        }
 
 
-        public IActionResult Join()
+        public async Task<IActionResult> Join()
         {
-            var listAllGamesAvailable = this.tictactoeService.GetAllGamesAvailableNotFinishedLast5Minutes();
+            var listAllGamesAvailable = await this.tictactoeService.GetAllGamesAvailableNotFinishedLast5MinutesAsync();
 
             var model = new CollectionTictactoeViewModels
             {
-                AllTictactoeGamesAvailable = listAllGamesAvailable.Select(x => new TictactoeViewModel
+                GamesTictactoeAvailable = listAllGamesAvailable.Select(x => new TictactoeViewModel
                 {
                     Id = x.Id,
-                    IdAspNetUser1 = x.IdAspNetUser1,
-                    IdAspNetUser2 = x.IdAspNetUser2,
-                    DateTimeCreated = x.DateTimeCreated,
-                    DateTimeFinished = x.DateTimeFinished,
+                    User1Id = x.IdUser1,
+                    User2Id = x.IdUser2,
+                    DateCreated = x.DateCreated,
+                    DateFinished = x.DateFinished,
                     IsFinished = x.IsFinished
                 })
             };

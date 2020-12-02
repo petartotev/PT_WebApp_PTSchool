@@ -22,20 +22,20 @@ namespace PTSchool.Web.Controllers
         }
 
 
-        public IActionResult AllMarks(int id, int page = 1)
+        public async Task<IActionResult> AllMarks(Guid id, int page = 1)
         {
-            var marksAll = this.markService.GetAllMarksByStudentId(id, page);
+            var marksAll = await this.markService.GetAllMarksByStudentIdAsync(id, page);
             var pageSizeCount = this.markService.GetPageCountSizing();
             var totalCount = this.markService.GetTotalMarksByStudentId(id);
             var isAllMarksSigned = this.markService.IsAllMarksSignedByParent(id);
 
             var model = new CollectionMarksFullViewModels
             {
-                MarkProfilesFull = marksAll,
-                PageSize = pageSizeCount,
-                CurrentPage = page,
-                TotalCount = totalCount,
-                IsAllMarksSignedByParent = isAllMarksSigned,
+                //MarkProfilesFull = marksAll,
+                //PageSize = pageSizeCount,
+                //CurrentPage = page,
+                //TotalCount = totalCount,
+                //IsAllMarksSignedByParent = isAllMarksSigned,
             };
 
             return this.View(model);
@@ -43,26 +43,23 @@ namespace PTSchool.Web.Controllers
 
         public IActionResult AddMark(int id)
         {
-            var model = new MarkToAddFullViewModel
+            var model = new MarkFullViewModel
             {
-                StudentId = id
+                //StudentId = id
             };
             return this.View(model);
         }
 
         [HttpPost]
         [RequestSizeLimit(50 * 1024 * 1024)] //PT: By default is 30MB
-        public IActionResult AddMark(MarkToAddFullViewModel markProfileToAdd, int id)
+        public IActionResult AddMark(MarkFullViewModel markProfileToAdd, int id)
         {
             var markProfileServiceModelToAdd = new MarkFullServiceModel
             {
-                StudentId = id,
-                SubjectId = (int)markProfileToAdd.Subject,
-                Title = markProfileToAdd.Title,
-                Comment = markProfileToAdd.Comment,
-                DateReceived = markProfileToAdd.DateReceived,
-                TeacherId = 25,
-                ValueMark = (int)markProfileToAdd.ValueMark,
+                //Title = markProfileToAdd.Title,
+                //Comment = markProfileToAdd.Comment,
+                //DateReceived = markProfileToAdd.DateReceived,
+                //ValueMark = (int)markProfileToAdd.ValueMark,
             };
 
             this.markService.AddMarkToStudentByStudentId(markProfileServiceModelToAdd);
@@ -81,7 +78,7 @@ namespace PTSchool.Web.Controllers
         }
 
         [Route("/Marks/SignMark/{studentId}/{markId}")]
-        public IActionResult SignMark(int studentId, int markId)
+        public IActionResult SignMark(Guid studentId, Guid markId)
         {
             this.markService.SignMark(studentId, markId);
 

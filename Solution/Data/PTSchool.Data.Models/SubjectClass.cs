@@ -1,11 +1,13 @@
-﻿namespace PTSchool.Data.Models
+﻿using System;
+
+namespace PTSchool.Data.Models
 {
     public class SubjectClass
     {
-        public int SubjectId { get; set; }
-        public Subject Subject { get; set; }
-
-        public int ClassId { get; set; }
+        public Guid ClassId { get; set; }
         public Class Class { get; set; }
+
+        public Guid SubjectId { get; set; }
+        public Subject Subject { get; set; }
     }
 }

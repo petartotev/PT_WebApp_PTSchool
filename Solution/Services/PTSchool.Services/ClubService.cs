@@ -1,72 +1,71 @@
-﻿using PTSchool.Data;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PTSchool.Data;
 using PTSchool.Services.Models.Club;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services.Implementations
 {
     public class ClubService : IClubService
     {
-        private readonly MvcSchoolDbContext db;
+        private const int PageSize = 6;
 
-        public ClubService(MvcSchoolDbContext db)
+        private readonly PTSchoolDbContext db;
+        private readonly IMapper mapper;
+
+        public ClubService(PTSchoolDbContext db, IMapper mapper)
         {
             this.db = db;
+            this.mapper = mapper;
         }
 
-        public IEnumerable<ClubFullServiceModel> GetAllClubs()
+        public async Task<IEnumerable<ClubLightServiceModel>> GetAllClubsAsync(int page = 1)
         {
-            return this.db.Clubs.Select(x => new ClubFullServiceModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                ImageXS = x.ImageXS,
-                Description = x.Description,
-                DateOfEstablishment = x.DateOfEstablishment,
-                CountStudents = x.Students.Count,
-                CountGirls = x.Students.Select(y => y.Student).Where(z => (int)z.Gender == 0).Count(),
-                CountBoys = x.Students.Select(y => y.Student).Where(z => (int)z.Gender == 1).Count(),
-                StudentsIds = x.Students.Select(zz => zz.StudentId).ToList(),
-                StudentsImagesXXS = x.Students.Select(zz => zz.Student).Select(zzz => zzz.ImageXXS),
-                TeachersIds = x.Teachers.Select(zz => zz.TeacherId).ToList(),
-                TeachersImagesXXS = x.Teachers.Select(zz => zz.Teacher).Select(zzz => zzz.ImageXXS),
-            });
+            var clubs = await this.db.Clubs
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .Include(x => x.Students)
+                .Include(x => x.Teachers)
+                .ToListAsync();
+
+            var result = this.mapper.Map<IEnumerable<ClubLightServiceModel>>(clubs);
+            return result;
         }
 
-        public ClubFullServiceModel GetClubById(int id)
+        public async Task<ClubLightServiceModel> GetClubByIdAsync(Guid id)
         {
-            var clubProfileFullById = this.db.Clubs.Where(z => z.Id == id).Select(x => new ClubFullServiceModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                ImageM = x.ImageM,
-                Description = x.Description,
-                DateOfEstablishment = x.DateOfEstablishment,
-                CountStudents = x.Students.Count,
-                CountGirls = x.Students.Select(y => y.Student).Where(z => (int)z.Gender == 0).Count(),
-                CountBoys = x.Students.Select(y => y.Student).Where(z => (int)z.Gender == 1).Count(),
-                StudentsIds = x.Students.Select(zz => zz.StudentId).ToList(),
-                StudentsImagesXXS = x.Students.Select(zz => zz.Student).Select(zzz => zzz.ImageXXS),
-                TeachersIds = x.Teachers.Select(zz => zz.TeacherId).ToList(),
-                TeachersImagesXXS = x.Teachers.Select(zz => zz.Teacher).Select(zzz => zzz.ImageXXS),
-            });
+            var club = await this.db.Clubs
+                .Where(x => x.Id == id)
+                .Include(x => x.Students)
+                .Include(x => x.Teachers)
+                .FirstOrDefaultAsync();
 
-            return clubProfileFullById.FirstOrDefault();
+            var result = this.mapper.Map<ClubLightServiceModel>(club);
+            return result;
         }
 
-        public int GetCountAllClubs()
+        public int GetPageSize()
+        {
+            int pageSizeToGet = PageSize;
+            return pageSizeToGet;
+        }
+
+        public int GetTotalCount()
         {
             return this.db.Clubs.Count();
         }
 
-        public int GetCountAllStudentsInClubs()
+        public int GetTotalCountStudentsInClubs()
         {
             int test = this.db.Clubs.Select(x => x.Students.Count()).ToList().Sum();
 
             return test;
         }
 
-        public int GetCountAllTeachersInClubs()
+        public int GetTotalCountTeachersInClubs()
         {
             int test = this.db.Clubs.Select(x => x.Teachers.Count()).ToList().Sum();
 

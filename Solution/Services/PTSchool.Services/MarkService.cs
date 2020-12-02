@@ -1,12 +1,13 @@
-﻿using PTSchool.Data;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PTSchool.Data;
+using PTSchool.Data.Models;
+using PTSchool.Data.Models.Enums;
 using PTSchool.Services.Models.Mark;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using PTSchool.Data.Models;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services.Implementations
 {
@@ -14,11 +15,13 @@ namespace PTSchool.Services.Implementations
     {
         public int PageSizeCount = 10;
 
-        private readonly MvcSchoolDbContext db;
+        private readonly PTSchoolDbContext db;
+        private readonly IMapper mapper;
 
-        public MarkService(MvcSchoolDbContext db)
+        public MarkService(PTSchoolDbContext db, IMapper mapper)
         {
             this.db = db;
+            this.mapper = mapper;
         }
 
         public void AddMarkToStudentByStudentId(MarkFullServiceModel markToAdd)
@@ -30,37 +33,27 @@ namespace PTSchool.Services.Implementations
                 Comment = markToAdd.Comment,
                 DateReceived = markToAdd.DateReceived,
                 DateConfirmed = markToAdd.DateConfirmed,
-                StudentId = markToAdd.StudentId,
-                SubjectId = markToAdd.SubjectId,
-                TeacherId = markToAdd.TeacherId,
+                StudentId = markToAdd.Student.Id,
+                SubjectId = markToAdd.Subject.Id,
+                TeacherId = markToAdd.Teacher.Id,
             });
             this.db.SaveChanges();
         }
 
-        public IEnumerable<MarkFullServiceModel> GetAllMarksByStudentId(int id, int page = 1)
-        {     
-            return this.db
-                .Marks
+        public async Task<IEnumerable<MarkFullServiceModel>> GetAllMarksByStudentIdAsync(Guid id, int page = 1)
+        {
+            var marks = await this.db.Marks
                 .Where(x => x.StudentId == id)
                 .OrderByDescending(x => x.DateReceived)
                 .Skip((page - 1) * PageSizeCount)
                 .Take(PageSizeCount)
-                .Select(x => new MarkFullServiceModel
-            {
-                Id = x.Id,
-                ValueMark = (int)x.ValueMark,
-                Title = x.Title,
-                Comment = x.Comment,
-                StudentId = x.StudentId,
-                StudentName = x.Student.FirstName + " " + x.Student.FirstName,
-                StudentImageXS = x.Student.ImageM,
-                SubjectId = x.SubjectId,
-                SubjectImageXXS = x.Subject.ImageXXS,
-                TeacherId = x.TeacherId,
-                TeacherImageXXS = x.Teacher.ImageXXS,
-                DateReceived = x.DateReceived,
-                DateConfirmed = x.DateConfirmed,                
-            });
+                .Include(x => x.Student)
+                .Include(x => x.Teacher)
+                .Include(x => x.Subject)
+                .ToListAsync();
+
+            var result = this.mapper.Map<IEnumerable<MarkFullServiceModel>>(marks);
+            return result;
         }
 
         public int GetPageCountSizing()
@@ -68,18 +61,18 @@ namespace PTSchool.Services.Implementations
             return this.PageSizeCount;
         }
 
-        public int GetTotalMarksByStudentId(int studentId)
+        public int GetTotalMarksByStudentId(Guid studentId)
         {
             return this.db.Marks.Where(x => x.StudentId == studentId).Count();
         }
 
-        public void SignMark(int studentId, int markId)
+        public void SignMark(Guid studentId, Guid markId)
         {
             this.db.Marks.Where(x => x.StudentId == studentId).Where(x => x.Id == markId).FirstOrDefault().DateConfirmed = DateTime.UtcNow;
             db.SaveChanges();
         }
 
-        public bool IsAllMarksSignedByParent(int id)
+        public bool IsAllMarksSignedByParent(Guid id)
         {
             return !this.db.Marks.Where(x => x.StudentId == id).Any(x => x.DateConfirmed == DateTime.MinValue);
         }

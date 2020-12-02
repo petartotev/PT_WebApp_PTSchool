@@ -13,7 +13,7 @@
 </head>
 
 <!--PT: If you are ADMIN and go to localhost:5001/Test/Adminize => bg-color changes!-->
-<body class=@(ViewData["Title"].ToString().Equals("Adminize") ? "bg-danger" : "bg-light")>
+<body class="bg-secondary">
     <header>
         <!--class="border-bottom" - deleted-->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark text-light box-shadow mb-3">
@@ -42,10 +42,6 @@
                                     <hr />
                                     <a class="dropdown-item bg-secondary text-white" asp-controller="Classes" asp-action="AllClasses">Classes</a>
                                     <a class="dropdown-item bg-secondary text-white" asp-controller="Clubs" asp-action="AllClubs">Clubs</a>
-                                    <!--<a class="dropdown-item" href="#">Another action</a>-->
-                                    <!--<a class="dropdown-item" href="#">Something else here</a>-->
-                                    <!--<div class="dropdown-divider"></div>-->
-                                    <!--<a class="dropdown-item" href="#">Separated link</a>-->
                                     <hr />
                                     <a class="dropdown-item bg-white text-dark" asp-controller="Home" asp-action="Chat">SchoolChat!</a>
                                     <a class="dropdown-item bg-white text-dark" asp-controller="Canvas" asp-action="Draw">SchoolCanvas!</a>

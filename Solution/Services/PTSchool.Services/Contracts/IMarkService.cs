@@ -1,20 +1,20 @@
 ﻿using PTSchool.Services.Models.Mark;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services
 {
     public interface IMarkService
     {
-        IEnumerable<MarkFullServiceModel> GetAllMarksByStudentId(int id, int page = 1);
+        Task<IEnumerable<MarkFullServiceModel>> GetAllMarksByStudentIdAsync(Guid id, int page = 1);
 
         void AddMarkToStudentByStudentId(MarkFullServiceModel markToAdd);
 
-        void SignMark(int studentId, int markId);
+        void SignMark(Guid studentId, Guid markId);
 
-        int GetTotalMarksByStudentId(int studentId);
-
+        int GetTotalMarksByStudentId(Guid studentId);
         int GetPageCountSizing();
-
-        bool IsAllMarksSignedByParent(int id);
+        bool IsAllMarksSignedByParent(Guid id);
     }
 }

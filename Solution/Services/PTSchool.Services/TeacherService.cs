@@ -1,106 +1,70 @@
-﻿using PTSchool.Data;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PTSchool.Data;
 using PTSchool.Services.Models.Teacher;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services.Implementations
 {
     public class TeacherService : ITeacherService
     {
-        public const int PageCountSize = 20;
+        public const int PageSize = 18;
 
-        private readonly MvcSchoolDbContext db;
-
-        public TeacherService(MvcSchoolDbContext db)
+        private readonly PTSchoolDbContext db;
+        private readonly IMapper mapper;
+        public TeacherService(PTSchoolDbContext db, IMapper mapper)
         {
             this.db = db;
+            this.mapper = mapper;
         }
 
-        public IEnumerable<TeacherServiceModel> GetAllTeachers(int page = 1)
+        public async Task<IEnumerable<TeacherLightServiceModel>> GetAllTeachersAsync(int page = 1)
         {
 
-            var allTeacherProfilesFull =  this.db
-                .Teachers
-                .Skip((page - 1) * PageCountSize)
-                .Take(PageCountSize)
-                .Select(x => new TeacherServiceModel
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                MiddleName = x.MiddleName,
-                LastName = x.LastName,
-                ClassMasteredId = x.ClassMastered.Id,
-                //ClassMasteredName = x.ClassMastered.Name,
-                ClassMasteredImageXXS = x.ClassMastered.ImageXXS,
-                ClubsMasteredIds = x.Clubs.Select(y => y.ClubId),
-                //ClubsMasteredNames = x.Clubs.Select(y => y.Club.Name),
-                ClubsMasteredImagesXXS = x.Clubs.Select(y => y.Club.ImageXXS),
-                SubjectsIds = x.Subjects.Select(y => y.SubjectId),
-                //SubjectsNames = x.Subjects.Select(y => y.Subject.Name),
-                SubjectsImagesXXS = x.Subjects.Select(y => y.Subject.ImageXXS),
-                Gender = x.Gender.ToString(),
-                DateOfBirth = x.DateOfBirth,
-                Age = (DateTime.Today - x.DateOfBirth).Days / 365,
-                AverageMark = x.Marks.Where(y => y.TeacherId == x.Id).Select(z => (int)z.ValueMark).Average(),
-                Address = x.Address,
-                Email = x.Email,
-                Phone = x.Phone,
-                PhoneEmergency = x.PhoneEmergency,
-                DateOfCareerStart = x.DateOfCareerStart,
-                DateOfEmployment = x.DateOfEmployment,
-                AboutMe = x.AboutMe,
-                ImageXS = x.ImageXS,
-            });
+            var teachers = await this.db.Teachers
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .Include(x => x.Classes)
+                .Include(x => x.ClassMastered)
+                .Include(x => x.Clubs)
+                .Include(x => x.Subjects)
+                .Include(x => x.Marks)
+                .Include(x => x.Notes)
+                .ToListAsync();
 
-            return allTeacherProfilesFull;
+            var result = this.mapper.Map<IEnumerable<TeacherLightServiceModel>>(teachers);
+            return result;
         }
 
-        public TeacherServiceModel GetTeacherById(int id)
+        public async Task<TeacherLightServiceModel> GetTeacherByIdAsync(Guid id)
         {
-            var teacherProfileFullById = this.db.Teachers.Where(x => x.Id == id).Select(x => new TeacherServiceModel
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                MiddleName = x.MiddleName,
-                LastName = x.LastName,
-                ClassMasteredId = x.ClassMastered.Id,
-                //ClassMasteredName = x.ClassMastered.Name,
-                ClassMasteredImageXXS = x.ClassMastered.ImageXXS,
-                ClubsMasteredIds = x.Clubs.Select(y => y.ClubId),
-                //ClubsMasteredNames = x.Clubs.Select(y => y.Club.Name),
-                ClubsMasteredImagesXXS = x.Clubs.Select(y => y.Club.ImageXXS),
-                SubjectsIds = x.Subjects.Select(y => y.SubjectId),
-                //SubjectsNames = x.Subjects.Select(y => y.Subject.Name),
-                SubjectsImagesXXS = x.Subjects.Select(y => y.Subject.ImageXXS),
-                Gender = x.Gender.ToString(),
-                DateOfBirth = x.DateOfBirth,
-                Age = (DateTime.Today - x.DateOfBirth).Days / 365,
-                AverageMark = x.Marks.Where(y => y.TeacherId == x.Id).Select(z => (int)z.ValueMark).Average(),
-                Address = x.Address,
-                Email = x.Email,
-                Phone = x.Phone,
-                PhoneEmergency = x.PhoneEmergency,
-                DateOfCareerStart = x.DateOfCareerStart,
-                DateOfEmployment = x.DateOfEmployment,
-                AboutMe = x.AboutMe,
-                ImageM = x.ImageM,
-            });
+            var teacher = await this.db.Teachers
+                .Where(x => x.Id == id)
+                                .Include(x => x.Classes)
+                .Include(x => x.ClassMastered)
+                .Include(x => x.Clubs)
+                .Include(x => x.Subjects)
+                .Include(x => x.Marks)
+                .Include(x => x.Notes)
+                .FirstOrDefaultAsync();
 
-            return teacherProfileFullById.FirstOrDefault();
+            var result = this.mapper.Map<TeacherLightServiceModel>(teacher);
+            return result;
         }        
 
-        public int GetCountTotalTeachers()
+        public int GetPageSize()
         {
-            return this.db.Teachers.Count();
+            int pageSizeToGet = PageSize;
+            return pageSizeToGet;
         }
 
-        public int GetPageCountSizing()
+        public int GetTotalCount()
         {
-            int pageCountSize = PageCountSize;
-
-            return pageCountSize;
+            return this.db.Teachers.Count();
         }
     }
 }

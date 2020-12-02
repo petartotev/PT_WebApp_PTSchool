@@ -8,6 +8,6 @@ namespace PTSchool.Web.Models.Note
 {
     public class CollectionNotesFullViewModels
     {
-        public IEnumerable<NoteFullServiceModel> NoteProfilesFull { get; set; }
+        //public IEnumerable<NoteFullServiceModel> NoteProfilesFull { get; set; }
     }
 }

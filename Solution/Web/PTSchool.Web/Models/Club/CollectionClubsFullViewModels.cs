@@ -1,13 +1,10 @@
-﻿using PTSchool.Services.Models.Club;
-using System;
+﻿using PTSchool.Web.Models.Abstracts;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PTSchool.Web.Models.Club
 {
-    public class CollectionClubsFullViewModels
+    public class CollectionClubsFullViewModels : PageableCollection
     {
-        public IEnumerable<ClubFullServiceModel> AllClubsFull { get; set; }
+        public IEnumerable<ClubLightViewModel> Clubs { get; set; }
     }
 }

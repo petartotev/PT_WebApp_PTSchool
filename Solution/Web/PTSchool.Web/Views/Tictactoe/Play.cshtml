@@ -21,13 +21,13 @@
         {
             letter = "X";
             <p>You are a Host.</p>
-            <p>You are playing with <img id="imgX" alt="imageX" src="~/tictactoe_X.png" style="height: 25px; width: 25px" />.</p>
+            <p>You are playing with <img id="imgX" alt="imageX" src="~/images/tictactoe/tictactoe_X.png" style="height: 25px; width: 25px" />.</p>
         }
         else
         {
             letter = "O";
             <p>You are a Guest.</p>
-            <p>You are playing with <img id="imgO" alt="imageO" src="~/tictactoe_O.png" style="height: 25px; width: 25px" />.</p>
+            <p>You are playing with <img id="imgO" alt="imageO" src="~/images/tictactoe/tictactoe_O.png" style="height: 25px; width: 25px" />.</p>
         }
         <div id="joinedMessageParagraph" class="text-success"></div>
     </div>
@@ -35,19 +35,19 @@
 
     <div>
         <div class="row">
-            <img class="border field-image" id="img1" alt="image1" src="/tictactoe_null.png" style="height: 100px; width: 100px" />
-            <img class="border field-image" id="img2" alt="image2" src="/tictactoe_null.png" style="height: 100px; width: 100px" />
-            <img class="border field-image" id="img3" alt="image3" src="/tictactoe_null.png" style="height: 100px; width: 100px" />
+            <img class="border field-image" id="img1" alt="image1" src="~/images/tictactoe/tictactoe_null.png" style="height: 100px; width: 100px" />
+            <img class="border field-image" id="img2" alt="image2" src="~/images/tictactoe/tictactoe_null.png" style="height: 100px; width: 100px" />
+            <img class="border field-image" id="img3" alt="image3" src="~/images/tictactoe/tictactoe_null.png" style="height: 100px; width: 100px" />
         </div>
         <div class="row">
-            <img class="border field-image" id="img4" alt="image4" src="/tictactoe_null.png" style="height: 100px; width: 100px" />
-            <img class="border field-image" id="img5" alt="image5" src="/tictactoe_null.png" style="height: 100px; width: 100px" />
-            <img class="border field-image" id="img6" alt="image6" src="/tictactoe_null.png" style="height: 100px; width: 100px" />
+            <img class="border field-image" id="img4" alt="image4" src="~/images/tictactoe/tictactoe_null.png" style="height: 100px; width: 100px" />
+            <img class="border field-image" id="img5" alt="image5" src="~/images/tictactoe/tictactoe_null.png" style="height: 100px; width: 100px" />
+            <img class="border field-image" id="img6" alt="image6" src="~/images/tictactoe/tictactoe_null.png" style="height: 100px; width: 100px" />
         </div>
         <div class="row">
-            <img class="border field-image" id="img7" alt="image7" src="/tictactoe_null.png" style="height: 100px; width: 100px" />
-            <img class="border field-image" id="img8" alt="image8" src="/tictactoe_null.png" style="height: 100px; width: 100px" />
-            <img class="border field-image" id="img9" alt="image9" src="/tictactoe_null.png" style="height: 100px; width: 100px" />
+            <img class="border field-image" id="img7" alt="image7" src="~/images/tictactoe/tictactoe_null.png" style="height: 100px; width: 100px" />
+            <img class="border field-image" id="img8" alt="image8" src="~/images/tictactoe/tictactoe_null.png" style="height: 100px; width: 100px" />
+            <img class="border field-image" id="img9" alt="image9" src="~/images/tictactoe/tictactoe_null.png" style="height: 100px; width: 100px" />
         </div>
     </div>
     <hr />
@@ -67,11 +67,11 @@
 <div class="container">
     <hr style="height: 5px;" class="bg-danger" />
     <div class="row justify-content-center align-items-center">
-        @if(Model.GameHost == Model.NameUser)
+        @if (Model.GameHost == Model.NameUser)
         {
-        <div>
-            <a class="btn btn-large btn-danger text-dark" id="restartGame">RESTART!</a>
-        </div>
+            <div>
+                <a class="btn btn-large btn-danger text-dark" id="restartGame">RESTART!</a>
+            </div>
         }
         <div>
             <a class="btn btn-large btn-danger text-white" onclick="window.location='@Url.Action("Menu", "Tictactoe")'">BACK TO MENU</a>
@@ -80,17 +80,13 @@
 </div>
 
 @section Scripts {
-<script>
-
+    <script>
 let chatSoundSrc = "/chat_notification_short.wav";
 let chatSound = new Audio(chatSoundSrc);
-
 //CREATE SIGNALR CONNECTION
 var myConnection = new signalR.HubConnectionBuilder().withUrl("/playhubbb").build();
-
 //WAIT 0.5 SEC AND JOIN(CREATE) GROUP (=> HUB(C#))
 setTimeout(() => myConnection.invoke("JoinGroupCSharp", '@Model.GameId', '@Model.NameUser', '@Model.GameHost'), 500);
-
 //RECEIVE MESSAGE FOR JOINED!
 myConnection.on("JoinedMessageJS",
     function (message) {
@@ -98,17 +94,15 @@ myConnection.on("JoinedMessageJS",
         let text = `${now.toUTCString()} | ${message.user} ${message.text}`;
         $("#joinedMessageParagraph").append(text);
     });
-
 //TICTACTOE!!!
 //Play move! receive from Hub(C#)
 myConnection.on("MovePlayedJS",
 function (message) {
-    if (document.getElementById(`${message.user}`).getAttribute('src') == "/tictactoe_null.png")
+    if (document.getElementById(`${message.user}`).getAttribute('src') == "/images/tictactoe/tictactoe_null.png")
     {
-        $("#" + message.user).attr("src", `/tictactoe_${message.text}.png`);
+        $("#" + message.user).attr("src", `/images/tictactoe/tictactoe_${message.text}.png`);
     }
 });
-
 //Play move! on click => send to Hub(C#)
 $(".field-image").click(function () {
     //let that = this;
@@ -117,20 +111,16 @@ $(".field-image").click(function () {
     var gameId = '@Model.GameId';
     myConnection.invoke("PlayMoveCSharp", imgNumber, letterOfPlayer, gameId);
 });
-
-
 //Restart game! receive from Hub(C#)
 myConnection.on("GameRestartedJS",
     function () {
-        $(".field-image").attr("src", `/tictactoe_null.png`)
+        $(".field-image").attr("src", `/images/tictactoe/tictactoe_null.png`)
     });
-
 //Restart game! on click => send to Hub(C#)
     $("#restartGame").click(function () {
         var gameId = '@Model.GameId';
         myConnection.invoke("RestartGameCSharp", gameId);
     });
-
 //CHAT!!!
 //Receive message! receive from Hub(C#)
 myConnection.on("ReceiveMessageJS",
@@ -139,7 +129,6 @@ myConnection.on("ReceiveMessageJS",
         $("#messagesList").append(chatInfo);
         chatSound.play();
     });
-
 //Send message! => send to Hub(C#)
 $("#sendButton").click(function () {
     var message = $("#messageInput").val();
@@ -147,11 +136,9 @@ $("#sendButton").click(function () {
     myConnection.invoke("SendMessageCSharp", message, gameId);
     $("#messageInput").val("");
 });
-
 myConnection.start().catch(function (err) {
     return console.error(err.toString());
 });
-
 //PT: To escape HTML injection in chat:
 function escapeHtml(unsafe) {
     return unsafe
@@ -161,5 +148,5 @@ function escapeHtml(unsafe) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
-</script>
+    </script>
 }

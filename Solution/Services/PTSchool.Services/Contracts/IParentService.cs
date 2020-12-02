@@ -1,14 +1,15 @@
-﻿using PTSchool.Services.Models.Parent;
+﻿using PTSchool.Services.Contracts;
+using PTSchool.Services.Models.Parent;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services
 {
-    public interface IParentService
+    public interface IParentService : IPageable
     {
-        IEnumerable<ParentFullServiceModel> GetAllParents(int page = 1);
+        Task<IEnumerable<ParentLightServiceModel>> GetAllParentsAsync(int page = 1);
 
-        ParentFullServiceModel GetParentById(int id);
-
-        int GetCountAllParents();
+        Task<ParentLightServiceModel> GetParentByIdAsync(Guid id);
     }
 }

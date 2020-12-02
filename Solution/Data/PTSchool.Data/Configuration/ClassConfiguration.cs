@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PTSchool.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PTSchool.Data.Configuration
 {
@@ -18,9 +15,9 @@ namespace PTSchool.Data.Configuration
                 .OnDelete(DeleteBehavior.Restrict);
 
             classs
-                .HasOne(cl => cl.ClassMasterTeacher)
+                .HasOne(cl => cl.MasterTeacher)
                 .WithOne(clMT => clMT.ClassMastered)
-                .HasForeignKey<Class>(cl => cl.ClassMasterTeacherId)
+                .HasForeignKey<Class>(cl => cl.MasterTeacherId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

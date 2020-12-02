@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PTSchool.Services;
 using PTSchool.Web.Models.Club;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PTSchool.Web.Controllers
@@ -10,55 +13,36 @@ namespace PTSchool.Web.Controllers
     public class ClubsController : Controller
     {
         private readonly IClubService clubService;
-
-        public ClubsController(IClubService clubService)
+        private readonly IMapper mapper;
+        public ClubsController(IClubService clubService, IMapper mapper)
         {
             this.clubService = clubService;
+            this.mapper = mapper;
         }
 
-        public async Task<IActionResult> AllClubs()
+        public async Task<IActionResult> AllClubs(int page = 1)
         {
-            var allClubsFull = this.clubService.GetAllClubs();
+            var clubs = await this.clubService.GetAllClubsAsync(page);
 
             var model = new CollectionClubsFullViewModels
             {
-                AllClubsFull = allClubsFull
+                Clubs = this.mapper.Map<IEnumerable<ClubLightViewModel>>(clubs),
+                Url = "/Clubs/AllClubs",
+                PageSize = clubService.GetPageSize(),
+                TotalCount = clubService.GetTotalCount(),
+                CurrentPage = page
             };
 
             return await Task.Run(() => View(model));
         }
 
-        public async Task<IActionResult> Club(int id)
+        public async Task<IActionResult> Club(Guid id)
         {
-            var clubById = this.clubService.GetClubById(id);
+            var club = await this.clubService.GetClubByIdAsync(id);
 
-            var model = new ClubByIdFullViewModel
-            {
-                ClubProfileFull = clubById
-            };
+            var model = this.mapper.Map<ClubLightViewModel>(club);
 
             return await Task.Run(() => this.View(model));
-        }
-
-        public int GetAllClubsCount()
-        {
-            var allClubsCount = this.clubService.GetCountAllClubs();
-
-            return allClubsCount;
-        }
-
-        public int GetAllClubsStudentsCount()
-        {
-            var allClubsStudentsCount = this.clubService.GetCountAllStudentsInClubs();
-
-            return allClubsStudentsCount;
-        }
-
-        public int GetAllClubsTeachersCount()
-        {
-            var allClubsTeachersCount = this.clubService.GetCountAllTeachersInClubs();
-
-            return allClubsTeachersCount;
         }
     }
 }

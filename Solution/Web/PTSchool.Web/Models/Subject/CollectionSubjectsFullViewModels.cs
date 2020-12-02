@@ -1,13 +1,10 @@
-﻿using PTSchool.Services.Models.Subject;
-using System;
+﻿using PTSchool.Web.Models.Abstracts;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PTSchool.Web.Models.Subject
 {
-    public class CollectionSubjectsFullViewModels
+    public class CollectionSubjectsFullViewModels : PageableCollection
     {
-        public IEnumerable<SubjectServiceModel> AllSubjectsFull { get; set; }
+        public IEnumerable<SubjectLightViewModel> Subjects { get; set; }
     }
 }

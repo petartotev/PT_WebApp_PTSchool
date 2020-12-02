@@ -1,18 +1,18 @@
-﻿using PTSchool.Services.Models.Club;
+﻿using PTSchool.Services.Contracts;
+using PTSchool.Services.Models.Club;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services
 {
-    public interface IClubService
+    public interface IClubService : IPageable
     {
-        IEnumerable<ClubFullServiceModel> GetAllClubs();
+        Task<IEnumerable<ClubLightServiceModel>> GetAllClubsAsync(int page = 1);
 
-        ClubFullServiceModel GetClubById(int id);
+        Task<ClubLightServiceModel> GetClubByIdAsync(Guid id);
 
-        int GetCountAllClubs();
-
-        int GetCountAllStudentsInClubs();
-
-        int GetCountAllTeachersInClubs();
+        int GetTotalCountStudentsInClubs();
+        int GetTotalCountTeachersInClubs();
     }
 }

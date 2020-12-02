@@ -3,16 +3,17 @@ using PTSchool.Services.Models.Tictactoe;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services
 {
     public interface ITictactoeService
     {
-        IEnumerable<TictactoeServiceModel> GetAllGamesAvailableNotFinishedLast5Minutes();
+        Task<IEnumerable<TictactoeServiceModel>> GetAllGamesAvailableNotFinishedLast5MinutesAsync();
 
-        void CreateNewGame(string gameId, string nameAspNetUser1);
+        void CreateNewGame(Guid gameId, string nameAspNetUser1);
 
-        bool JoinGame(string gameId, string nameAspNetUser2);
+        bool JoinGame(Guid gameId, string nameAspNetUser2);
 
         void RegisterFinishedGame();
     }

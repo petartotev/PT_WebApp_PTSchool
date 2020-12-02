@@ -1,12 +1,15 @@
-﻿using PTSchool.Services.Models.Subject;
+﻿using PTSchool.Services.Contracts;
+using PTSchool.Services.Models.Subject;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services
 {
-    public interface ISubjectService
+    public interface ISubjectService : IPageable
     {
-        IEnumerable<SubjectServiceModel> GetAllSubjects();
+        Task<IEnumerable<SubjectLightServiceModel>> GetAllSubjectsAsync(int page = 1);
 
-        SubjectServiceModel GetSubjectById(int id);
+        Task<SubjectLightServiceModel> GetSubjectByIdAsync(Guid id);
     }
 }

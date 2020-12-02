@@ -1,74 +1,58 @@
-﻿using PTSchool.Data;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PTSchool.Data;
+using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.Parent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services.Implementations
 {
     public class ParentService : IParentService
     {
-        private const int ParentsPageSize = 25;
+        private const int PageSize = 18;
 
-        private readonly MvcSchoolDbContext db;
+        private readonly PTSchoolDbContext db;
+        private readonly IMapper mapper;
 
-        public ParentService(MvcSchoolDbContext db)
+        public ParentService(PTSchoolDbContext db, IMapper mapper)
         {
             this.db = db;
+            this.mapper = mapper;
         }
 
-        public IEnumerable<ParentFullServiceModel> GetAllParents(int page = 1)
+        public async Task<IEnumerable<ParentLightServiceModel>> GetAllParentsAsync(int page = 1)
         {
-            var allParentProfilesFull = this.db
-                .Parents
-                .Skip((page - 1) * ParentsPageSize)
-                .Take(ParentsPageSize)
-                .Select(prnt => new ParentFullServiceModel
-                {
-                    Id = prnt.Id,
-                    FirstName = prnt.FirstName,
-                    MiddleName = prnt.MiddleName,
-                    LastName = prnt.LastName,
-                    Gender = prnt.Gender.ToString(),
-                    DateOfBirth = prnt.DateOfBirth,
-                    Age = (DateTime.Now - prnt.DateOfBirth).Days / 365,
-                    Occupation = prnt.Occupation,
-                    Address = prnt.Address,
-                    Email = prnt.Email,
-                    Phone = prnt.Phone,
-                    AboutMe = prnt.AboutMe,
-                    ImageXS = prnt.ImageXS,
-                    ChildrenIds = prnt.Students.Select(x => x.Student).Select(z => z.Id).ToList(),
-                    ChildrenImagesXXS = prnt.Students.Select(x => x.Student).Select(z => z.ImageXXS).ToList(),
-                });
+            var parents = await this.db.Parents
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .Include(x => x.Students)
+                .ToListAsync();
 
-            return allParentProfilesFull;
+            var result = this.mapper.Map<IEnumerable<ParentLightServiceModel>>(parents);
+            return result;
         }
 
-        public ParentFullServiceModel GetParentById(int id)
+        public async Task<ParentLightServiceModel> GetParentByIdAsync(Guid id)
         {
-            var parentProfileFullById = db.Parents.Where(x => x.Id == id).Select(prnt => new ParentFullServiceModel
-            {
-                Id = prnt.Id,
-                FirstName = prnt.FirstName,
-                MiddleName = prnt.MiddleName,
-                LastName = prnt.LastName,
-                Gender = prnt.Gender.ToString(),
-                DateOfBirth = prnt.DateOfBirth,
-                Occupation = prnt.Occupation,
-                Address = prnt.Address,
-                Email = prnt.Email,
-                Phone = prnt.Phone,
-                AboutMe = prnt.AboutMe,
-                ImageM = prnt.ImageM,
-                ChildrenIds = prnt.Students.Select(x => x.Student).Select(z => z.Id).ToList(),
-                ChildrenImagesXXS = prnt.Students.Select(x => x.Student).Select(z => z.ImageXXS).ToList(),
-            });
+            var parent = await db.Parents
+                .Where(x => x.Id == id)
+                .Include(x => x.Students)
+                .FirstOrDefaultAsync();
 
-            return parentProfileFullById.FirstOrDefault();
+            var result = this.mapper.Map<ParentLightServiceModel>(parent);
+            return result;
         }
 
-        public int GetCountAllParents()
+        public int GetPageSize()
+        {
+            var pageSizeToGet = PageSize;
+            return pageSizeToGet;
+        }
+
+        public int GetTotalCount()
         {
             return this.db.Parents.Count();
         }

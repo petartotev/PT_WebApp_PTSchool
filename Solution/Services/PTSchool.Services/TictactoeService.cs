@@ -1,61 +1,54 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
 using PTSchool.Data.Models;
 using PTSchool.Services.Models.Tictactoe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services.Implementations
 {
     public class TictactoeService : ITictactoeService
     {
-        private readonly MvcSchoolDbContext db;
+        private readonly PTSchoolDbContext db;
+        private readonly IMapper mapper;
 
-        public TictactoeService(MvcSchoolDbContext db)
+        public TictactoeService(PTSchoolDbContext db, IMapper mapper)
         {
             this.db = db;
+            this.mapper = mapper;
         }
 
-        public void CreateNewGame(string gameId, string nameAspNetUser1)
+        public void CreateNewGame(Guid gameId, string nameAspNetUser1)
         {
             this.db.Tictactoe.Add(new Tictactoe
             {
                 Id = gameId,
-                IdAspNetUser1 = nameAspNetUser1,
-                DateTimeCreated = DateTime.UtcNow,
+                IdUser1 = nameAspNetUser1,
+                DateCreated = DateTime.UtcNow,
                 IsFinished = false,
             });
             db.SaveChanges();
         }
 
-        public IEnumerable<TictactoeServiceModel> GetAllGamesAvailableNotFinishedLast5Minutes()
+        public async Task<IEnumerable<TictactoeServiceModel>> GetAllGamesAvailableNotFinishedLast5MinutesAsync()
         {
-            var timeNow = DateTime.UtcNow;
-
-            var listOfGamesUnfinishedInTheLast5Minutes = this.db
-                .Tictactoe
+            var games = await this.db.Tictactoe
                 .Where(x => x.IsFinished == false)
-                .Where(x => x.IdAspNetUser2 == null)
-                //.Where(x => x.DateTimeCreated.CompareTo(DateTime.UtcNow) < 600)
-                .Select(z => new TictactoeServiceModel
-                {
-                    Id = z.Id,
-                    DateTimeCreated = z.DateTimeCreated,
-                    IdAspNetUser1 = z.IdAspNetUser1,
-                    IsFinished = z.IsFinished,
-                })
-                .OrderByDescending(x => x.DateTimeCreated);
+                .Where(x => x.IdUser2 == null)
+                .OrderByDescending(x => x.DateCreated)
+                .ToListAsync();
 
-            return listOfGamesUnfinishedInTheLast5Minutes;
+            return this.mapper.Map<IEnumerable<TictactoeServiceModel>>(games);
         }
 
-        public bool JoinGame(string gameId, string nameAspNetUser2)
+        public bool JoinGame(Guid gameId, string nameAspNetUser2)
         {
-            if (this.db.Tictactoe.Where(x => x.Id == gameId).First().IdAspNetUser2 == null)
+            if (this.db.Tictactoe.Where(x => x.Id == gameId).First().IdUser2 == null)
             {
-                this.db.Tictactoe.Where(x => x.Id == gameId).FirstOrDefault().IdAspNetUser2 = nameAspNetUser2;
+                this.db.Tictactoe.Where(x => x.Id == gameId).FirstOrDefault().IdUser2 = nameAspNetUser2;
                 this.db.SaveChanges();
                 return true;
             }

@@ -1,16 +1,15 @@
-﻿using PTSchool.Services.Models.Teacher;
+﻿using PTSchool.Services.Contracts;
+using PTSchool.Services.Models.Teacher;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PTSchool.Services.Implementations
 {
-    public interface ITeacherService
+    public interface ITeacherService : IPageable
     {
-        IEnumerable<TeacherServiceModel> GetAllTeachers(int page = 1);
+        Task<IEnumerable<TeacherLightServiceModel>> GetAllTeachersAsync(int page = 1);
 
-        TeacherServiceModel GetTeacherById(int id);
-
-        int GetCountTotalTeachers();
-
-        int GetPageCountSizing();
+        Task<TeacherLightServiceModel> GetTeacherByIdAsync(Guid id);
     }
 }

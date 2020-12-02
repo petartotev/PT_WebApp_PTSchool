@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PTSchool.Services;
+using PTSchool.Services.Models.Class;
 using PTSchool.Web.Models.Class;
 using System;
 using System.Collections.Generic;
@@ -13,32 +15,36 @@ namespace PTSchool.Web.Controllers
     public class ClassesController : Controller
     {
         private readonly IClassService classService;
+        private readonly IMapper mapper;
 
-        public ClassesController(IClassService classService)
+        public ClassesController(IClassService classService, IMapper mapper)
         {
             this.classService = classService;
+            this.mapper = mapper;
         }
 
 
-        public async Task<IActionResult> AllClasses()
+        public async Task<IActionResult> AllClasses(int page = 1)
         {
-            var allClasses = this.classService.GetAllClasses();
+            IEnumerable<ClassLightServiceModel> classes = await this.classService.GetAllClassesAsync(page);
 
-            var model = new CollectionClassesFullViewModels
+            var model = new CollectionClassesLightViewModels
             {
-                AllClassesFull = allClasses
+                Classes = this.mapper.Map<IEnumerable<ClassLightViewModel>>(classes),
+                Url = "/Classes/AllClasses",
+                PageSize = classService.GetPageSize(),
+                TotalCount = classService.GetTotalCount(),
+                CurrentPage = page
             };
 
             return await Task.Run(() => this.View(model));
         }
 
-        public async Task<IActionResult> Class(int id)
+        public async Task<IActionResult> Class(Guid id)
         {
-            var classById = this.classService.GetClassById(id);
+            var classById = await this.classService.GetClassByIdAsync(id);
 
-            var model = new ClassByIdFullViewModel();
-
-            model.classProfile = classById;
+            var model = this.mapper.Map<ClassLightViewModel>(classById);
 
             return await Task.Run(() => this.View(model));
         }

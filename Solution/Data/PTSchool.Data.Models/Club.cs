@@ -1,41 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using static PTSchool.Data.Models.DataModelsValidations.Club;
+using static PTSchool.Data.Models.Validations.StaticValidator.Club;
 
 namespace PTSchool.Data.Models
 {
     public class Club
     {
-        public int Id { get; set; }
+        // GENERAL
+        public Guid Id { get; set; }
 
         [Required]
-        [MaxLength(MaxLengthName)]
+        [MaxLength(MaxLengthClubName)]
         public string Name { get; set; }
 
-        //50x50px
-        public byte[] ImageXXS { get; set; }
-
-        //100x100px
-        public byte[] ImageXS { get; set; }
-
-        //150x150px
-        //public byte[] ImageS { get; set; }
-
-        //300x300px
-        public byte[] ImageM { get; set; }
-
-        //600x600px
-        //public byte[] ImageL { get; set; }
-
         [Required]
-        [MaxLength(MaxLengthDescription)]
+        [MaxLength(MaxLengthClubDescription)]
         public string Description { get; set; }
 
+        public string Image { get; set; }
+
+        // DATES
+        public DateTime DateEstablished { get; set; }
+
+        // CONTACTS
         public string Email { get; set; }
 
-        public DateTime DateOfEstablishment { get; set; }
-
+        // RELATIONS
         public ICollection<ClubStudent> Students { get; set; } = new HashSet<ClubStudent>();
 
         public ICollection<ClubTeacher> Teachers { get; set; } = new HashSet<ClubTeacher>();

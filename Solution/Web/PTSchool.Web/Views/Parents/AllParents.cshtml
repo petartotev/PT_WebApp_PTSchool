@@ -1,86 +1,18 @@
-﻿@model PTSchool.Web.Models.Parent.CollectionParentsFullViewModels
+﻿@model PTSchool.Web.Models.Parent.CollectionParentsLightViewModels
 
-@{
-    ViewData["Title"] = "AllParents";
-}
+<partial name="_PageNavigatorPartial" model="@Model" />
 
-@{
-    int num = 0;
-}
-
-<div class="row">
-    <div class="col-md-2 bg-warning text-dark">
-        <h1 class="text-center mx-auto d-block">All Parents</h1>
-        <hr />
-    </div>
-    <div class="col-md-10">
-        <div>
-            <a href="/Parents/AllParents?page=@Model.FirstPage" class="float-left btn btn-dark text-white @(Model.PreviousDisabled ? "disabled" : string.Empty)"><<</a>
-            <a href="/Parents/AllParents?page=@Model.PreviousPage" class="float-left btn btn-dark text-white @(Model.PreviousDisabled ? "disabled" : string.Empty)"><</a>
-            <a href="/Parents/AllParents?page=@Model.LastPage" class="float-right btn btn-dark text-white @(Model.NextDisabled ? "disabled" : string.Empty)">>></a>
-            <a href="/Parents/AllParents?page=@Model.NextPage" class="float-right btn btn-dark text-white @(Model.NextDisabled ? "disabled" : string.Empty)">></a>
-        </div>
-
-        <br />
-        <br />
-
-        <table class="table table-striped table-bordered">
-            <tr>
-                <th>#</th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Gender</th>
-                <th>Date of Birth</th>
-                <th>Age</th>
-                <th>Contacts</th>
-                <th>Children</th>
-                <th>Occupation</th>
-                <th>AboutMe</th>
-            </tr>
-            @foreach (var item in Model.AllParentsFull)
-            {
-                num++;
-                <tr>
-                    <td>@num</td>
-                    <td>
-                        <a href="@Url.Action("Parent", "Parents", new { id = item.Id })">
-                            <img class="rounded-circle" src="data:image/jpg;base64,@Convert.ToBase64String(item.ImageXS)" alt="parent" width="100" height="100">
-                        </a>
-                    </td>
-                    <td>@item.FirstName @item.MiddleName @item.LastName</td>
-                    <td>@item.Gender</td>
-                    <td>@item.DateOfBirth.Year/@item.DateOfBirth.Month/@item.DateOfBirth.Day</td>
-                    <td>@item.Age</td>
-                    <td>
-                        <p><strong>Address:</strong> @item.Address</p>
-                        <p><strong>Email:</strong> @item.Email</p>
-                        <p><strong>Phone:</strong> @item.Phone</p>
-                    </td>
-                    <td>
-                        @for (int i = 0; i < item.ChildrenIds.Count(); i++)
-                        {
-                            <a href="@Url.Action("Student", "Students", new { id = item.ChildrenIds.ToList()[i] })">
-                                <img class="rounded-circle" src="data:image/jpg;base64,@Convert.ToBase64String(item.ChildrenImagesXXS.ToList()[i])" alt="child" width="50" height="50">
-                            </a>
-                        }
-                    </td>
-                    <td>@item.Occupation</td>
-                    <td>@item.AboutMe</td>
-                </tr>
-            }
-        </table>
-
-        <div>
-            <a href="/Parents/AllParents?page=@Model.FirstPage" class="float-left btn btn-info @(Model.PreviousDisabled ? "disabled" : string.Empty)"><<</a>
-            <a href="/Parents/AllParents?page=@Model.PreviousPage" class="float-left btn btn-info @(Model.PreviousDisabled ? "disabled" : string.Empty)"><</a>
-            <a href="/Parents/AllParents?page=@Model.LastPage" class="float-right btn btn-info @(Model.NextDisabled ? "disabled" : string.Empty)">>></a>
-            <a href="/Parents/AllParents?page=@Model.NextPage" class="float-right btn btn-info @(Model.NextDisabled ? "disabled" : string.Empty)">></a>
-        </div>
-
-        <br />
-        <br />
+<div>
+    <div class="row">
+        @foreach (var parent in Model.Parents)
+        {
+            <div class="col-md-2">
+                <div class="text-center border border-dark p-2">
+                    <p>@parent.Id</p>
+                    <p>@parent.FirstName @parent.MiddleName[0]. @parent.LastName</p>
+                    <a href="@Url.Action("Parent", "Parents", new { id = parent.Id })"><img src="@parent.Image" class="img-circle-sm" /></a>
+                </div>
+            </div>
+        }
     </div>
 </div>
-
-
-

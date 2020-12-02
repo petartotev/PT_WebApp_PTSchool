@@ -1,0 +1,103 @@
+﻿using AutoMapper;
+using PTSchool.Data.Models;
+using PTSchool.Services.Models.Class;
+using PTSchool.Services.Models.Club;
+using PTSchool.Services.Models.Mark;
+using PTSchool.Services.Models.Note;
+using PTSchool.Services.Models.Parent;
+using PTSchool.Services.Models.Student;
+using PTSchool.Services.Models.Subject;
+using PTSchool.Services.Models.Teacher;
+using PTSchool.Services.Models.Tictactoe;
+using PTSchool.Web.Models.Class;
+using PTSchool.Web.Models.Club;
+using PTSchool.Web.Models.Mark;
+using PTSchool.Web.Models.Note;
+using PTSchool.Web.Models.Parent;
+using PTSchool.Web.Models.Student;
+using PTSchool.Web.Models.Subject;
+using PTSchool.Web.Models.Teacher;
+using System;
+using System.Linq;
+
+namespace PTSchool.Web.ConfigurationMapper
+{
+    public class PTSchoolProfile : Profile
+    {
+        public PTSchoolProfile()
+        {
+            // Data Models > Service Models
+
+            CreateMap<Class, ClassLightServiceModel>();
+            CreateMap<Class, ClassFullServiceModel>()
+                .ForMember(dest => dest.CountStudents, opt => opt.MapFrom(src => src.Students.Count))
+                .ForMember(dest => dest.CountGirls, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Female)))
+                .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Male)));
+
+            CreateMap<Club, ClubLightServiceModel>();
+            CreateMap<Club, ClubFullServiceModel>()
+                .ForMember(dest => dest.CountStudents, opt => opt.MapFrom(src => src.Students.Count))
+                .ForMember(dest => dest.CountGirls, opt => opt.MapFrom(src => src.Students.Where(x => x.Student.Gender == PTSchool.Data.Models.Enums.EnumGender.Female)))
+                .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Student.Gender == PTSchool.Data.Models.Enums.EnumGender.Male)));
+
+            CreateMap<Mark, MarkLightServiceModel>()
+                .ForMember(dest => dest.ValueMark, opt => opt.MapFrom(src => Convert.ToInt32(src.ValueMark)));
+            CreateMap<Mark, MarkFullServiceModel>()
+                .ForMember(dest => dest.ValueMark, opt => opt.MapFrom(src => Convert.ToInt32(src.ValueMark)));
+
+            CreateMap<Note, NoteLightServiceModel>()
+                .ForMember(dest => dest.StatusNote, opt => opt.MapFrom(src => Convert.ToInt32(src.StatusNote)));
+            CreateMap<Note, NoteFullServiceModel>()
+                .ForMember(dest => dest.StatusNote, opt => opt.MapFrom(src => Convert.ToInt32(src.StatusNote)));
+
+            CreateMap<Parent, ParentLightServiceModel>();
+            CreateMap<Parent, ParentFullServiceModel>()
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => (DateTime.UtcNow - src.DateBirth).TotalDays / 365.25))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()));
+
+            CreateMap<Student, StudentLightServiceModel>();
+            CreateMap<Student, StudentFullServiceModel>()
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => (DateTime.UtcNow - src.DateBirth).TotalDays / 365.25))
+                .ForMember(dest => dest.AverageScore, opt => opt.MapFrom(src => src.Marks.Select(x => Convert.ToInt32(x.ValueMark)).Average()))
+                .ForMember(dest => dest.AverageBehavior, opt => opt.MapFrom(src => src.Notes.Select(x => Convert.ToInt32(x.StatusNote)).Average()))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()));
+
+            CreateMap<Subject, SubjectLightServiceModel>();
+            CreateMap<Subject, SubjectFullServiceModel>();
+
+            CreateMap<Teacher, TeacherLightServiceModel>();
+            CreateMap<Teacher, TeacherFullServiceModel>()
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => (DateTime.UtcNow - src.DateBirth).TotalDays / 365.25))
+                .ForMember(dest => dest.AverageMark, opt => opt.MapFrom(src => src.Marks.Select(x => Convert.ToInt32(x.ValueMark)).Average()))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()));
+
+            CreateMap<Tictactoe, TictactoeServiceModel>();
+
+            // Service Models <> View Models
+
+            CreateMap<ClassLightServiceModel, ClassLightViewModel>().ReverseMap();
+            CreateMap<ClassFullServiceModel, ClassFullViewModel>().ReverseMap();
+
+            CreateMap<ClubLightServiceModel, ClubLightViewModel>().ReverseMap();
+            CreateMap<ClubFullServiceModel, ClubFullViewModel>().ReverseMap();
+
+            CreateMap<MarkLightServiceModel, MarkLightViewModel>().ReverseMap();
+            CreateMap<MarkFullServiceModel, MarkFullViewModel>().ReverseMap();
+
+            CreateMap<NoteLightServiceModel, NoteLightViewModel>().ReverseMap();
+            CreateMap<NoteFullServiceModel, NoteFullViewModel>().ReverseMap();
+
+            CreateMap<ParentLightServiceModel, ParentLightViewModel>().ReverseMap();
+            CreateMap<ParentFullServiceModel, ParentFullViewModel>().ReverseMap();
+
+            CreateMap<StudentLightServiceModel, StudentLightViewModel>().ReverseMap();
+            CreateMap<StudentFullServiceModel, StudentFullViewModel>().ReverseMap();
+
+            CreateMap<SubjectLightServiceModel, SubjectLightViewModel>().ReverseMap();
+            CreateMap<SubjectFullServiceModel, SubjectFullViewModel>().ReverseMap();
+
+            CreateMap<TeacherLightServiceModel, TeacherLightViewModel>().ReverseMap();
+            CreateMap<TeacherFullServiceModel, TeacherFullViewModel>().ReverseMap();
+        }
+    }
+}

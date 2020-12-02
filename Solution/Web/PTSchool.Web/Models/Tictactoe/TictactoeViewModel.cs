@@ -9,14 +9,13 @@ namespace PTSchool.Web.Models.Tictactoe
     {
         public string Id { get; set; }
 
-        public DateTime DateTimeCreated { get; set; }
-
-        public DateTime DateTimeFinished { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateFinished { get; set; }
 
         public bool IsFinished { get; set; }
 
-        public string IdAspNetUser1 { get; set; }
+        public string User1Id { get; set; }
 
-        public string IdAspNetUser2 { get; set; }
+        public string User2Id { get; set; }
     }
 }

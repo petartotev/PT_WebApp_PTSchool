@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PTSchool.Services;
 using PTSchool.Web.Models.Subject;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace PTSchool.Web.Controllers
@@ -14,32 +13,35 @@ namespace PTSchool.Web.Controllers
     public class SubjectsController : Controller
     {
         private readonly ISubjectService subjectService;
+        private readonly IMapper mapper;
 
-        public SubjectsController(ISubjectService subjectService)
+        public SubjectsController(ISubjectService subjectService, IMapper mapper)
         {
             this.subjectService = subjectService;
+            this.mapper = mapper;
         }
 
-        public IActionResult AllSubjects()
+        public async Task<IActionResult> AllSubjects(int page = 1)
         {
-            var allSubjects = this.subjectService.GetAllSubjects();
+            var subjects = await this.subjectService.GetAllSubjectsAsync(page);
 
             var model = new CollectionSubjectsFullViewModels
             {
-                AllSubjectsFull = allSubjects
+                Subjects = this.mapper.Map<IEnumerable<SubjectLightViewModel>>(subjects),
+                Url = "/Subjects/AllSubjects",
+                PageSize = subjectService.GetPageSize(),
+                TotalCount = subjectService.GetTotalCount(),
+                CurrentPage = page
             };
 
             return this.View(model);
         }
 
-        public IActionResult Subject(int id)
+        public async Task<IActionResult> Subject(Guid id)
         {
-            var subjectById = this.subjectService.GetSubjectById(id);
+            var subject = await this.subjectService.GetSubjectByIdAsync(id);
 
-            var model = new SubjectByIdFullViewModel
-            {
-                SubjectProfileFullById = subjectById
-            };
+            var model = this.mapper.Map<SubjectLightViewModel>(subject);
 
             return this.View(model);
         }

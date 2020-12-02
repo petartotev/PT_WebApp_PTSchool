@@ -5,6 +5,6 @@ namespace PTSchool.Web.Models.Tictactoe
 {
     public class CollectionTictactoeViewModels
     {
-        public IEnumerable<TictactoeViewModel> AllTictactoeGamesAvailable { get; set; }
+        public IEnumerable<TictactoeViewModel> GamesTictactoeAvailable { get; set; }
     }
 }

@@ -8,14 +8,12 @@ namespace PTSchool.Services.Models.Tictactoe
     {
         public string Id { get; set; }
 
-        public DateTime DateTimeCreated { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateFinished { get; set; }
 
-        public DateTime DateTimeFinished { get; set; }
+        public string IdUser1 { get; set; }
+        public string IdUser2 { get; set; }
 
         public bool IsFinished { get; set; }
-
-        public string IdAspNetUser1 { get; set; }
-
-        public string IdAspNetUser2 { get; set; }
     }
 }
