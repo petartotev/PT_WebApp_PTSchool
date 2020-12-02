@@ -740,12 +740,19 @@ namespace PTSchool.Console.Seeder
             {
                 for (int j = 0; j <= 1; j++)
                 {
+                    var student = db.Students.Skip(i - 1).FirstOrDefault();
+                    var parent = db.Parents.Skip((i * 2) - j - 1).FirstOrDefault();
+
                     db.StudentsParents.Add(new StudentParent
                     {
-                        StudentId = db.Students.Skip(i - 1).FirstOrDefault().Id,
-                        ParentId = db.Parents.Skip((i * 2) - j - 1).FirstOrDefault().Id,
+                        StudentId = student.Id,
+                        ParentId = parent.Id,
                     });
                     db.SaveChanges();
+                    
+                    parent.LastName = student.LastName;
+                    db.SaveChanges();
+
                     System.Console.Write($"█");
                 }
             }

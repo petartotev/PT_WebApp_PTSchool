@@ -1,5 +1,7 @@
 ﻿using PTSchool.Services.Models.Class;
 using PTSchool.Services.Models.Club;
+using PTSchool.Services.Models.Mark;
+using PTSchool.Services.Models.Note;
 using PTSchool.Services.Models.Parent;
 using PTSchool.Services.Models.Teacher;
 using System;
@@ -37,6 +39,10 @@ namespace PTSchool.Services.Models.Student
         public ClassLightServiceModel Class { get; set; }
 
         public TeacherLightServiceModel ClassMaster { get; set; }
+
+        public IEnumerable<MarkLightServiceModel> Marks { get; set; }
+
+        public IEnumerable<NoteLightServiceModel> Notes { get; set; }
 
         public IEnumerable<ClubLightServiceModel> Clubs { get; set; }
 

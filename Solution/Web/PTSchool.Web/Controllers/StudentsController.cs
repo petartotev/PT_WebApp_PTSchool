@@ -49,7 +49,7 @@ namespace PTSchool.Web.Controllers
         {
             var student = await this.studentService.GetStudentByIdAsync(id);
 
-            var model = this.mapper.Map<StudentLightViewModel>(student);
+            var model = this.mapper.Map<StudentFullViewModel>(student);
 
             return this.View(model);
         }

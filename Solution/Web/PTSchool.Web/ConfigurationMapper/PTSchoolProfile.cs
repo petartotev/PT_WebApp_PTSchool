@@ -53,14 +53,17 @@ namespace PTSchool.Web.ConfigurationMapper
             CreateMap<Parent, ParentLightServiceModel>();
             CreateMap<Parent, ParentFullServiceModel>()
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => (DateTime.UtcNow - src.DateBirth).TotalDays / 365.25))
-                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()));
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()))
+                .ForMember(dest => dest.Students, opt => opt.MapFrom(src => src.Students.Select(x => x.Student)));
 
             CreateMap<Student, StudentLightServiceModel>();
             CreateMap<Student, StudentFullServiceModel>()
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => (DateTime.UtcNow - src.DateBirth).TotalDays / 365.25))
-                .ForMember(dest => dest.AverageScore, opt => opt.MapFrom(src => src.Marks.Select(x => Convert.ToInt32(x.ValueMark)).Average()))
-                .ForMember(dest => dest.AverageBehavior, opt => opt.MapFrom(src => src.Notes.Select(x => Convert.ToInt32(x.StatusNote)).Average()))
-                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()));
+                .ForMember(dest => dest.AverageScore, opt => opt.MapFrom(src => src.Marks.Select(x => (int)x.ValueMark).Average()))
+                .ForMember(dest => dest.AverageBehavior, opt => opt.MapFrom(src => src.Notes.Select(x => (int)x.StatusNote).Average()))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()))
+                .ForMember(dest => dest.Parents, opt => opt.MapFrom(src => src.Parents.Select(x => x.Parent)))
+                .ForMember(dest => dest.Clubs, opt => opt.MapFrom(src => src.Clubs.Select(x => x.Club)));
 
             CreateMap<Subject, SubjectLightServiceModel>();
             CreateMap<Subject, SubjectFullServiceModel>();

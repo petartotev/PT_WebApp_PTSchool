@@ -1,4 +1,11 @@
-﻿using System;
+﻿using PTSchool.Web.Models.Class;
+using PTSchool.Web.Models.Club;
+using PTSchool.Web.Models.Mark;
+using PTSchool.Web.Models.Note;
+using PTSchool.Web.Models.Parent;
+using PTSchool.Web.Models.Teacher;
+using System;
+using System.Collections.Generic;
 
 namespace PTSchool.Web.Models.Student
 {
@@ -29,12 +36,16 @@ namespace PTSchool.Web.Models.Student
         public string Email { get; set; }
         public string Phone { get; set; }
 
-        //public ClassLightViewModel Class { get; set; }
+        public ClassLightViewModel Class { get; set; }
 
-        //public TeacherLightViewModel ClassMaster { get; set; }
+        public TeacherLightViewModel ClassMaster { get; set; }
 
-        //public IEnumerable<ClubLightViewModel> Clubs { get; set; }
+        public IEnumerable<MarkLightViewModel> Marks { get; set; }
 
-        //public IEnumerable<ParentLightViewModel> Parents { get; set; }
+        public IEnumerable<NoteLightViewModel> Notes { get; set; }
+
+        public IEnumerable<ClubLightViewModel> Clubs { get; set; }
+
+        public IEnumerable<ParentLightViewModel> Parents { get; set; }
     }
 }

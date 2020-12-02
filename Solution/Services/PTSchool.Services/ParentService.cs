@@ -35,14 +35,14 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
-        public async Task<ParentLightServiceModel> GetParentByIdAsync(Guid id)
+        public async Task<ParentFullServiceModel> GetParentByIdAsync(Guid id)
         {
             var parent = await db.Parents
-                .Where(x => x.Id == id)
                 .Include(x => x.Students)
-                .FirstOrDefaultAsync();
+                .ThenInclude(studentParent => studentParent.Student)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            var result = this.mapper.Map<ParentLightServiceModel>(parent);
+            var result = this.mapper.Map<ParentFullServiceModel>(parent);
             return result;
         }
 

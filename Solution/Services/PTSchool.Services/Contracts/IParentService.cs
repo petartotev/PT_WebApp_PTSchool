@@ -10,6 +10,6 @@ namespace PTSchool.Services
     {
         Task<IEnumerable<ParentLightServiceModel>> GetAllParentsAsync(int page = 1);
 
-        Task<ParentLightServiceModel> GetParentByIdAsync(Guid id);
+        Task<ParentFullServiceModel> GetParentByIdAsync(Guid id);
     }
 }

@@ -1,15 +1,37 @@
-﻿@model PTSchool.Web.Models.Parent.ParentLightViewModel
+﻿@model PTSchool.Web.Models.Parent.ParentFullViewModel
 
 <div>
     <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
             <div class="text-center border border-dark p-2">
                 <p>@Model.Id</p>
                 <p>@Model.FirstName @Model.MiddleName[0]. @Model.LastName</p>
                 <a href="@Url.Action("Parent", "Parents", new { id = Model.Id })"><img src="@Model.Image" class="img-circle-sm" /></a>
             </div>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-5">
+            <div class="border border-dark">
+                <p>Children</p>
+                <table class="table table-dark table-striped table-bordered text-white">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                    </tr>
+                    @foreach (var item in Model.Students)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.FirstName @item.MiddleName[0]. @item.LastName</td>
+                            <td>
+                                <a href="@Url.Action("Student", "Students", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100"/></a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
     </div>
 </div>

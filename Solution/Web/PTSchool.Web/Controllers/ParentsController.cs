@@ -47,7 +47,7 @@ namespace PTSchool.Web.Controllers
         {
             var parent = await parentService.GetParentByIdAsync(id);
 
-            var model = this.mapper.Map<ParentLightViewModel>(parent);
+            var model = this.mapper.Map<ParentFullViewModel>(parent);
 
             return this.View(model);
         }

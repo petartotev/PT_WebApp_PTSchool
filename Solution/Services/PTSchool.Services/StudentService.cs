@@ -40,18 +40,19 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
-        public async Task<StudentLightServiceModel> GetStudentByIdAsync(Guid studentId)
+        public async Task<StudentFullServiceModel> GetStudentByIdAsync(Guid studentId)
         {
             var student = await db.Students
-                .Where(x => x.Id == studentId)
                 .Include(x => x.Class)
-                .Include(x => x.Clubs)
                 .Include(x => x.Marks)
                 .Include(x => x.Notes)
                 .Include(x => x.Parents)
-                .FirstOrDefaultAsync();
+                .ThenInclude(studentParent => studentParent.Parent)
+                .Include(x => x.Clubs)
+                .ThenInclude(clubStudent => clubStudent.Club)
+                .FirstOrDefaultAsync(x => x.Id == studentId);
 
-            var result = this.mapper.Map<StudentLightServiceModel>(student);
+            var result = this.mapper.Map<StudentFullServiceModel>(student);
             return result;
         }
 
