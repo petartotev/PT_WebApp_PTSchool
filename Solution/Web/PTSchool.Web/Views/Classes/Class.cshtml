@@ -2,77 +2,124 @@
 
 <div>
     <div class="row">
-        <div class="col-md-1"></div>
         <div class="col-md-5">
             <partial name="_ProfileBaseGeneralPartial" model="@Model" />
-            <div class="border border-dark">
-                <p>General information</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Type</th>
-                        <th>Data</th>
-                    </tr>
-                    <tr>
-                        <td>Count Total</td>
-                        <td>
-                            @Model.CountStudents
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Count Girls</td>
-                        <td>
-                            @Model.CountGirls
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Count Boys</td>
-                        <td>
-                            @Model.CountBoys
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card card-stats">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    <div class="icon-big text-center icon-warning">
+                                        <i class="fas fa-venus" style="font-size: 48px;"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <div class="numbers">
+                                        <p class="card-category"># Girls</p>
+                                        <p class="card-title">@Model.CountGirls</p><p>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                In da class.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-stats">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    <div class="icon-big text-center icon-warning">
+                                        <i class="fas fa-mars" style="font-size: 48px;"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <div class="numbers">
+                                        <p class="card-category"># Boys</p>
+                                        <p class="card-title">@Model.CountBoys</p><p>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                In da class.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-stats">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    <div class="icon-big text-center icon-warning">
+                                        <i class="nc-icon nc-hat-3"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <div class="numbers">
+                                        <p class="card-category"># Total</p>
+                                        <p class="card-title">@Model.CountStudents</p><p>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                In da class.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div> <!--Count Participants-->
         </div>
-        <div class="col-md-5">
-            <div class="border border-dark">
-                <p>Teachers</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    <tr>
-                        <td>@Model.MasterTeacher.Id</td>
-                        <td>@Model.MasterTeacher.FirstName @Model.MasterTeacher.MiddleName[0]. @Model.MasterTeacher.LastName</td>
-                        <td>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Master Teacher</h5>
+                    <p class="card-category">Master Teacher of this class is:</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>@Model.MasterTeacher.FirstName @Model.MasterTeacher.MiddleName @Model.MasterTeacher.LastName</p>
+                        </div>
+                        <div class="col-md-6 text-right">
                             <a href="@Url.Action("Teacher", "Teachers", new { id = Model.MasterTeacher.Id })"><img src="@Model.MasterTeacher.Image" height="50" class="img-circle-100" /></a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="border border-dark">
-                <p>Students</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    @foreach (var item in Model.Students)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.FirstName @item.MiddleName[0]. @item.LastName</td>
-                            <td>
-                                <a href="@Url.Action("Student", "Students", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!--Class-->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="car-title">Students</h5>
+                    <p class="card-category">Students that are part of class '@Model.Name':</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var item in Model.Students)
+                        {
+                            <div class="col-md-2 text-center">
+                                <a href="@Url.Action("Student", "Students", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100 @(item.IsSchoolCouncilMember ? "border border-warning" : "")" /></a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div> <!--Students-->
         </div>
-        <div class="col-md-1"></div>
     </div>
 </div>
 <br />
