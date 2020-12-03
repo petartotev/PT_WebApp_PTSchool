@@ -56,9 +56,9 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
-        public async Task<StudentFullServiceModel> GetAllStudentCouncilMembersAsync()
+        public async Task<IEnumerable<StudentFullServiceModel>> GetAllStudentCouncilMembersAsync()
         {
-            var student = await db.Students
+            var students = await db.Students
                 .Include(x => x.Class)
                 .Include(x => x.Marks)
                 .Include(x => x.Notes)
@@ -69,7 +69,7 @@ namespace PTSchool.Services.Implementations
                 .Where(x => x.IsSchoolCouncilMember == true)
                 .ToListAsync();
 
-            var result = this.mapper.Map<StudentFullServiceModel>(student);
+            var result = this.mapper.Map<IEnumerable<StudentFullServiceModel>>(students);
             return result;
         }
 

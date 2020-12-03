@@ -29,8 +29,6 @@ namespace PTSchool.Services.Implementations
             this.db.Marks.Add(new Mark
             {
                 ValueMark = (EnumValueMark)markToAdd.ValueMark,
-                Title = markToAdd.Title,
-                Comment = markToAdd.Comment,
                 DateReceived = markToAdd.DateReceived,
                 DateConfirmed = markToAdd.DateConfirmed,
                 StudentId = markToAdd.Student.Id,

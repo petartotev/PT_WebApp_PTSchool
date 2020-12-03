@@ -7,12 +7,17 @@
         @foreach (var club in Model.Clubs)
         {
             <div class="col-md-2">
-                <div class="text-center p-2 border border-dark">
-                    @*<p>@club.Id</p>*@
-                    <p>@club.Name</p>
-                    <a href="@Url.Action("Club", "Clubs", new { id = club.Id })"><img src="@club.Image" class="img-circle-sm" /></a>
+                <div class="card text-center">
+                    <div class="card-header">
+                        <p class="card-category">@club.Name</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="@Url.Action("Club", "Clubs", new { id = club.Id })"><img src="@club.Image" class="img-circle-sm" /></a>
+                    </div>
                 </div>
             </div>
         }
     </div>
 </div>
+<br />
+<br />

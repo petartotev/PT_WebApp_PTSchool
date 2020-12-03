@@ -12,6 +12,6 @@ namespace PTSchool.Services
 
         Task<StudentFullServiceModel> GetStudentByIdAsync(Guid id);
 
-        Task<StudentFullServiceModel> GetAllStudentCouncilMembersAsync();
+        Task<IEnumerable<StudentFullServiceModel>> GetAllStudentCouncilMembersAsync();
     }
 }

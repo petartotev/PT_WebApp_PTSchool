@@ -9,10 +9,6 @@ namespace PTSchool.Services.Models.Mark
     {
         public Guid Id { get; set; }
 
-        public string Title { get; set; }
-
-        public string Comment { get; set; }
-
         public int ValueMark { get; set; }
 
         public DateTime DateReceived { get; set; }

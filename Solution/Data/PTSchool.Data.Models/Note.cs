@@ -10,9 +10,6 @@ namespace PTSchool.Data.Models
         // GENERAL
         public Guid Id { get; set; }
 
-        [MaxLength(MaxLengthNoteTitle)]
-        public string Title { get; set; }
-
         [MaxLength(MaxLengthNoteComment)]
         public string Comment { get; set; }
 

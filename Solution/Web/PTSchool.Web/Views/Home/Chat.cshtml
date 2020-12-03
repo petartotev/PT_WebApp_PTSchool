@@ -2,7 +2,7 @@
     this.ViewBag.Title = "SchoolChat!";
 }
 
-@{ 
+@{
     string colorByRole = string.Empty;
     string textByRole = string.Empty;
     if (User.IsInRole("Student"))
@@ -27,7 +27,7 @@
     <div class="row justify-content-center align-items-center">
         <h1 onmouseover="this.style.fontSize='50px'" onmouseout="this.style.fontSize='40px'">School<strong>Chat!</strong></h1>
     </div>
-    <hr style="height: 5px;" class="bg-@colorByRole"/>    
+    <hr style="height: 5px;" class="bg-@colorByRole" />
 </div>
 
 <div class="container">
@@ -40,11 +40,12 @@
     <div id="messagesList" style="font-size: 24px;">
     </div>
 </div>
-
+<br />
+<br />
 
 
 @section Scripts {
-<script>
+    <script>
     var connection =
         new signalR.HubConnectionBuilder()
             .withUrl("/chat")
@@ -79,5 +80,5 @@
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
     }
-</script>
+    </script>
 }

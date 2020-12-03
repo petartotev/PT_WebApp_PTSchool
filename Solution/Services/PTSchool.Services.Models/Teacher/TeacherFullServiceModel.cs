@@ -40,7 +40,7 @@ namespace PTSchool.Services.Models.Teacher
 
         public IEnumerable<ClubLightServiceModel> Clubs { get; set; }
 
-        public IEnumerable<ClubLightServiceModel> Classes { get; set; }
+        //public IEnumerable<ClubLightServiceModel> Classes { get; set; }
 
         public IEnumerable<SubjectLightServiceModel> Subjects { get; set; }
     }

@@ -9,8 +9,6 @@ namespace PTSchool.Services.Models.Note
     {
         public Guid Id { get; set; }
 
-        public string Title { get; set; }
-
         public string Comment { get; set; }
 
         public int StatusNote { get; set; }

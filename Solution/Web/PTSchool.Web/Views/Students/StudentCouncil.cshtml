@@ -1,11 +1,11 @@
-﻿@using PTSchool.Web.Models.Student 
+﻿@using PTSchool.Web.Models.Student
 
 @model IEnumerable<PTSchool.Web.Models.Student.StudentFullViewModel>
 
 @{
     List<StudentFullViewModel> studentsRemaining = new List<StudentFullViewModel>();
     studentsRemaining.AddRange(Model);
-    studentsRemaining = studentsRemaining.OrderBy(x => x.AverageScore + x.AverageBehavior).ToList();
+    studentsRemaining = studentsRemaining.OrderByDescending(x => x.AverageScore + x.AverageBehavior).ToList();
 
     var chairman = studentsRemaining.First();
     studentsRemaining.Remove(chairman);
@@ -18,35 +18,202 @@
 
     var secretary = studentsRemaining.First();
     studentsRemaining.Remove(secretary);
-
-    var delegate8thGrade = studentsRemaining.Where(x => x.Class.Name.StartsWith("8")).First();
-    studentsRemaining.Remove(delegate8thGrade);
-
-    var delegate9thGrade = studentsRemaining.Where(x => x.Class.Name.StartsWith("9")).First();
-    studentsRemaining.Remove(delegate9thGrade);
-
-    var delegate10thGrade = studentsRemaining.Where(x => x.Class.Name.StartsWith("10")).First();
-    studentsRemaining.Remove(delegate10thGrade);
-
-    var delegate11thGrade = studentsRemaining.Where(x => x.Class.Name.StartsWith("11")).First();
-    studentsRemaining.Remove(delegate11thGrade);
-
-    var delegate12thGrade = studentsRemaining.Where(x => x.Class.Name.StartsWith("12")).First();
-    studentsRemaining.Remove(delegate12thGrade);
 }
 
 <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-4"></div>
-    <div class="col-md-2">
-        <p>@chairman.FirstName @chairman.LastName</p>
-        <img src="@chairman.Image" />
-        <p>/Chairman/</p>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Board</h5>
+                <p class="card-category">Responsible for making decisions on behalf of the council</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <p><b class="table text-primary">PRESIDENT</b></p>
+                        <a href="@Url.Action("Student", "Students", new { id = chairman.Id })"><img src="@chairman.Image" class="img-circle-lg @(chairman.IsSchoolCouncilMember ? "border border-warning" : "")" /></a>
+                        <p>@chairman.FirstName @chairman.LastName</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <p><b class="table text-primary">SECRETARY</b></p>
+                        <a href="@Url.Action("Student", "Students", new { id = secretary.Id })"><img src="@secretary.Image" class="img-circle-lg" /></a>
+                        <p>@secretary.FirstName @secretary.LastName</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <p><b class="table text-primary">VICE PRESIDENT</b></p>
+                        <a href="@Url.Action("Student", "Students", new { id = viceChairman1.Id })"><img src="@viceChairman1.Image" class="img-circle-lg" /></a>
+                        <p>@viceChairman1.FirstName @viceChairman1.LastName</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <p><b class="table text-primary">VICE PRESIDENT</b></p>
+                        <a href="@Url.Action("Student", "Students", new { id = viceChairman2.Id })"><img src="@viceChairman2.Image" class="img-circle-lg" /></a>
+                        <p>@viceChairman2.FirstName @viceChairman2.LastName</p>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Members</h5>
+                <p class="card-category">Members are representatives of their classes</p>
+            </div>
+            <div class="card-body">
+                @for (int i = 12; i >= 8; i--)
+                {
+                    <br />
+                    <p class="table text-primary"><b>@(i)TH GRADE</b></p>
+                    <div class="row ">
+                        @foreach (var item in studentsRemaining.Where(x => x.Class.Name.StartsWith($"{i}")))
+                        {
+                            <div class="col-md-2 text-center">
+                                <a href="@Url.Action("Student", "Students", new { id = item.Id })"><img src="@item.Image" class="img-circle-lg" /></a>
+                                @*<p>@item.FirstName @item.LastName</p>*@
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
     </div>
-    <div class="col-md-4"></div>
-    <div class="col-md-1"></div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Student Council</h5>
+                <p class="card-category">General Information</p>
+            </div>
+            <div class="card-body">
+                <p>
+                    The student council helps share ideas, interests, and concerns with teachers and school principals.<br /><br />
+                    They help raise funds for school-wide activities, including events, community projects, helping people in need and school reform.<br /><br />
+                    Student councils operate in many forms. In this form student representatives and officers are usually elected from and by the student body, although there may be prerequisites for candidacy or suffrage.<br />
+                    <br />
+                    The Student Council has the following representatives:
+                    <ul>
+                        <li>President</li>
+                        <li>Vice-President</li>
+                        <li>Secretary</li>
+                        <li>Reporter</li>
+                        <li>Members</li>
+                        <li>Supporters</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-5 col-md-4">
+                                <div class="icon-big text-center icon-warning">
+                                    <i class="nc-icon nc-trophy"></i>
+                                </div>
+                            </div>
+                            <div class="col-7 col-md-8">
+                                <div class="numbers">
+                                    <p class="card-category">Highest average score</p>
+                                    <p class="card-title">@chairman.AverageScore.ToString("F2")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer ">
+                        <hr>
+                        <div class="stats">
+                            <i class="fa fa-refresh"></i>
+                            @(chairman.FirstName) @(chairman.LastName)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-5 col-md-4">
+                                <div class="icon-big text-center icon-warning">
+                                    <i class="nc-icon nc-globe text-warning"></i>
+                                </div>
+                            </div>
+                            <div class="col-7 col-md-8">
+                                <div class="numbers">
+                                    <p class="card-category">Members Count</p>
+                                    <p class="card-title">@Model.Count()</p><p>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer ">
+                        <hr>
+                        <div class="stats">
+                            <i class="fa fa-refresh"></i>
+                            Each class is represented by 1 member
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Contacts</h5>
+                <p class="card-category">You can easily contact the members of the board</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="text-primary">
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Student", "Students", new { id = chairman.Id })"><img src="@chairman.Image" height="50" class="img-circle-100" /></a>
+                                </td>
+                                <td>@chairman.FirstName @chairman.LastName</td>
+                                <td>Chairman</td>
+                                <td>@chairman.Email</td>
+                                <td>@chairman.Phone</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Student", "Students", new { id = chairman.Id })"><img src="@secretary.Image" height="50" class="img-circle-100" /></a>
+                                </td>
+                                <td>@secretary.FirstName @secretary.LastName</td>
+                                <td>Secretary</td>
+                                <td>@secretary.Email</td>
+                                <td>@secretary.Phone</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Student", "Students", new { id = chairman.Id })"><img src="@viceChairman1.Image" height="50" class="img-circle-100" /></a>
+                                </td>
+                                <td>@viceChairman1.FirstName @viceChairman1.LastName</td>
+                                <td>Vice Chairman</td>
+                                <td>@viceChairman1.Email</td>
+                                <td>@viceChairman1.Phone</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Student", "Students", new { id = chairman.Id })"><img src="@viceChairman2.Image" height="50" class="img-circle-100" /></a>
+                                </td>
+                                <td>@viceChairman2.FirstName @viceChairman2.LastName</td>
+                                <td>Vice Chairman</td>
+                                <td>@viceChairman2.Email</td>
+                                <td>@viceChairman2.Phone</td>
+                            </tr>
+                        </tbody>                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>    
 </div>
-<div class="row"></div>
-
-<div class="row"></div>
-<div class="row"></div>
+<br />
+<br />

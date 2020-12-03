@@ -7,12 +7,17 @@
         @foreach (var subject in Model.Subjects)
         {
             <div class="col-md-2">
-                <div class="text-center p-2 border border-dark">
-                    @*<p>@subject.Id</p>*@
-                    <p>@subject.Name</p>
-                    <a href="@Url.Action("Subject", "Subjects", new { id = subject.Id })"><img src="@subject.Image" class="img-circle-sm" /></a>
+                <div class="card text-center">
+                    <div class="card-header">
+                        <p class="card-category">@subject.Name</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="@Url.Action("Subject", "Subjects", new { id = subject.Id })"><img src="@subject.Image" class="img-circle-sm" /></a>
+                    </div>
                 </div>
             </div>
         }
     </div>
 </div>
+<br />
+<br />

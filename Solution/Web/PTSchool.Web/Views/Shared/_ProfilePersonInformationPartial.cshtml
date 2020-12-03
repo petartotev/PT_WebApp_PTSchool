@@ -1,0 +1,30 @@
+﻿@model PTSchool.Web.Models.Abstracts.PersonEntity
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">General Information</h5>
+        <p class="card-category">Common details on the student.</p>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="text-primary">
+                    <tr>
+                        <th>Type</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Date of birth / Age</td>
+                        <td>@Model.DateBirth / @Model.Age years</td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td>@Model.Gender</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

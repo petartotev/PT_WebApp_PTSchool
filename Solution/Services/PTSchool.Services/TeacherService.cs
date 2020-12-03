@@ -44,10 +44,8 @@ namespace PTSchool.Services.Implementations
         {
             var teacher = await this.db.Teachers
                 .Include(x => x.ClassMastered)
-                //.Include(x => x.Marks)
-                //.Include(x => x.Notes)
-                .Include(x => x.Classes)
-                .ThenInclude(teacherClass => teacherClass.Class)
+                .Include(x => x.Marks)
+                .Include(x => x.Notes)
                 .Include(x => x.Clubs)
                 .ThenInclude(clubTeacher => clubTeacher.Club)
                 .Include(x => x.Subjects)

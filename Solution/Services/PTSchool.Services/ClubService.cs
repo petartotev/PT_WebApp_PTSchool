@@ -11,7 +11,7 @@ namespace PTSchool.Services.Implementations
 {
     public class ClubService : IClubService
     {
-        private const int PageSize = 6;
+        private const int PageSize = 18;
 
         private readonly PTSchoolDbContext db;
         private readonly IMapper mapper;

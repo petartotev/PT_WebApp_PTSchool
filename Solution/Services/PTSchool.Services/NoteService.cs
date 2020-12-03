@@ -26,7 +26,6 @@ namespace PTSchool.Services.Implementations
             this.db.Notes.Add(new Note
             {
                 StatusNote = (EnumStatusNote)noteToAdd.StatusNote,
-                Title = noteToAdd.Title,
                 Comment = noteToAdd.Comment,
                 DateReceived = noteToAdd.DateReceived,
                 DateConfirmed = noteToAdd.DateConfirmed,

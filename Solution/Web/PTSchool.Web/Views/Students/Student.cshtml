@@ -2,87 +2,152 @@
 
 <div>
     <div class="row">
-        <div class="col-md-1"></div>
         <div class="col-md-5">
-            <partial name="_ProfilePersonGeneralPartial" model="@Model" />
+            <partial name="_ProfilePersonGeneralPartial" model="@Model" /> <!--Profile-->
+            <partial name="_ProfilePersonInformationPartial" model="@Model" /> <!--General Information-->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card card-stats">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    <div class="icon-big text-center icon-warning">
+                                        <i class="nc-icon nc-trophy"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <div class="numbers">
+                                        <p class="card-category">Average Score</p>
+                                        <p class="card-title">@Model.AverageScore.ToString("F2")</p><p>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-refresh"></i>
+                                Average mark @Model.FirstName received.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-stats">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    <div class="icon-big text-center icon-warning">
+                                        <i class="nc-icon nc-diamond"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <div class="numbers">
+                                        <p class="card-category">Average Behavior</p>
+                                        <p class="card-title">@Model.AverageBehavior.ToString("F2")</p><p>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-refresh"></i>
+                                Average note @Model.FirstName received.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!--Score-->
+
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Class</h5>
+                    <p class="card-category">@Model.FirstName is a student in @Model.Class.Name class.</p>
+                </div>
+                <div class="card-body">
+                    <div class="text-right">
+                        <a href="@Url.Action("Class", "Classes", new { id = Model.Class.Id })"><img src="@Model.Class.Image" height="50" class="img-circle-100" /></a>
+                    </div>
+                </div>
+            </div> <!--Class-->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Clubs</h5>
+                    <p class="card-category">@Model.FirstName participates in the following clubs:</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="text-right">Image</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Clubs)
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td class="text-right"><a href="@Url.Action("Club", "Clubs", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!--Clubs-->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Parents</h5>
+                    <p class="card-category">@Model.FirstName's parents. Click on image to get info.</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="text-right">Image</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Parents)
+                                {
+                                    <tr>
+                                        <td>@item.FirstName @item.MiddleName[0]. @item.LastName</td>
+                                        <td class="text-right"><a href="@Url.Action("Parent", "Parents", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!--Parents-->
+
             <partial name="_ProfilePersonContactsPartial" model="@Model" />
         </div>
-        <div class="col-md-5">
-            <div class="border border-dark">
-                <p>Average Score</p>
-                <h1>@Model.AverageScore</h1>
+    </div>
+    @if (Model.IsSchoolCouncilMember)
+    {
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">School Council</h5>
+                <p class="card-category">@Model.FirstName is a member of the School Council.</p>
             </div>
-            <div class="border border-dark">
-                <p>Average Behavior</p>
-                <h1>@Model.AverageBehavior</h1>
-            </div>
-            <div class="border border-dark">
-                <p>Parents</p>
-                <table class="table table-striped">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    @foreach (var item in Model.Parents)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.FirstName @item.MiddleName[0]. @item.LastName</td>
-                            <td>
-                                <a href="@Url.Action("Parent", "Parents", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
-            <div class="border border-dark">
-                <p>Class</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    <tr>
-                        <td>@Model.Class.Id</td>
-                        <td>@Model.Class.Name</td>
-                        <td>
-                            <a href="@Url.Action("Class", "Classes", new { id = Model.Class.Id })"><img src="@Model.Class.Image" height="50" class="img-circle-100" /></a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="border border-dark">
-                <p>Clubs</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    @foreach (var item in Model.Clubs)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Name</td>
-                            <td>
-                                <a href="@Url.Action("Club", "Clubs", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
-            <div class="border border-dark">
-                <p>School Council</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>School Council Member</th>
-                        <td>@(Model.IsSchoolCouncilMember ? "✔️" : "❌")</td>
-                    </tr>
-                </table>
+            <div class="card-body">
+                <div class="icon-big text-right icon-warning">
+                    <i class="fas fa-landmark" style="font-size: 48px;"></i>
+                </div>
             </div>
         </div>
-        <div class="col-md-1"></div>
-    </div>
+    }
 </div>
+<br />
+<br />

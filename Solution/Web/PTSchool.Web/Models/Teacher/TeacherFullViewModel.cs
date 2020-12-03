@@ -19,6 +19,8 @@ namespace PTSchool.Web.Models.Teacher
 
         public ClassLightViewModel ClassMastered { get; set; }
 
+        //public IEnumerable<ClassLightViewModel> Classes { get; set; }
+
         public IEnumerable<ClubLightViewModel> Clubs { get; set; }
 
         public IEnumerable<SubjectLightViewModel> Subjects { get; set; }

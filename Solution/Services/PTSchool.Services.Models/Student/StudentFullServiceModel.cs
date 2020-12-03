@@ -24,7 +24,6 @@ namespace PTSchool.Services.Models.Student
         public string Gender { get; set; }
 
         public double AverageScore { get; set; }
-
         public double AverageBehavior { get; set; }
 
         public bool IsSchoolCouncilMember { get; set; }

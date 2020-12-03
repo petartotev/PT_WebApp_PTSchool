@@ -1,99 +1,155 @@
 ﻿@model PTSchool.Web.Models.Teacher.TeacherFullViewModel
 
+@{
+    var abbr = "Mr.";
+    if (Model.Gender != "Male")
+    {
+        abbr = "Mrs.";
+    }
+}
+
 <div>
     <div class="row">
-        <div class="col-md-1"></div>
         <div class="col-md-5">
             <partial name="_ProfilePersonGeneralPartial" model="@Model" />
-            <partial name="_ProfilePersonContactsPartial" model="@Model" />
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card card-stats">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    <div class="icon-big text-center icon-warning">
+                                        <i class="nc-icon nc-trophy"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <div class="numbers">
+                                        <p class="card-category">Average Mark</p>
+                                        <p class="card-title">@Model.AverageMark.ToString("F2")</p><p>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-refresh"></i>
+                                Average mark @abbr @Model.LastName gave.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-stats">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    <div class="icon-big text-center icon-warning">
+                                        <i class="nc-icon nc-diamond"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <div class="numbers">
+                                        <p class="card-category">Average Note</p>
+                                        <p class="card-title">@Model.AverageNote.ToString("F2")</p><p>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-refresh"></i>
+                                Average note @abbr @Model.LastName gave.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!--Score-->
         </div>
-        <div class="col-md-5">
-            <div class="border border-dark">
-                <p>Average Score</p>
-                <h1>@Model.AverageMark</h1>
-            </div>
-            <div class="border border-dark">
-                <p>Average Behavior</p>
-                <h1>@Model.AverageNote</h1>
-            </div>
-            @*<div class="border border-dark">
-                <p>Class Mastered</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    <tr>
-                        <td>@Model.ClassMastered.Id</td>
-                        <td>@Model.ClassMastered.Name</td>
-                        <td>
-                            <a href="@Url.Action("Class", "Classes", new { id = @Model.ClassMastered.Id })"><img src="@Model.ClassMastered.Image" height="50" class="img-circle-100" /></a>
-                        </td>
-                    </tr>
-                </table>
-            </div>*@
-            <div class="border border-dark">
-                <p>Subjects</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    @foreach (var item in Model.Subjects)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Name</td>
-                            <td>
-                                <a href="@Url.Action("Subject", "Subjects", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
-            @*<div class="border border-dark">
-                <p>Classes</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    @foreach (var item in Model.Clubs)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Name</td>
-                            <td>
-                                <a href="@Url.Action("Class", "Classes", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>*@
-            <div class="border border-dark">
-                <p>Clubs</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    @foreach (var item in Model.Clubs)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Name</td>
-                            <td>
-                                <a href="@Url.Action("Club", "Clubs", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
-        </div>
-        <div class="col-md-1"></div>
+        <div class="col-md-7">
+            @if (Model.Subjects != null && Model.Subjects.Count() != 0)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Subjects</h5>
+                        <p class="card-category">Subjects that @abbr @Model.LastName teaches:</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="text-right">Image</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Subjects)
+                                    {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td class="text-right">
+                                                <a href="@Url.Action("Subject", "Subjects", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            } <!--Subjects-->
+            @if (Model.ClassMastered != null)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Class Mastered</h5>
+                        <p class="card-category">@abbr  @Model.LastName masters class @Model.ClassMastered.Name.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-right">
+                            <a href="@Url.Action("Class", "Classes", new { id = Model.ClassMastered.Id })"><img src="@Model.ClassMastered.Image" height="50" class="img-circle-100" /></a>
+                        </div>
+                    </div>
+                </div>
+            } <!--Class Matered-->
+            @if (Model.Clubs != null && Model.Clubs.Count() != 0)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Clubs</h5>
+                        <p class="card-category">Clubs that @abbr @Model.LastName participates in:</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="text-right">Image</th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in Model.Clubs)
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td class="text-right">
+                                            <a href="@Url.Action("Club", "Clubs", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            } <!--Clubs-->
+            <partial name="_ProfilePersonContactsPartial" model="@Model" /> <!--Contacts-->
+        </div> 
     </div>
 </div>
+<br />
+<br />

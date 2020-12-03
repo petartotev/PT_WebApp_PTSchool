@@ -61,8 +61,8 @@ namespace PTSchool.Web.ConfigurationMapper
             CreateMap<Student, StudentLightServiceModel>();
             CreateMap<Student, StudentFullServiceModel>()
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => (DateTime.UtcNow - src.DateBirth).TotalDays / 365.25))
-                .ForMember(dest => dest.AverageScore, opt => opt.MapFrom(src => src.Marks.Select(x => (int)x.ValueMark).Average()))
-                .ForMember(dest => dest.AverageBehavior, opt => opt.MapFrom(src => src.Notes.Select(x => (int)x.StatusNote).Average()))
+                .ForMember(dest => dest.AverageScore, opt => opt.MapFrom(src => src.Marks.Select(x => (int)x.ValueMark).DefaultIfEmpty(0).Average()))
+                .ForMember(dest => dest.AverageBehavior, opt => opt.MapFrom(src => src.Notes.Select(x => (int)x.StatusNote).DefaultIfEmpty(0).Average()))
                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()))
                 .ForMember(dest => dest.Parents, opt => opt.MapFrom(src => src.Parents.Select(x => x.Parent)))
                 .ForMember(dest => dest.Clubs, opt => opt.MapFrom(src => src.Clubs.Select(x => x.Club)));
@@ -74,11 +74,10 @@ namespace PTSchool.Web.ConfigurationMapper
 
             CreateMap<Teacher, TeacherLightServiceModel>();
             CreateMap<Teacher, TeacherFullServiceModel>()
-                //.ForMember(dest => dest.AverageMark, opt => opt.MapFrom(src => src.Marks.Select(x => (int)x.ValueMark).Average()))
-                //.ForMember(dest => dest.AverageNote, opt => opt.MapFrom(src => src.Notes.Select(x => (int)x.StatusNote).Average()))
+                .ForMember(dest => dest.AverageMark, opt => opt.MapFrom(src => src.Marks.Select(x => (int)x.ValueMark).DefaultIfEmpty(0).Average()))
+                .ForMember(dest => dest.AverageNote, opt => opt.MapFrom(src => src.Notes.Select(x => (int)x.StatusNote).DefaultIfEmpty(0).Average()))
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => (DateTime.UtcNow - src.DateBirth).TotalDays / 365.25))
                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()))
-                .ForMember(dest => dest.Classes, opt => opt.MapFrom(src => src.Classes.Select(x => x.Class)))
                 .ForMember(dest => dest.Clubs, opt => opt.MapFrom(src => src.Clubs.Select(x => x.Club)))
                 .ForMember(dest => dest.Subjects, opt => opt.MapFrom(src => src.Subjects.Select(x => x.Subject)));
 

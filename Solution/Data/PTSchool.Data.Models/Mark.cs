@@ -10,12 +10,6 @@ namespace PTSchool.Data.Models
         // GENERAL
         public Guid Id { get; set; }
 
-        [MaxLength(MaxLengthMarkTitle)]
-        public string Title { get; set; }
-
-        [MaxLength(MaxLengthMarkComment)]
-        public string Comment { get; set; }
-
         public EnumValueMark ValueMark { get; set; }
 
         // DATES

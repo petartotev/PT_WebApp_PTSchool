@@ -1,12 +1,27 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    string title = string.Empty;
+    string url = Context.Request.Path;
+
+    if (url != null && url != "/")
+    {
+        string[] urlSections = Context.Request.Path.ToString().Split('/').ToArray();
+        title = (urlSections != null && urlSections.Length > 0) ? string.Join(" / ", urlSections.Skip(1).Take(1)) : "Home";
+    }
+    else
+    {
+        title = "Home";
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--<title>, <meta name="description" content="..."/>, <meta name="description" content="..."/> are obligatory for a better Google Search recognition...-->
     <title>@ViewData["Title"] / PTSchool</title>
-    <meta name="description" conent="MvcSchool is a platform that makes communication between Teachers, Students and Parents easy! Based on priority, parents receive notifications about their child's grades and notes. Sending a message between two of these T-S-P. Authentication and authorization guarantees security." />
-    <meta name="keywords" content="MVC, School, Teachers, Parents, Students, Education, Platform" />
+    <meta name="description" conent="PTSchool is a platform that makes communication between Teachers, Students and Parents easy! Based on priority, parents receive notifications about their child's grades and notes. Sending a message between two of these T-S-P. Authentication and authorization guarantees security." />
+    <meta name="keywords" content="PT, School, Teachers, Parents, Students, Education, Platform" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -14,116 +29,201 @@
 
 <!--PT: If you are ADMIN and go to localhost:5001/Test/Adminize => bg-color changes!-->
 <body>
-    <header>
-        <!--class="border-bottom" - deleted-->
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark text-light box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PTSchool</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <div class="btn-group">
-                                <button class="btn btn-secondary btn-lg btn-light text-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Menu
-                                </button>
-                                <div class="dropdown-menu bg-dark" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 48px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                    <a class="dropdown-item bg-success text-white" asp-controller="Students" asp-action="AllStudents">Students</a>
-                                    <a class="dropdown-item bg-success text-white" asp-controller="Students" asp-action="StudentCouncil">Student Council</a>
-                                    <hr />
-                                    <a class="dropdown-item bg-primary text-white" asp-controller="Teachers" asp-action="AllTeachers">Teachers</a>
-                                    <hr />
-                                    <a class="dropdown-item bg-warning text-dark" asp-controller="Parents" asp-action="AllParents">Parents</a>
-                                    <hr />
-                                    <a class="dropdown-item bg-info text-white" asp-controller="Subjects" asp-action="AllSubjects">Subjects</a>
-                                    <hr />
-                                    <a class="dropdown-item bg-secondary text-white" asp-controller="Classes" asp-action="AllClasses">Classes</a>
-                                    <a class="dropdown-item bg-secondary text-white" asp-controller="Clubs" asp-action="AllClubs">Clubs</a>
-                                    <hr />
-                                    <a class="dropdown-item bg-white text-dark" asp-controller="Home" asp-action="Chat">SchoolChat!</a>
-                                    <a class="dropdown-item bg-white text-dark" asp-controller="Canvas" asp-action="Draw">SchoolCanvas!</a>
-                                    <a class="dropdown-item bg-white text-dark" asp-controller="Tictactoe" asp-action="Menu">TicTacToeGame!</a>
-                                    <a class="dropdown-item bg-white text-dark" asp-controller="Shooter" asp-action="Play">PTShooterGame!</a>
+    <div class="wrapper ">
+        <div class="sidebar" data-color="white" data-active-color="danger">
+            <div class="logo">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="simple-text logo-mini">
+                    <div class="logo-image-small">
+                        <img src="~/images/PTSchool.png">
+                    </div>
+                    <!-- <p>CT</p> -->
+                </a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="simple-text logo-normal">
+                    PTSCHOOL
+                    <!-- <div class="logo-image-big">
+                  <img src="../assets/img/logo-big.png">
+                </div> -->
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li>
+                        <a class="" asp-controller="Students" asp-action="StudentCouncil">
+                            <i class="nc-icon nc-bank"></i>
+                            <p>Student Council</p>
+                        </a>
+                    </li>
+                    <li class="active ">
+                        <a class="" asp-controller="Students" asp-action="AllStudents">
+                            <i class="nc-icon nc-satisfied"></i>
+                            <p>Students</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" asp-controller="Teachers" asp-action="AllTeachers">
+                            <i class="nc-icon nc-circle-10"></i>
+                            <p>Teachers</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" asp-controller="Parents" asp-action="AllParents">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Parents</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" asp-controller="Classes" asp-action="AllClasses">
+                            <i class="nc-icon nc-tile-56"></i>
+                            <p>Classes</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" asp-controller="Clubs" asp-action="AllClubs">
+                            <i class="nc-icon nc-tile-56"></i>
+                            <p>Clubs</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" asp-controller="Subjects" asp-action="AllSubjects">
+                            <i class="nc-icon nc-atom"></i>
+                            <p>Subjects</p>
+                        </a>
+                    </li>
+                    <hr />
+                    <li class="active-pro">
+                        <a class="" asp-controller="Shooter" asp-action="Play">
+                            <i class="nc-icon nc-spaceship"></i>
+                            <p>Play Shooter!</p>
+                        </a>
+                    </li>
+                    <li class="active-pro">
+                        <a asp-controller="Tictactoe" asp-action="Menu">
+                            <i class="nc-icon nc-simple-remove"></i>
+                            <p>Play Tictactoe!</p>
+                        </a>
+                    </li>
+                    <li class="active-pro">
+                        <a class="" asp-controller="Canvas" asp-action="Draw">  
+                            <i class="nc-icon nc-palette"></i>
+                            <p>Draw Canvas!</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-toggle">
+                            <button type="button" class="navbar-toggler">
+                                <span class="navbar-toggler-bar bar1"></span>
+                                <span class="navbar-toggler-bar bar2"></span>
+                                <span class="navbar-toggler-bar bar3"></span>
+                            </button>
+                        </div>
+                        <a class="navbar-brand" href="javascript:;">@title</a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        <form>
+                            <div class="input-group no-border">
+                                <input type="text" value="" class="form-control" placeholder="Search...">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="nc-icon nc-zoom-split"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </li>                        
-                    </ul>
+                        </form>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link btn-magnify" href="javascript:;">
+                                    <i class="nc-icon nc-layout-11"></i>
+                                    <p>
+                                        <span class="d-lg-none d-md-block">Stats</span>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item btn-rotate dropdown">
+                                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="nc-icon nc-bell-55"></i>
+                                    <p>
+                                        <span class="d-lg-none d-md-block">Some Actions</span>
+                                    </p>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn-rotate" href="javascript:;">
+                                    <i class="nc-icon nc-settings-gear-65"></i>
+                                    <p>
+                                        <span class="d-lg-none d-md-block">Account</span>
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
             </div>
-        </nav>
-    </header>
-
-    <div>
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+            <footer class="footer footer-black footer-white ">
+                <div class="container-fluid">
+                    <div class="row">
+                        <nav class="footer-nav">
+                            <ul>
+                                <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                                <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li>
+                                <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li>
+                            </ul>
+                        </nav>
+                        <div class="credits ml-auto">
+                            <span class="copyright">
+                                ©
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script>, made with <i class="fa fa-heart heart"></i> by Creative Tim
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </div>
 
-    <!--class="border-top" - deleted-->
-    <footer class="footer text-light bg-dark">
-        <div class="container">
-            &copy; 2020-@DateTime.UtcNow.Year / PTSchool / <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
+
+    <script src="~/js/core/bootstrap.min.js"></script>
+    <script src="~/js/core/jquery.min.js"></script>
+    <script src="~/js/core/popper.min.js"></script>
+
+    <script src="~/js/plugins/bootstrap-notify.js"></script>
+    <script src="~/js/plugins/chartjs.min.js"></script>
+    <script src="~/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+
+    <script src="~/js/paper-dashboard.js"></script>
+    <a href="~/js/paper-dashboard.js.map">~/js/paper-dashboard.js.map</a>
+    <script src="~/js/paper-dashboard.min.js"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
 
-
-
-@*<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebApplication1</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication1</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - WebApplication1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
-</body>
-</html>*@
+@*<a class="dropdown-item bg-white text-dark" asp-controller="Home" asp-action="Chat">SchoolChat!</a>*@

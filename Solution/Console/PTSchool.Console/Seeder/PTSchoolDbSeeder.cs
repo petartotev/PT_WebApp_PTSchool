@@ -248,8 +248,6 @@ namespace PTSchool.Console.Seeder
                             db.Marks.Add(new Mark
                             {
                                 ValueMark = (EnumValueMark)mark,
-                                Title = "Title of grade",
-                                Comment = "Comment on grade",
                                 DateReceived = DateTime.UtcNow.AddDays(-randomDay),
                                 DateConfirmed = DateTime.UtcNow.AddDays(-randomDay + 2),
                                 StudentId = studentId,
@@ -282,8 +280,6 @@ namespace PTSchool.Console.Seeder
                             db.Marks.Add(new Mark
                             {
                                 ValueMark = (EnumValueMark)mark,
-                                Title = "Title of grade",
-                                Comment = "Comment on grade",
                                 DateReceived = DateTime.UtcNow.AddDays(-randomDay),
                                 DateConfirmed = DateTime.UtcNow.AddDays(-randomDay + 2),
                                 StudentId = studentId,
@@ -316,8 +312,6 @@ namespace PTSchool.Console.Seeder
                             db.Marks.Add(new Mark
                             {
                                 ValueMark = (EnumValueMark)mark,
-                                Title = "Title of grade",
-                                Comment = "Comment on grade",
                                 DateReceived = DateTime.UtcNow.AddDays(-randomDay),
                                 DateConfirmed = DateTime.UtcNow.AddDays(-randomDay + 2),
                                 StudentId = studentId,
@@ -350,8 +344,6 @@ namespace PTSchool.Console.Seeder
                             db.Marks.Add(new Mark
                             {
                                 ValueMark = (EnumValueMark)mark,
-                                Title = "Title of grade",
-                                Comment = "Comment on grade",
                                 DateReceived = DateTime.UtcNow.AddDays(-randomDay),
                                 DateConfirmed = DateTime.UtcNow.AddDays(-randomDay + 2),
                                 StudentId = studentId,
@@ -384,8 +376,6 @@ namespace PTSchool.Console.Seeder
                             db.Marks.Add(new Mark
                             {
                                 ValueMark = (EnumValueMark)mark,
-                                Title = "Title of grade",
-                                Comment = "Comment on grade",
                                 DateReceived = DateTime.UtcNow.AddDays(-randomDay),
                                 DateConfirmed = DateTime.UtcNow.AddDays(-randomDay + 2),
                                 StudentId = studentId,
@@ -421,7 +411,6 @@ namespace PTSchool.Console.Seeder
                         db.Notes.Add(new Note
                         {
                             StatusNote = (EnumStatusNote)note,
-                            Title = "Title of note",
                             Comment = "Comment on note",
                             DateReceived = DateTime.UtcNow.AddDays(-randomDay),
                             DateConfirmed = DateTime.UtcNow.AddDays(-randomDay + 2),
@@ -449,7 +438,6 @@ namespace PTSchool.Console.Seeder
                         db.Notes.Add(new Note
                         {
                             StatusNote = (EnumStatusNote)note,
-                            Title = "Title of note",
                             Comment = "Additional comment on note",
                             DateReceived = DateTime.UtcNow.AddDays(-randomDay),
                             DateConfirmed = DateTime.UtcNow.AddDays(-randomDay + 2),
@@ -477,7 +465,6 @@ namespace PTSchool.Console.Seeder
                         db.Notes.Add(new Note
                         {
                             StatusNote = (EnumStatusNote)note,
-                            Title = "Title of note",
                             Comment = "Additional comment on note",
                             DateReceived = DateTime.UtcNow.AddDays(-randomDay),
                             DateConfirmed = DateTime.UtcNow.AddDays(-randomDay + 2),
@@ -505,7 +492,6 @@ namespace PTSchool.Console.Seeder
                         db.Notes.Add(new Note
                         {
                             StatusNote = (EnumStatusNote)note,
-                            Title = "Title of note",
                             Comment = "Additional comment on note",
                             DateReceived = DateTime.UtcNow.AddDays(-randomDay),
                             DateConfirmed = DateTime.UtcNow.AddDays(-randomDay + 2),
@@ -533,7 +519,6 @@ namespace PTSchool.Console.Seeder
                         db.Notes.Add(new Note
                         {
                             StatusNote = (EnumStatusNote)note,
-                            Title = "Title of note",
                             Comment = "Additional comment on note",
                             DateReceived = DateTime.UtcNow.AddDays(-randomDay),
                             DateConfirmed = DateTime.UtcNow.AddDays(-randomDay + 2),
@@ -914,6 +899,30 @@ namespace PTSchool.Console.Seeder
             db.SaveChanges();
             System.Console.Write($"█");
 
+            db.ClubsTeachers.Add(new ClubTeacher
+            {
+                ClubId = db.Clubs.Skip(5).FirstOrDefault().Id,
+                TeacherId = db.Teachers.Skip(random.Next(0, db.Teachers.Count() - 1)).FirstOrDefault().Id,
+            });
+            db.SaveChanges();
+            System.Console.Write($"█");
+
+            db.ClubsTeachers.Add(new ClubTeacher
+            {
+                ClubId = db.Clubs.Skip(6).FirstOrDefault().Id,
+                TeacherId = db.Teachers.Skip(random.Next(0, db.Teachers.Count() - 1)).FirstOrDefault().Id,
+            });
+            db.SaveChanges();
+            System.Console.Write($"█");
+
+            db.ClubsTeachers.Add(new ClubTeacher
+            {
+                ClubId = db.Clubs.Skip(7).FirstOrDefault().Id,
+                TeacherId = db.Teachers.Skip(random.Next(0, db.Teachers.Count() - 1)).FirstOrDefault().Id,
+            });
+            db.SaveChanges();
+            System.Console.Write($"█");
+
             System.Console.WriteLine($"\nSeedTeachersToClubsRelation completed!");
         }
 
@@ -1153,7 +1162,7 @@ namespace PTSchool.Console.Seeder
             {
                 Name = "Bulgarian Language and Literature",
                 Image = $"/images/subjects/logo_subject_literature_M.jpg",
-                Description = "Subject Bulgarian Language and Literature."
+                Description = "Literature."
             });
             db.SaveChanges();
             System.Console.Write($"█");

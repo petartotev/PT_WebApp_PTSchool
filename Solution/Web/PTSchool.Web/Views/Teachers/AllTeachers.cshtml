@@ -7,12 +7,17 @@
         @foreach (var teacher in Model.Teachers)
         {
             <div class="col-md-2">
-                <div class="text-center p-2 border @(teacher.IsHeadTeacher ? "border-warning" : "border-dark")">
-                    @*<p>@teacher.Id</p>*@
-                    <p>@teacher.FirstName @teacher.MiddleName[0]. @teacher.LastName</p>
-                    <a href="@Url.Action("Teacher", "Teachers", new { id = teacher.Id })"><img src="@teacher.Image" class="img-circle-sm" /></a>
+                <div class="card text-center @(teacher.IsHeadTeacher ? "border border-warning" : "")">
+                    <div class="card-header">
+                        <p class="card-category">@teacher.FirstName @teacher.MiddleName[0]. @teacher.LastName</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="@Url.Action("Teacher", "Teachers", new { id = teacher.Id })"><img src="@teacher.Image" class="img-circle-sm" /></a>
+                    </div>
                 </div>
             </div>
         }
     </div>
 </div>
+<br />
+<br />

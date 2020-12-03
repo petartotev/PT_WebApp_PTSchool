@@ -2,52 +2,57 @@
 
 <div>
     <div class="row">
-        <div class="col-md-1"></div>
         <div class="col-md-5">
             <partial name="_ProfileBaseGeneralPartial" model="@Model" />
         </div>
-        <div class="col-md-5">
-            <div class="border border-dark">
-                <p>Teachers</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    @foreach (var item in Model.Teachers)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.FirstName @item.MiddleName[0]. @item.LastName</td>
-                            <td>
-                                <a href="@Url.Action("Teacher", "Teachers", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
-            <div class="border border-dark">
-                <p>Classes</p>
-                <table class="table table-striped ">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    @foreach (var item in Model.Classes)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Name</td>
-                            <td>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Teachers</h5>
+                    <p class="card-category">Teachers that teach the subject:</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="text-right">Image</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Teachers)
+                                {
+                                    <tr>
+                                        <td>@item.FirstName @item.MiddleName[0]. @item.LastName</td>
+                                        <td class="text-right">
+                                            <a href="@Url.Action("Teacher", "Teachers", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div> <!--Teachers-->
+            </div> <!--Teachers-->
+            <div class="card">
+                <div class="card-header">
+                    <h5>Classes</h5>
+                    <p>Classes that include @Model.Name in their curriculum: </p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var item in Model.Classes)
+                        {
+                            <div class="col-md-2 text-center">
                                 <a href="@Url.Action("Class", "Classes", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div> <!--Classes-->
         </div>
-        <div class="col-md-1"></div>
     </div>
 </div>
+<br />
+<br />

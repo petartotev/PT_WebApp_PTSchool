@@ -1,16 +1,19 @@
 ﻿@model PTSchool.Web.Models.Abstracts.PageableCollection
 
-<div class="row">
-    <div class="col-md-4 text-left">
-        <a href="@Model.Url?page=@Model.FirstPage" class="float-left btn btn-outline-dark @(Model.IsPreviousPageDisabled ? "disabled" : String.Empty)"><<<i class="tim-icons icon-minimal-left"></i></a>
-        <a href="@Model.Url?page=@Model.PreviousPage" class="float-left btn btn-outline-dark @(Model.IsPreviousPageDisabled ? "disabled" : String.Empty)"><</a>
+@if (Model.TotalCount > Model.PageSize)
+{
+    <div class="row">
+        <div class="col-md-4 text-left">
+            <a href="@Model.Url?page=@Model.FirstPage" class="float-left btn btn-dark btn-round @(Model.IsPreviousPageDisabled ? "disabled" : String.Empty)"><i class="nc-icon nc-minimal-up"></i></a>
+            <a href="@Model.Url?page=@Model.PreviousPage" class="float-left btn btn-dark btn-round @(Model.IsPreviousPageDisabled ? "disabled" : String.Empty)"><i class="nc-icon nc-minimal-left"></i></a>
+        </div>
+        <div class="col-md-4 text-center">
+            <p>@Model.CurrentPage / @(Model.LastPage == Int32.MinValue ? 1 : Model.LastPage)</p>
+        </div>
+        <div class="col-md-4 text-right">
+            <a href="@Model.Url?page=@Model.LastPage" class="float-right btn btn-dark btn-round @(Model.IsNextPageDisabled ? "disabled" : String.Empty)"><i class="nc-icon nc-minimal-down"></i></a>
+            <a href="@Model.Url?page=@Model.NextPage" class="float-right btn btn-dark btn-round @(Model.IsNextPageDisabled ? "disabled" : String.Empty)"><i class="nc-icon nc-minimal-right"></i></a>
+        </div>
     </div>
-    <div class="col-md-4 text-center">
-        <h4>@Model.CurrentPage / @(Model.LastPage == Int32.MinValue ? 1 : Model.LastPage)</h4>
-    </div>
-    <div class="col-md-4 text-right">
-        <a href="@Model.Url?page=@Model.LastPage" class="float-right btn btn-outline-dark @(Model.IsNextPageDisabled ? "disabled" : String.Empty)">>><i class="tim-icons icon-minimal-right"></i></a>
-        <a href="@Model.Url?page=@Model.NextPage" class="float-right btn btn-outline-dark @(Model.IsNextPageDisabled ? "disabled" : String.Empty)">></a>
-    </div>
-</div>
-<br />
+    <br />
+}

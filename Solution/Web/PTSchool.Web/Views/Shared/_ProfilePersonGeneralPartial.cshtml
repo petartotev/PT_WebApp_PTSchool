@@ -1,30 +1,17 @@
 ﻿@model PTSchool.Web.Models.Abstracts.PersonEntity
 
-<div class="text-center border border-dark p-2">
-    @*<p>@Model.Id</p>*@
-    <p>@Model.FirstName @Model.MiddleName[0]. @Model.LastName</p>
-    <img src="@Model.Image" class="img-circle-sm" />
-    <p class="text-center">@Model.Description</p>
-</div>
-
-<div class="border border-dark">
-    <p>General information</p>
-    <table class="table table-striped">
-        <tr>
-            <th>Type</th>
-            <th>Data</th>
-        </tr>
-        <tr>
-            <td>Date of birth</td>
-            <td>@Model.DateBirth</td>
-        </tr>
-        <tr>
-            <td>Age</td>
-            <td>@Model.Age</td>
-        </tr>
-        <tr>
-            <td>Gender</td>
-            <td>@Model.Gender</td>
-        </tr>
-    </table>
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Profile</h5>
+        <p class="card-category">@Model.FirstName @Model.MiddleName[0]. @Model.LastName</p>
+    </div>
+    <div class="card-body text-center">
+        <img src="@Model.Image" class="img-circle-sm" />
+        <br />
+        <br />
+        <blockquote>
+            <p class="text-center blockquote blockquote-primary">@Model.Description</p>
+        </blockquote>
+    </div>
+    @*<p>@Model.Id</p>*@    
 </div>

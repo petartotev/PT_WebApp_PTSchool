@@ -1,6 +1,17 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+@import Url(template/bootstrap.min.css);
+@import Url(template/bootstrap.min.css.map);
+@import Url(template/paper-dashboard.css);
+@import Url(template/paper-dashboard.css.map);
+@import Url(template/paper-dashboard.min.css);
+
+@font-face {
+    font-family: Poppins;
+    src: url(fonts/Poppins-Light.ttf);
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -59,8 +70,14 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    /*  margin-bottom: 60px;*/
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    overflow-x: hidden;
+    font-family: Poppins;
 }
 .footer {
   position: absolute;
@@ -70,14 +87,14 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-.img-circle-lg {
+.img-circle-sm {
     border-radius: 50%;
     width: 60%;
 }
 
-.img-circle-sm {
+.img-circle-lg {
     border-radius: 50%;
-    width: 50%;
+    width: 80%;
 }
 
 .img-circle-100 {

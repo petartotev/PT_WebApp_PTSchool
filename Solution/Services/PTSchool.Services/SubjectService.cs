@@ -11,7 +11,7 @@ namespace PTSchool.Services.Implementations
 {
     public class SubjectService : ISubjectService
     {
-        public const int PageSize = 6;
+        public const int PageSize = 18;
 
         private readonly PTSchoolDbContext db;
         private readonly IMapper mapper;
