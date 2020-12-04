@@ -19,7 +19,7 @@ namespace PTSchool.Web.ApiControllers
 
         [HttpGet]
         [Route("api/Parents")]
-        public async Task<IActionResult> Get([FromQuery] int page = 1)
+        public async Task<IActionResult> GetAll([FromQuery] int page = 1)
         {
             var playlists = await this.parentService.GetAllParentsLightByPageAsync(page);
 
@@ -28,7 +28,7 @@ namespace PTSchool.Web.ApiControllers
 
         [HttpGet]
         [Route("api/Parents/{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             var playlist = await this.parentService.GetParentFullByIdAsync(id);
 

@@ -21,7 +21,6 @@ namespace PTSchool.Web.Controllers
             this.markService = markService;
         }
 
-
         public async Task<IActionResult> AllMarks(Guid id, int page = 1)
         {
             var marksAll = await this.markService.GetAllMarksByStudentIdAsync(id, page);
@@ -77,14 +76,14 @@ namespace PTSchool.Web.Controllers
             return this.View(idToGiveToView);
         }
 
-        [Route("/Marks/SignMark/{studentId}/{markId}")]
-        public IActionResult SignMark(Guid studentId, Guid markId)
-        {
-            this.markService.SignMark(studentId, markId);
+        //[Route("/Marks/SignMark/{studentId}/{markId}")]
+        //public IActionResult SignMark(Guid studentId, Guid markId)
+        //{
+        //    this.markService.SignMark(studentId, markId);
 
-            //return this.RedirectToAction("AllMarks", new { id = studentId });
+        //    //return this.RedirectToAction("AllMarks", new { id = studentId });
 
-            return this.Json(new { message = "This mark was signed successfully!" });
-        }
+        //    return this.Json(new { message = "This mark was signed successfully!" });
+        //}
     }
 }

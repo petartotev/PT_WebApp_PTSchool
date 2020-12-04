@@ -13,6 +13,7 @@ PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an onlin
 - EntityFrameworkCore.Tools
 - Serilog
 - SignalR
+- Swagger
 
 ## Contents
 
@@ -28,6 +29,8 @@ The solution contains 4 main directories with 6 projects:
   - PTSchool.Services.Models
 - Web
   - PTSchool\.Web
+    - Models-Views-Controllers (MVC) application
+    - ApiControllers ( : ControllerBase) to serve the purposes of a RESTful API
 
 ## User Guide
 
