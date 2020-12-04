@@ -1,0 +1,42 @@
+﻿@using Microsoft.Extensions.Configuration;
+
+@inject IConfiguration config
+@model PTSchool.Web.Models.Home.EmailSendViewModel
+
+@{
+    ViewBag.Title = "EmailSend";
+}
+
+@if (ViewBag.Error != null)
+{
+    <h2>@ViewBag.Error</h2>
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card p-3">
+            <h3 class="text-primary text-center">Send us a message!</h3>
+            <form asp-controller="Home" asp-action="EmailSend" method="post" class="form" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div> <!--UL list -->
+                <div class="form-group">
+                    <label asp-for="Subject"></label>
+                    <input asp-for="Subject" class="form-control" />
+                    <span asp-validation-for="Subject" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Message"></label>
+                    <textarea asp-for="Message" class="form-control" rows="12"></textarea>
+                    <span asp-validation-for="Message" class="text-danger"></span>
+                </div>
+                <div class="g-recaptcha" data-sitekey="@config.GetConnectionString("ReCaptcha2SiteKey")"></div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-lg btn-primary btn-round"><i class="nc-icon nc-send"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<br />
+<br />

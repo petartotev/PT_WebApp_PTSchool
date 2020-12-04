@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PTSchool.Data;
 using PTSchool.Services;
+using PTSchool.Services.Contracts;
 using PTSchool.Services.Implementations;
 using PTSchool.Web.ConfigurationMapper;
 using PTSchool.Web.Data;
@@ -91,6 +92,7 @@ namespace PTSchool.Web
             services.AddTransient<IMarkService, MarkService>();
             services.AddTransient<INoteService, NoteService>();
             services.AddTransient<ITictactoeService, TictactoeService>();
+            services.AddTransient<IHomeService, HomeService>();
 
             //PT: USE WEB SOCKETS! (2)
             services.AddHttpContextAccessor();
