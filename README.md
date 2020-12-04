@@ -111,6 +111,12 @@ PTSchool\.Web is a .NET Core 3.1 MVC Web Application.
 
 ### PTSchool\.Web > API
 
+The API functionality is implemented inside the .NET Core 3.1 MVC Web Application.  
+All the services provided are organized inside the 'ApiControllers' directory.
+
+A screenshot of the Operations - API Documentation by Swagger  
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_Swagger.jpg)
+
 ---
 
 ## Services Layer
