@@ -22,7 +22,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> AllClubs(int page = 1)
         {
-            var clubs = await this.clubService.GetAllClubsAsync(page);
+            var clubs = await this.clubService.GetAllClubsLightByPageAsync(page);
 
             var model = new CollectionClubsFullViewModels
             {
@@ -38,7 +38,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> Club(Guid id)
         {
-            var club = await this.clubService.GetClubByIdAsync(id);
+            var club = await this.clubService.GetClubFullByIdAsync(id);
 
             var model = this.mapper.Map<ClubFullViewModel>(club);
 

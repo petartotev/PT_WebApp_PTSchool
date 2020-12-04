@@ -8,9 +8,9 @@ namespace PTSchool.Services
 {
     public interface IClubService : IPageable
     {
-        Task<IEnumerable<ClubLightServiceModel>> GetAllClubsAsync(int page = 1);
+        Task<IEnumerable<ClubLightServiceModel>> GetAllClubsLightByPageAsync(int page = 1);
 
-        Task<ClubFullServiceModel> GetClubByIdAsync(Guid id);
+        Task<ClubFullServiceModel> GetClubFullByIdAsync(Guid id);
 
         int GetTotalCountStudentsInClubs();
         int GetTotalCountTeachersInClubs();

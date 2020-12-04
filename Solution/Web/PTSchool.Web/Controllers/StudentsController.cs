@@ -24,7 +24,7 @@ namespace PTSchool.Web.Controllers
         [Authorize(Roles = "Teacher, Parent, Student")]
         public async Task<IActionResult> AllStudents(int page = 1)
         {
-            var students = await this.studentService.GetAllStudentsAsync(page);
+            var students = await this.studentService.GetAllStudentsLightByPageAsync(page);
 
             var model = new CollectionStudentsLightViewModels
             {
@@ -47,7 +47,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> Student(Guid id)
         {
-            var student = await this.studentService.GetStudentByIdAsync(id);
+            var student = await this.studentService.GetStudentFullByIdAsync(id);
 
             var model = this.mapper.Map<StudentFullViewModel>(student);
 

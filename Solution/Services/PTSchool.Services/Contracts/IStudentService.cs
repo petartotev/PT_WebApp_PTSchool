@@ -8,9 +8,9 @@ namespace PTSchool.Services
 {
     public interface IStudentService : IPageable
     {
-        Task<IEnumerable<StudentLightServiceModel>> GetAllStudentsAsync(int page = 1);
+        Task<IEnumerable<StudentLightServiceModel>> GetAllStudentsLightByPageAsync(int page = 1);
 
-        Task<StudentFullServiceModel> GetStudentByIdAsync(Guid id);
+        Task<StudentFullServiceModel> GetStudentFullByIdAsync(Guid id);
 
         Task<IEnumerable<StudentFullServiceModel>> GetAllStudentCouncilMembersAsync();
     }

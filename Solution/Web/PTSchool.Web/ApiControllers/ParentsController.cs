@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PTSchool.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PTSchool.Web.ApiControllers
@@ -21,18 +19,18 @@ namespace PTSchool.Web.ApiControllers
         [Route("api/Parents")]
         public async Task<IActionResult> GetAll([FromQuery] int page = 1)
         {
-            var playlists = await this.parentService.GetAllParentsLightByPageAsync(page);
+            var parents = await this.parentService.GetAllParentsLightByPageAsync(page);
 
-            return Ok(playlists);
+            return Ok(parents);
         }
 
         [HttpGet]
         [Route("api/Parents/{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var playlist = await this.parentService.GetParentFullByIdAsync(id);
+            var parent = await this.parentService.GetParentFullByIdAsync(id);
 
-            return Ok(playlist);
+            return Ok(parent);
         }
     }
 }

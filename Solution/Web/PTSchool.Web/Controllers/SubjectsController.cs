@@ -23,7 +23,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> AllSubjects(int page = 1)
         {
-            var subjects = await this.subjectService.GetAllSubjectsAsync(page);
+            var subjects = await this.subjectService.GetAllSubjectsLightByPageAsync(page);
 
             var model = new CollectionSubjectsFullViewModels
             {
@@ -39,7 +39,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> Subject(Guid id)
         {
-            var subject = await this.subjectService.GetSubjectByIdAsync(id);
+            var subject = await this.subjectService.GetSubjectFullByIdAsync(id);
 
             var model = this.mapper.Map<SubjectFullViewModel>(subject);
 

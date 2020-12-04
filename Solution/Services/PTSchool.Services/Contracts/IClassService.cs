@@ -8,8 +8,8 @@ namespace PTSchool.Services
 {
     public interface IClassService : IPageable
     {
-        Task<IEnumerable<ClassLightServiceModel>> GetAllClassesAsync(int page = 1);
+        Task<IEnumerable<ClassLightServiceModel>> GetAllClassesLightByPageAsync(int page = 1);
 
-        Task<ClassFullServiceModel> GetClassByIdAsync(Guid id);
+        Task<ClassFullServiceModel> GetClassFullByIdAsync(Guid id);
     }
 }

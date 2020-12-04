@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewData["Title"] = "General";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">General</h5>
+        <p class="card-category">Here are a few words on our API Services.</p>
+    </div>
+    <div class="card-body">
+        <blockquote>
+            <p class="blockquote blockquote-primary">
+                The REST API leverages HTTP as a transport protocol and clear text JSON for the request and response payloads. Accessing the REST API is done through authentication.
+            </p>
+        </blockquote>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Documentation</h5>
+        <p class="card-category">Documentation was easily implemented thanks to Swagger.</p>
+    </div>
+    <div class="card-body">
+        <blockquote>
+            <p class="blockquote blockquote-primary">
+                API documentation is the information that is required to successfully consume and integrate with an API.<br />
+                The <a href="/swagger/index.html">Documentation</a> of our Web API Services is organized and generated via <a href="https://swagger.io/" target="_blank">Swagger</a>, a product supported by SMARTBEAR.
+                <div class="text-center">
+                    <a href="/swagger/index.html" class="btn btn-lg btn-round btn-success">Documentation</a>
+                </div>
+            </p>
+        </blockquote>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">API Key</h5>
+        <p class="card-category">Authentication is required for you to use our API Services.</p>
+    </div>
+    <div class="card-body">
+        <blockquote>
+            <div class="blockquote blockquote-primary">
+                <p>To get access to the API Services, the user needs to have a valid registration in the <a href="@Url.Action("Index", "Home")">PTSchool.Web</a> application.</p>
+                <div class="alert alert-info alert-with-icon" data-notify="container">
+                    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="nc-icon nc-bell-55"></i>
+                    </button>
+                    <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                    <span data-notify="message">One User has access to generating only one <a href="/Identity/Account/Manage">API Key</a> per se.</span>
+                </div>
+                <p><a href="/Identity/Account/Manage">API Key</a> plays a role of a 'password'. It should be a part of the query string in each request to the API Server.</p>
+                <p><a href="/Identity/Account/Manage">API Key</a> is genereted from the 'Manage your account' page within the User's profile. Once in the 'Profile' section, an expandable button <b class="text-primary">⛛</b> appears next to 'API'. Press that to proceed.</p>
+                <p>If the user does not have an <a href="/Identity/Account/Manage">API Key</a> yet - clicking on the 'Generate' button would create a new Guid. This would be the unique key that the User can use to get access to our services.</p>
+                <p>Else, if the User already has an <a href="/Identity/Account/Manage">API Key</a> an option for re-'Generate' a new key is available.</p>
+                <div class="alert alert-warning alert-with-icon" data-notify="container">
+                    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="nc-icon nc-bulb-63"></i>
+                    </button>
+                    <span data-notify="icon" class="tim-icons icon-time-alarm"></span>
+                    <span data-notify="message">Notice that generating a new <a href="/Identity/Account/Manage">API Key</a> overrides the existing key and replaces it with a new one. This makes the old API Key unus</span>
+                </div>
+                <div class="text-center">
+                    <a href="/Identity/Account/Manage" class="btn btn-lg btn-round btn-info">Get API Key</a>
+                </div>
+            </div>
+        </blockquote>
+    </div>
+</div>
+<br />
+<br />

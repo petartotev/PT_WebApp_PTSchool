@@ -8,8 +8,8 @@ namespace PTSchool.Services
 {
     public interface ISubjectService : IPageable
     {
-        Task<IEnumerable<SubjectLightServiceModel>> GetAllSubjectsAsync(int page = 1);
+        Task<IEnumerable<SubjectLightServiceModel>> GetAllSubjectsLightByPageAsync(int page = 1);
 
-        Task<SubjectFullServiceModel> GetSubjectByIdAsync(Guid id);
+        Task<SubjectFullServiceModel> GetSubjectFullByIdAsync(Guid id);
     }
 }

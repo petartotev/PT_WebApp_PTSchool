@@ -26,7 +26,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> AllClasses(int page = 1)
         {
-            IEnumerable<ClassLightServiceModel> classes = await this.classService.GetAllClassesAsync(page);
+            IEnumerable<ClassLightServiceModel> classes = await this.classService.GetAllClassesLightByPageAsync(page);
 
             var model = new CollectionClassesLightViewModels
             {
@@ -42,7 +42,7 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> Class(Guid id)
         {
-            var classById = await this.classService.GetClassByIdAsync(id);
+            var classById = await this.classService.GetClassFullByIdAsync(id);
 
             var model = this.mapper.Map<ClassFullViewModel>(classById);
 

@@ -22,7 +22,7 @@ namespace PTSchool.Services.Implementations
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<ClubLightServiceModel>> GetAllClubsAsync(int page = 1)
+        public async Task<IEnumerable<ClubLightServiceModel>> GetAllClubsLightByPageAsync(int page = 1)
         {
             var clubs = await this.db.Clubs
                 .Skip((page - 1) * PageSize)
@@ -35,7 +35,7 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
-        public async Task<ClubFullServiceModel> GetClubByIdAsync(Guid id)
+        public async Task<ClubFullServiceModel> GetClubFullByIdAsync(Guid id)
         {
             var club = await this.db.Clubs
                 .Where(x => x.Id == id)

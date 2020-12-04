@@ -22,7 +22,7 @@ namespace PTSchool.Services.Implementations
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<ClassLightServiceModel>> GetAllClassesAsync(int page = 1)
+        public async Task<IEnumerable<ClassLightServiceModel>> GetAllClassesLightByPageAsync(int page = 1)
         {
             var classes = await this.db.Classes
                 .Skip((page - 1) * PageSize)
@@ -37,7 +37,7 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
-        public async Task<ClassFullServiceModel> GetClassByIdAsync(Guid id)
+        public async Task<ClassFullServiceModel> GetClassFullByIdAsync(Guid id)
         {
             var classy = await this.db.Classes
                 .Include(x => x.MasterTeacher)

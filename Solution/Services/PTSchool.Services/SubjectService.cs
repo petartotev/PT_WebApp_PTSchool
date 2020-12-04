@@ -22,7 +22,7 @@ namespace PTSchool.Services.Implementations
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<SubjectLightServiceModel>> GetAllSubjectsAsync(int page = 1)
+        public async Task<IEnumerable<SubjectLightServiceModel>> GetAllSubjectsLightByPageAsync(int page = 1)
         {
             var subjects = await this.db.Subjects
                 .Skip((page - 1) * PageSize)
@@ -37,7 +37,7 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
-        public async Task<SubjectFullServiceModel> GetSubjectByIdAsync(Guid id)
+        public async Task<SubjectFullServiceModel> GetSubjectFullByIdAsync(Guid id)
         {
             var subject = await this.db.Subjects
                 //.Include(x => x.Marks)
