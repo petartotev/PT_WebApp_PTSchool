@@ -1,4 +1,5 @@
-﻿using PTSchool.Data;
+﻿using PetarTotev.Net.DSA.MyCollections;
+using PTSchool.Data;
 using PTSchool.Data.Models;
 using PTSchool.Data.Models.Enums;
 using System;
@@ -11,7 +12,7 @@ namespace PTSchool.Console.Seeder
     {
         private static readonly Random random = new Random();
 
-        private static readonly List<string> listDescriptionsStudents = new List<string>()
+        private static readonly MyList<string> listDescriptionsStudents = new MyList<string>()
         {
             "I love football and sports!",
             "I do believe that war is a bad thing and all wars should stop immediately!",
@@ -29,7 +30,7 @@ namespace PTSchool.Console.Seeder
             "I am a cheerleader so my duty is to support brave boys that give everything for the win!",
         };
 
-        private static readonly List<string> listFirstNamesMale = new List<string>()
+        private static readonly MyList<string> listFirstNamesMale = new MyList<string>()
             {
                 "James",
                 "Michael",
@@ -83,7 +84,7 @@ namespace PTSchool.Console.Seeder
                 "Dale" // 50
             };
 
-        private static readonly List<string> listFirstNamesFemale = new List<string>()
+        private static readonly MyList<string> listFirstNamesFemale = new MyList<string>()
             {
                 "Mary",
                 "Linda",
@@ -137,7 +138,7 @@ namespace PTSchool.Console.Seeder
                 "Bonnie", // 50
             };
 
-        private static readonly List<string> listLastNames = new List<string>()
+        private static readonly MyList<string> listLastNames = new MyList<string>()
             {
                 "Smith",
                 "Johnson",
@@ -191,7 +192,7 @@ namespace PTSchool.Console.Seeder
                 "Roberts", // 50
             };
 
-        private static readonly List<string> listAddresses = new List<string>()
+        private static readonly MyList<string> listAddresses = new MyList<string>()
         {
             "Burgas Maria Luisa str. 23",
             "Burgas Kiril i Metodii str. 34",
@@ -206,7 +207,7 @@ namespace PTSchool.Console.Seeder
             "Karnobat Asen Zlatarov 15"
         };
 
-        private static readonly List<string> listOccupations = new List<string>()
+        private static readonly MyList<string> listOccupations = new MyList<string>()
         {
             "Architect",
             "Engineer",
