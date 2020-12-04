@@ -23,7 +23,7 @@ namespace PTSchool.Services.Implementations
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<ParentLightServiceModel>> GetAllParentsAsync(int page = 1)
+        public async Task<IEnumerable<ParentLightServiceModel>> GetAllParentsLightByPageAsync(int page = 1)
         {
             var parents = await this.db.Parents
                 .Skip((page - 1) * PageSize)
@@ -35,7 +35,7 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
-        public async Task<ParentFullServiceModel> GetParentByIdAsync(Guid id)
+        public async Task<ParentFullServiceModel> GetParentFullByIdAsync(Guid id)
         {
             var parent = await db.Parents
                 .Include(x => x.Students)

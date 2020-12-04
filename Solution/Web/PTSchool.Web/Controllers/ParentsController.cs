@@ -28,7 +28,7 @@ namespace PTSchool.Web.Controllers
         [RequestSizeLimit(50 * 1024 * 1024)] // LIMIT BODY: 50MB
         public async Task<IActionResult> AllParents(int page = 1)
         {
-            var parents = await this.parentService.GetAllParentsAsync(page);
+            var parents = await this.parentService.GetAllParentsLightByPageAsync(page);
 
             var model = new CollectionParentsLightViewModels
             {
@@ -45,7 +45,7 @@ namespace PTSchool.Web.Controllers
         [Authorize(Roles = "Teacher, Parent")]
         public async Task<IActionResult> Parent(Guid id)
         {
-            var parent = await parentService.GetParentByIdAsync(id);
+            var parent = await parentService.GetParentFullByIdAsync(id);
 
             var model = this.mapper.Map<ParentFullViewModel>(parent);
 

@@ -7,13 +7,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using PTSchool.Data;
 using PTSchool.Services;
 using PTSchool.Services.Implementations;
 using PTSchool.Web.ConfigurationMapper;
 using PTSchool.Web.Data;
 using PTSchool.Web.Hubs;
+using PTSchool.Web.Middlewares;
 using System;
+using System.Linq;
 using System.Security.Claims;
 
 namespace PTSchool.Web
@@ -141,9 +144,13 @@ namespace PTSchool.Web
             services.AddRazorPages();
 
             services.AddAutoMapper(cfg => cfg.AddProfile<PTSchoolProfile>());
+
+            services.AddSwaggerGen((options) =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "PTSchool.Web", Version = "v1" });
+                //options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); //This line
+            });
         }
-
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         //PT: MIDDLEWARES!
@@ -174,18 +181,29 @@ namespace PTSchool.Web
 
             //PT: USE COMPRESSION (ZIPPING) TO TRANSFER DATA!
             //PT: USE IN COMBINATION WITH services.AddResponseCompression(option => { option.EnableForHttps = true; });
-            app.UseResponseCompression();
+            //app.UseResponseCompression();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "PTSchool.Web");
+            });
+
             //PT: USE COOKIES! (1)
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
 
             //PT: ADD CROSS-ORIGIN RESOURCE SHARING /CORS/ (2)
             //app.UseCors(builder => builder.WithOrigins("https://mvcschool.com"));
 
             app.UseRouting();
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             //PT: Authentication = The process of verifying the identity of a user or computer. Question = Who are you?
             //PT: Authorization = The process of determining what a user is permitted to do on a computer or network. Question = What are you allowed to do?            
@@ -213,10 +231,10 @@ namespace PTSchool.Web
                 endpoints.MapHub<PlayHub>("/playhubbb");
                 endpoints.MapHub<CanvasHub>("/canvashub");
                 //PT: BY DEFAULT:
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
             });
         }
     }

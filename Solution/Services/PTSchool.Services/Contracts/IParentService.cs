@@ -8,8 +8,8 @@ namespace PTSchool.Services
 {
     public interface IParentService : IPageable
     {
-        Task<IEnumerable<ParentLightServiceModel>> GetAllParentsAsync(int page = 1);
+        Task<IEnumerable<ParentLightServiceModel>> GetAllParentsLightByPageAsync(int page = 1);
 
-        Task<ParentFullServiceModel> GetParentByIdAsync(Guid id);
+        Task<ParentFullServiceModel> GetParentFullByIdAsync(Guid id);
     }
 }

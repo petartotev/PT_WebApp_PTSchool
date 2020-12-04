@@ -49,6 +49,7 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
+
         public int GetPageSize()
         {
             int pageSizeToGet = PageSize;
