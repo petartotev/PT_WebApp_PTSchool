@@ -15,23 +15,6 @@ PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an onlin
 - SignalR
 - Swagger
 
-## Contents
-
-The solution contains 4 main directories with 6 projects:
-
-- Console
-  - PTSchool.Console
-- Data
-  - PTSchool.Data
-  - PTSchool.Data.Models
-- Services
-  - PTSchool.Services
-  - PTSchool.Services.Models
-- Web
-  - PTSchool\.Web
-    - Models-Views-Controllers (MVC) application
-    - ApiControllers ( : ControllerBase) to serve the purposes of a RESTful API
-
 ## User Guide
 
 The main functionality of the web app is to facilitate the communication between the 3 main "sides" within a School Institution:
@@ -98,5 +81,100 @@ You-shoot-them-all-or-they-shoot-you.
 As simple as that!
 
 ![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_PTShooter.jpg)
+
+---
+
+## Contents
+
+The solution contains 4 main directories with 6 projects:
+
+- Console
+  - PTSchool.Console
+- Data
+  - PTSchool.Data
+  - PTSchool.Data.Models
+- Services
+  - PTSchool.Services
+  - PTSchool.Services.Models
+- Web
+  - PTSchool\.Web
+    - Models-Views-Controllers (MVC) application
+    - ApiControllers ( : ControllerBase) to serve the purposes of a RESTful API
+
+---
+
+## Web Application
+
+### PTSchool\.Web > MVC
+
+PTSchool\.Web is a .NET Core 3.1 MVC Web Application.
+
+### PTSchool\.Web > API
+
+---
+
+## Services Layer
+
+### PTSchool.Services
+
+PTSchool.Services is a .NET Standard 2.1 Class Library project.
+
+### PTSchool.Services.Models
+
+PTSchool.Services.Models is a .NET Standard 2.1 Class Library project.
+
+---
+
+## Data Layer
+
+### PTSchool.Data
+
+PTSchool.Data is a .NET Standard 2.1 Class Library project.
+
+### PTSchool.Data.Models
+
+PTSchool.Data.Models is a .NET Standard 2.1 Class Library project.
+
+---
+
+## Console Application
+
+### PTSchool.Console
+
+PTSchool.Console is a .NET Core 3.1 Console Application.  
+The Main() method in Program.cs calls a series of methods that seed information in the Database of the application.  
+They are called in a certain order, as entities in the database have certain relations that create dependencies between them.  
+_For example, to assign a Mark or a Note to e Student you need to have a Subject, a Teacher etc._
+Here is the order of the methods called in Main():
+
+🏁  
+PTSchoolDbSeeder.SeedTeachers();  
+👇  
+PTSchoolDbSeeder.SeedClasses();  
+👇  
+PTSchoolDbSeeder.SeedStudents();  
+👇  
+PTSchoolDbSeeder.SeedParents();  
+👇  
+PTSchoolDbSeeder.SeedParentsToStudentsRelation();  
+👇  
+PTSchoolDbSeeder.SeedSubjects();  
+👇  
+PTSchoolDbSeeder.SeedClubs();  
+👇  
+PTSchoolDbSeeder.SeedTeachersToSubjectsRelation();  
+👇  
+PTSchoolDbSeeder.SeedTeachersToClubsRelation();  
+👇  
+PTSchoolDbSeeder.SeedStudentsToClubsRelation();  
+👇  
+PTSchoolDbSeeder.SeedSubjectsToClasses();  
+👇  
+PTSchoolDbSeeder.SeedNotes();  
+👇  
+PTSchoolDbSeeder.SeedMarks();  
+🏁
+
+---
 
 \~THE END\~

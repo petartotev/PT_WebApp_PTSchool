@@ -36,8 +36,7 @@ namespace PTSchool.Services.Implementations
                 //.Include(x => x.Parents)
                 .ToListAsync();
 
-            var result = this.mapper.Map<IEnumerable<StudentLightServiceModel>>(students);
-            return result;
+            return this.mapper.Map<IEnumerable<StudentLightServiceModel>>(students);
         }
 
         public async Task<StudentFullServiceModel> GetStudentFullByIdAsync(Guid id)
@@ -55,8 +54,7 @@ namespace PTSchool.Services.Implementations
                 .ThenInclude(clubStudent => clubStudent.Club)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            var result = this.mapper.Map<StudentFullServiceModel>(student);
-            return result;
+            return this.mapper.Map<StudentFullServiceModel>(student);
         }
 
         public async Task<IEnumerable<StudentFullServiceModel>> GetAllStudentCouncilMembersAsync()
@@ -86,6 +84,39 @@ namespace PTSchool.Services.Implementations
             await db.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<StudentFullServiceModel> UpdateStudentAsync(StudentFullServiceModel student)
+        {
+            ValidateStudentId(student.Id);
+            ValidateIfStudentIsDeleted(student.Id);
+            ValidateIfInputStringIsNotNullOrEmpty(student.FirstName);
+            ValidateIfInputStringIsNotNullOrEmpty(student.MiddleName);
+            ValidateIfInputStringIsNotNullOrEmpty(student.LastName);
+
+            var studentInDb = await db.Students.FindAsync(student.Id);
+
+            studentInDb.FirstName = student.FirstName;
+            studentInDb.MiddleName = student.MiddleName;
+            studentInDb.LastName = student.LastName;
+            studentInDb.Description = student.Description;
+            studentInDb.Image = student.Image;
+            studentInDb.Address = student.Address;
+            studentInDb.Email = student.Email;
+            studentInDb.Phone = student.Phone;
+            await db.SaveChangesAsync();
+
+            var studentInDbUpdated = await db.Students
+                .Include(x => x.Class)
+                .Include(x => x.Marks)
+                .Include(x => x.Notes)
+                .Include(x => x.Parents)
+                .ThenInclude(studentParent => studentParent.Parent)
+                .Include(x => x.Clubs)
+                .ThenInclude(clubStudent => clubStudent.Club)
+                .FirstOrDefaultAsync(x => x.Id == student.Id);
+
+            return this.mapper.Map<StudentFullServiceModel>(studentInDbUpdated);
         }
 
         public int GetPageSize()
@@ -121,6 +152,14 @@ namespace PTSchool.Services.Implementations
             if (db.Students.First(x => x.Id == id).IsDeleted)
             {
                 throw new ArgumentException("Student is deleted.");
+            }
+        }
+
+        private void ValidateIfInputStringIsNotNullOrEmpty(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                throw new ArgumentNullException("Name of a Student cannot be null or empty.");
             }
         }
     }

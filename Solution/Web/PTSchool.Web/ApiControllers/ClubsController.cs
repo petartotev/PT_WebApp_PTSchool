@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PTSchool.Services;
+using PTSchool.Services.Models.Club;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace PTSchool.Web.ApiControllers
 
         [HttpDelete]
         [Route("api/Clubs/{id}")]
-        public async Task<IActionResult> DeleteById(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             bool isClubDeleted = await this.clubService.DeleteClubByIdAsync(id);
 
@@ -47,6 +48,15 @@ namespace PTSchool.Web.ApiControllers
             }
 
             return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/Clubs/{id}")]
+        public async Task<IActionResult> Update([FromBody] ClubFullServiceModel club)
+        {
+            var clubUpdated = await this.clubService.UpdateClubAsync(club);
+
+            return Ok(clubUpdated);
         }
     }
 }

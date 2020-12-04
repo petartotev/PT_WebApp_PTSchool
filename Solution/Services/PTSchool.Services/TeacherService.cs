@@ -36,8 +36,7 @@ namespace PTSchool.Services.Implementations
                 //.Include(x => x.Notes)
                 .ToListAsync();
 
-            var result = this.mapper.Map<IEnumerable<TeacherLightServiceModel>>(teachers);
-            return result;
+            return this.mapper.Map<IEnumerable<TeacherLightServiceModel>>(teachers);
         }
 
         public async Task<TeacherFullServiceModel> GetTeacherFullByIdAsync(Guid id)
@@ -55,8 +54,7 @@ namespace PTSchool.Services.Implementations
                 .ThenInclude(subjectTeacher => subjectTeacher.Subject)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            var result = this.mapper.Map<TeacherFullServiceModel>(teacher);
-            return result;
+            return this.mapper.Map<TeacherFullServiceModel>(teacher);
         }
 
         public async Task<bool> DeleteTeacherByIdAsync(Guid id)
@@ -71,6 +69,40 @@ namespace PTSchool.Services.Implementations
             return true;
         }
 
+        public async Task<TeacherFullServiceModel> UpdateTeacherAsync(TeacherFullServiceModel teacher)
+        {
+            ValidateTeacherId(teacher.Id);
+            ValidateIfTeacherIsDeleted(teacher.Id);
+            ValidateIfInputStringIsNotNullOrEmpty(teacher.FirstName);
+            ValidateIfInputStringIsNotNullOrEmpty(teacher.MiddleName);
+            ValidateIfInputStringIsNotNullOrEmpty(teacher.LastName);
+
+            var teacherInDb = await db.Teachers.FindAsync(teacher.Id);
+
+            teacherInDb.FirstName = teacher.FirstName;
+            teacherInDb.MiddleName = teacher.MiddleName;
+            teacherInDb.LastName = teacher.LastName;
+            teacherInDb.Description = teacher.Description;
+            teacherInDb.Image = teacher.Image;
+            teacherInDb.Address = teacher.Address;
+            teacherInDb.Email = teacher.Email;
+            teacherInDb.Phone = teacher.Phone;
+            teacherInDb.PhoneEmergency = teacher.PhoneEmergency;
+            await db.SaveChangesAsync();
+
+            var teacherInDbUpdated = await this.db.Teachers
+                .Include(x => x.ClassMastered)
+                .Include(x => x.Marks)
+                .Include(x => x.Notes)
+                .Include(x => x.Clubs)
+                .ThenInclude(clubTeacher => clubTeacher.Club)
+                .Include(x => x.Subjects)
+                .ThenInclude(subjectTeacher => subjectTeacher.Subject)
+                .FirstOrDefaultAsync(x => x.Id == teacher.Id);
+
+            return this.mapper.Map<TeacherFullServiceModel>(teacherInDbUpdated);
+        }
+
         public int GetPageSize()
         {
             int pageSizeToGet = PageSize;
@@ -81,7 +113,6 @@ namespace PTSchool.Services.Implementations
         {
             return this.db.Teachers.Count();
         }
-
 
         private void ValidateTeacherId(Guid id)
         {
@@ -104,6 +135,14 @@ namespace PTSchool.Services.Implementations
             if (db.Teachers.First(x => x.Id == id).IsDeleted)
             {
                 throw new ArgumentException("Teacher is deleted.");
+            }
+        }
+
+        private void ValidateIfInputStringIsNotNullOrEmpty(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                throw new ArgumentNullException("Name of a Teacher cannot be null or empty.");
             }
         }
     }

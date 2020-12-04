@@ -14,6 +14,8 @@ namespace PTSchool.Services
 
         Task<bool> DeleteClubByIdAsync(Guid id);
 
+        Task<ClubFullServiceModel> UpdateClubAsync(ClubFullServiceModel club);
+
         int GetTotalCountStudentsInClubs();
         int GetTotalCountTeachersInClubs();
     }

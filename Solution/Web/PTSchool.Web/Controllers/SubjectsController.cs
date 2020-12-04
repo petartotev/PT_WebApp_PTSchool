@@ -45,10 +45,5 @@ namespace PTSchool.Web.Controllers
 
             return this.View(model);
         }
-
-        public async Task<IActionResult> Remove(Guid id)
-        {
-
-        }
     }
 }

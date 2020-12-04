@@ -34,8 +34,7 @@ namespace PTSchool.Services.Implementations
                 //.Include(x => x.Subjects)
                 .ToListAsync();
 
-            var result = this.mapper.Map<IEnumerable<ClassLightServiceModel>>(classes);
-            return result;
+            return this.mapper.Map<IEnumerable<ClassLightServiceModel>>(classes);
         }
 
         public async Task<ClassFullServiceModel> GetClassFullByIdAsync(Guid id)
@@ -50,8 +49,7 @@ namespace PTSchool.Services.Implementations
                 .Include(x => x.Teachers)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            var result = this.mapper.Map<ClassFullServiceModel>(classy);
-            return result;
+            return this.mapper.Map<ClassFullServiceModel>(classy);
         }
 
         public async Task<bool> DeleteClassByIdAsync(Guid id)
@@ -64,6 +62,29 @@ namespace PTSchool.Services.Implementations
             await db.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<ClassFullServiceModel> UpdateClassAsync(ClassFullServiceModel classToUpdate)
+        {
+            ValidateClassId(classToUpdate.Id);
+            ValidateIfClassIsDeleted(classToUpdate.Id);
+            ValidateIfNameIsNotNullOrEmpty(classToUpdate.Name);
+
+            var classInDb = await db.Classes.FindAsync(classToUpdate.Id);
+
+            classInDb.Name = classToUpdate.Name;
+            classInDb.Description = classToUpdate.Description;
+            classInDb.Image = classToUpdate.Image;
+            await db.SaveChangesAsync();
+
+            var classInDbUpdated = await db.Classes
+                .Include(x => x.MasterTeacher)
+                .Include(x => x.Students)
+                .Include(x => x.Subjects)
+                .Include(x => x.Teachers)
+                .FirstOrDefaultAsync(x => x.Id == classToUpdate.Id);
+
+            return this.mapper.Map<ClassFullServiceModel>(classInDbUpdated);
         }
 
         public int GetPageSize()
@@ -99,6 +120,14 @@ namespace PTSchool.Services.Implementations
             if (db.Classes.First(x => x.Id == id).IsDeleted)
             {
                 throw new ArgumentException("Class is deleted.");
+            }
+        }
+
+        private void ValidateIfNameIsNotNullOrEmpty(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("Name of a Class cannot be null or empty.");
             }
         }
     }

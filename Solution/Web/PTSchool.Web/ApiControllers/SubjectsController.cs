@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PTSchool.Services;
+using PTSchool.Services.Models.Subject;
 using System;
 using System.Threading.Tasks;
 
@@ -35,7 +36,7 @@ namespace PTSchool.Web.ApiControllers
 
         [HttpDelete]
         [Route("api/Subjects/{id}")]
-        public async Task<IActionResult> DeleteById(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             bool isSubjectDeleted = await this.subjectService.DeleteSubjectByIdAsync(id);
 
@@ -45,6 +46,15 @@ namespace PTSchool.Web.ApiControllers
             }
 
             return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/Subjects/{id}")]
+        public async Task<IActionResult> Update([FromBody] SubjectFullServiceModel subject)
+        {
+            var subjectUpdated = await this.subjectService.UpdateSubjectAsync(subject);
+
+            return Ok(subjectUpdated);
         }
     }
 }

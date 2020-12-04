@@ -32,8 +32,7 @@ namespace PTSchool.Services.Implementations
                 //.Include(x => x.Teachers)
                 .ToListAsync();
 
-            var result = this.mapper.Map<IEnumerable<ClubLightServiceModel>>(clubs);
-            return result;
+            return this.mapper.Map<IEnumerable<ClubLightServiceModel>>(clubs);
         }
 
         public async Task<ClubFullServiceModel> GetClubFullByIdAsync(Guid id)
@@ -42,15 +41,13 @@ namespace PTSchool.Services.Implementations
             ValidateIfClubIsDeleted(id);
 
             var club = await this.db.Clubs
-                .Where(x => x.Id == id)
                 .Include(x => x.Students)
                 .ThenInclude(clubStudent => clubStudent.Student)
                 .Include(x => x.Teachers)
                 .ThenInclude(clubTeacher => clubTeacher.Teacher)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            var result = this.mapper.Map<ClubFullServiceModel>(club);
-            return result;
+            return this.mapper.Map<ClubFullServiceModel>(club);
         }
 
         public async Task<bool> DeleteClubByIdAsync(Guid id)
@@ -63,6 +60,30 @@ namespace PTSchool.Services.Implementations
             await db.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<ClubFullServiceModel> UpdateClubAsync(ClubFullServiceModel club)
+        {
+            ValidateClubId(club.Id);
+            ValidateIfClubIsDeleted(club.Id);
+            ValidateIfInputIsNotNullOrEmpty(club.Name);
+            ValidateIfInputIsNotNullOrEmpty(club.Description);
+
+            var clubInDb = await db.Clubs.FindAsync(club.Id);
+
+            clubInDb.Name = club.Name;
+            clubInDb.Description = club.Description;
+            clubInDb.Image = club.Image;
+            await db.SaveChangesAsync();
+
+            var clubInDbUpdated = await db.Clubs
+                .Include(x => x.Students)
+                .ThenInclude(clubStudent => clubStudent.Student)
+                .Include(x => x.Teachers)
+                .ThenInclude(clubTeacher => clubTeacher.Teacher)
+                .FirstOrDefaultAsync(x => x.Id == club.Id);
+
+            return this.mapper.Map<ClubFullServiceModel>(clubInDbUpdated);
         }
 
         public int GetPageSize()
@@ -112,6 +133,14 @@ namespace PTSchool.Services.Implementations
             if (db.Clubs.First(x => x.Id == id).IsDeleted)
             {
                 throw new ArgumentException("Club is deleted.");
+            }
+        }
+
+        private void ValidateIfInputIsNotNullOrEmpty(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                throw new ArgumentNullException("Name / Description of a Club cannot be null or empty.");
             }
         }
     }

@@ -32,8 +32,7 @@ namespace PTSchool.Services.Implementations
                 //.Include(x => x.Students)
                 .ToListAsync();
 
-            var result = this.mapper.Map<IEnumerable<ParentLightServiceModel>>(parents);
-            return result;
+            return this.mapper.Map<IEnumerable<ParentLightServiceModel>>(parents);
         }
 
         public async Task<ParentFullServiceModel> GetParentFullByIdAsync(Guid id)
@@ -46,8 +45,7 @@ namespace PTSchool.Services.Implementations
                 .ThenInclude(studentParent => studentParent.Student)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
-            var result = this.mapper.Map<ParentFullServiceModel>(parent);
-            return result;
+            return this.mapper.Map<ParentFullServiceModel>(parent);
         }
 
         public async Task<bool> DeleteParentByIdAsync(Guid id)
@@ -60,6 +58,34 @@ namespace PTSchool.Services.Implementations
             await db.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<ParentFullServiceModel> UpdateParentAsync(ParentFullServiceModel parent)
+        {
+            ValidateParentId(parent.Id);
+            ValidateIfParentIsDeleted(parent.Id);
+            ValidateIfInputStringIsNotNullOrEmpty(parent.FirstName);
+            ValidateIfInputStringIsNotNullOrEmpty(parent.MiddleName);
+            ValidateIfInputStringIsNotNullOrEmpty(parent.LastName);
+
+            var parentInDb = await db.Parents.FindAsync(parent.Id);
+
+            parentInDb.FirstName = parent.FirstName;
+            parentInDb.MiddleName = parent.MiddleName;
+            parentInDb.LastName = parent.LastName;
+            parentInDb.Description = parent.Description;
+            parentInDb.Image = parent.Image;
+            parentInDb.Address = parent.Address;
+            parentInDb.Email = parent.Email;
+            parentInDb.Phone = parent.Phone;
+            await db.SaveChangesAsync();
+
+            var parentInDbUpdated = await db.Parents
+                .Include(x => x.Students)
+                .ThenInclude(studentParent => studentParent.Student)
+                .FirstOrDefaultAsync(p => p.Id == parent.Id);
+
+            return this.mapper.Map<ParentFullServiceModel>(parentInDbUpdated);
         }
 
         public int GetPageSize()
@@ -95,6 +121,14 @@ namespace PTSchool.Services.Implementations
             if (db.Parents.First(x => x.Id == id).IsDeleted)
             {
                 throw new ArgumentException("Parent is deleted.");
+            }
+        }
+
+        private void ValidateIfInputStringIsNotNullOrEmpty(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                throw new ArgumentNullException("Name of a Parent cannot be null or empty.");
             }
         }
     }

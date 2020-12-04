@@ -34,8 +34,7 @@ namespace PTSchool.Services.Implementations
                 //.Include(x => x.Teachers)
                 .ToListAsync();
 
-            var result = this.mapper.Map<IEnumerable<SubjectLightServiceModel>>(subjects);
-            return result;
+            return this.mapper.Map<IEnumerable<SubjectLightServiceModel>>(subjects);
         }
 
         public async Task<SubjectFullServiceModel> GetSubjectFullByIdAsync(Guid id)
@@ -52,8 +51,7 @@ namespace PTSchool.Services.Implementations
                 .ThenInclude(subjectTeacher => subjectTeacher.Teacher)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            var result = this.mapper.Map<SubjectFullServiceModel>(subject);
-            return result;
+            return this.mapper.Map<SubjectFullServiceModel>(subject);
         }
 
         public async Task<bool> DeleteSubjectByIdAsync(Guid id)
@@ -66,6 +64,29 @@ namespace PTSchool.Services.Implementations
             await db.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<SubjectFullServiceModel> UpdateSubjectAsync(SubjectFullServiceModel subject)
+        {
+            ValidateSubjectId(subject.Id);
+            ValidateIfSubjectIsDeleted(subject.Id);
+            ValidateIfInputIsNotNullOrEmpty(subject.Name);
+
+            var subjectInDb = await db.Subjects.FindAsync(subject.Id);
+
+            subjectInDb.Name = subject.Name;
+            subjectInDb.Description = subject.Description;
+            subjectInDb.Image = subject.Image;
+            await db.SaveChangesAsync();
+
+            var subjectInDbUpdated = await db.Subjects
+                .Include(x => x.Classes)
+                .ThenInclude(subjectClass => subjectClass.Class)
+                .Include(x => x.Teachers)
+                .ThenInclude(subjectTeacher => subjectTeacher.Teacher)
+                .FirstOrDefaultAsync(x => x.Id == subject.Id);
+
+            return this.mapper.Map<SubjectFullServiceModel>(subjectInDbUpdated);
         }
 
         public int GetPageSize()
@@ -103,5 +124,14 @@ namespace PTSchool.Services.Implementations
                 throw new ArgumentException("Subject is deleted.");
             }
         }
+
+        private void ValidateIfInputIsNotNullOrEmpty(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                throw new ArgumentNullException("Name of a Subject cannot be null or empty.");
+            }
+        }
+
     }
 }

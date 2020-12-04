@@ -13,5 +13,7 @@ namespace PTSchool.Services
         Task<SubjectFullServiceModel> GetSubjectFullByIdAsync(Guid id);
 
         Task<bool> DeleteSubjectByIdAsync(Guid id);
+
+        Task<SubjectFullServiceModel> UpdateSubjectAsync(SubjectFullServiceModel subject);
     }
 }

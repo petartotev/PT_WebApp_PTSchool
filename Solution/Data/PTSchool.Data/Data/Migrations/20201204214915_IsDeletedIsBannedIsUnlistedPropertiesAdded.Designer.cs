@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PTSchool.Data;
 
 namespace PTSchool.Data.Data.Migrations
 {
     [DbContext(typeof(PTSchoolDbContext))]
-    partial class PTSchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201204214915_IsDeletedIsBannedIsUnlistedPropertiesAdded")]
+    partial class IsDeletedIsBannedIsUnlistedPropertiesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

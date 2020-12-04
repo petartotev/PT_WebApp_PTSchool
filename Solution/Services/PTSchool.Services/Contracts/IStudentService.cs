@@ -15,5 +15,7 @@ namespace PTSchool.Services
         Task<IEnumerable<StudentFullServiceModel>> GetAllStudentCouncilMembersAsync();
 
         Task<bool> DeleteStudentByIdAsync(Guid id);
+
+        Task<StudentFullServiceModel> UpdateStudentAsync(StudentFullServiceModel student);
     }
 }
