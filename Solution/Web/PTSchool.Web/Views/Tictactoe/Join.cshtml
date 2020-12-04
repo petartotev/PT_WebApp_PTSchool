@@ -4,39 +4,57 @@
     ViewData["Title"] = "Join";
 }
 
-<div class="container">
-    <div class="row justify-content-center align-items-center">
-        <h1 onmouseover="this.style.fontSize='50px'" onmouseout="this.style.fontSize='40px'">TicTacToe<strong>Join!</strong></h1>
+@if (Model.GamesTictactoeAvailable.Count() == 0)
+{
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Sorry</h5>
+            <p class="card-category"><b>No games available.</b> Go back to menu and create one yourself!</p>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <a class="btn btn-lg btn-round btn-danger text-white" onclick="window.location='@Url.Action("Menu", "Tictactoe")'"><i class="nc-icon nc-minimal-left"></i> BACK</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <hr style="height: 5px;" class="bg-danger" />
-</div>
+}
+else
+{
+    @foreach (var gamesAvailable in @Model.GamesTictactoeAvailable)
+    {
+        string hour = $"{@gamesAvailable.DateCreated.Hour:D2}";
+        string minute = $"{@gamesAvailable.DateCreated.Minute:D2}";
+        string second = $"{@gamesAvailable.DateCreated.Second:D2}";
 
-<div class="container">
-    <div>
-        @if (Model.GamesTictactoeAvailable.Count() == 0)
-        {
-            <p class="text-center"><strong>No games available!</strong> Go back to MENU and create one yourself!</p>
-        }
-        @foreach (var gamesAvailable in @Model.GamesTictactoeAvailable)
-        {
-            string hour = $"{@gamesAvailable.DateCreated.Hour:D2}";
-            string minute = $"{@gamesAvailable.DateCreated.Minute:D2}";
-            string second = $"{@gamesAvailable.DateCreated.Second:D2}";
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title"></h5>
+                <p class="card-category"></p>
+            </div>
+            <div class="card-body">
+                <p><strong>Game: </strong>@gamesAvailable.Id</p>
+        <p><strong>Host: </strong>@gamesAvailable.User1Id</p>
+        <p><strong>Time created: </strong>@hour:@minute:@second</p>
+        <a class="btn btn-lg btn-round btn-info text-white" onclick="window.location='@Url.Action("JoinPlay", "Tictactoe", new { id = gamesAvailable.Id, gameHost = gamesAvailable.User1Id })'">PLAY <i class="nc-icon nc-button-play"></i></a>
+            </div>
+        </div>        
+    }
 
-            <p><strong>Game: </strong>@gamesAvailable.Id</p>
-            <p><strong>Host: </strong>@gamesAvailable.User1Id</p>
-            <p><strong>Time created: </strong>@hour:@minute:@second</p>
-            <a class="btn btn-large btn-info text-white" onclick="window.location='@Url.Action("JoinPlay", "Tictactoe", new { id = gamesAvailable.Id, gameHost = gamesAvailable.User1Id })'">PLAY!</a>
-            <hr />
-        }
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Menu</h5>
+            <p class="card-category"><b>You don't like the ones existing?</b> Go back to menu and create one yourself!</p>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <a class="btn btn-lg btn-round btn-danger text-white" onclick="window.location='@Url.Action("Menu", "Tictactoe")'"><i class="nc-icon nc-minimal-left"></i> BACK</a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-<div class="container">
-    <hr style="height: 5px;" class="bg-danger" />
-    <div class="row justify-content-center align-items-center">
-        <a class="btn btn-large btn-danger text-white" onclick="window.location='@Url.Action("Menu", "Tictactoe")'">BACK TO MENU</a>
-    </div>
-</div>
+}
 <br />
 <br />

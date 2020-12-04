@@ -2,18 +2,56 @@
     ViewData["Title"] = "Menu";
 }
 
-<div class="container">
-    <div class="row justify-content-center align-items-center">
-        <h1 onmouseover="this.style.fontSize='50px'" onmouseout="this.style.fontSize='40px'">TicTacToe<strong>Menu</strong></h1>
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Menu</h5>
+        <p class="card-category">You can either join an existing game or create one by yourself and wait for anyone to join you!</p>
     </div>
-    <hr style="height: 5px;" class="bg-danger" />
+    <div class="card-body">
+        <div class="row justify-content-center align-items-center">
+            <a class="nav-link btn btn-primary btn-round" asp-area="" asp-controller="Tictactoe" asp-action="Create">CREATE GAME [X]</a>
+            &nbsp; &nbsp;
+            <a class="nav-link btn btn-success btn-round" asp-area="" asp-controller="Tictactoe" asp-action="Join">JOIN GAME [O]</a>
+        </div>                
+    </div>
+</div>
 
-    <div class="row justify-content-center align-items-center">
-        <a class="nav-link btn bg-dark text-white" asp-area="" asp-controller="Tictactoe" asp-action="Create">CREATE GAME [X]</a>
-        &nbsp; &nbsp;
-        <a class="nav-link btn bg-secondary text-white" asp-area="" asp-controller="Tictactoe" asp-action="Join">JOIN GAME [O]</a>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Briefly</h5>
+                <p class="card-category">Wikipedia gives a brief definition of Tic-tac-toe</p>
+            </div>
+            <div class="card-body">
+                <blockquote>
+                    <p class="blockquote blockquote-primary">
+                        Tic-tac-toe (American English), noughts and crosses (Commonwealth English), or Xs and Os, is a paper-and-pencil game for two players, X and O, who take turns marking the spaces in a 3×3 grid. The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row is the winner. It is a solved game with a forced draw assuming best play from both players.
+                        <br />
+                        <br />
+                        <small>- Wikipedia</small>
+                    </p>
+                </blockquote>
+                <br />
+                <br />
+            </div>
+        </div>
     </div>
-    <hr />
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Explained</h5>
+                <p class="card-category">Sponge Bob explains it, here:</p>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <img src="~/images/gifs/tictac.gif" alt="gif-tictac-spongebog-joke" />
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <br />
 <br />
