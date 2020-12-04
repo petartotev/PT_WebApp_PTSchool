@@ -57,7 +57,19 @@ namespace PTSchool.Services.Implementations
 
             var result = this.mapper.Map<TeacherFullServiceModel>(teacher);
             return result;
-        }        
+        }
+
+        public async Task<bool> DeleteTeacherByIdAsync(Guid id)
+        {
+            ValidateTeacherId(id);
+            ValidateIfTeacherIsDeleted(id);
+
+            var teacherToDelete = await this.db.Teachers.FindAsync(id);
+            teacherToDelete.IsDeleted = true;
+            await db.SaveChangesAsync();
+
+            return true;
+        }
 
         public int GetPageSize()
         {

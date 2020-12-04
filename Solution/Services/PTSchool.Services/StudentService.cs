@@ -76,6 +76,18 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
+        public async Task<bool> DeleteStudentByIdAsync(Guid id)
+        {
+            ValidateStudentId(id);
+            ValidateIfStudentIsDeleted(id);
+
+            var studentToDelete = await this.db.Students.FindAsync(id);
+            studentToDelete.IsDeleted = true;
+            await db.SaveChangesAsync();
+
+            return true;
+        }
+
         public int GetPageSize()
         {
             int pageSizeToGet = PageSize;

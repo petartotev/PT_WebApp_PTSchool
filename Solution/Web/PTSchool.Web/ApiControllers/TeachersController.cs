@@ -19,18 +19,32 @@ namespace PTSchool.Web.ApiControllers
         [Route("api/Teachers")]
         public async Task<IActionResult> GetAll([FromQuery] int page = 1)
         {
-            var teachers = await this.teacherService.GetAllTeachersLightByPageAsync(page);
+            var teachersToGet = await this.teacherService.GetAllTeachersLightByPageAsync(page);
 
-            return Ok(teachers);
+            return Ok(teachersToGet);
         }
 
         [HttpGet]
         [Route("api/Teachers/{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var teacher = await this.teacherService.GetTeacherFullByIdAsync(id);
+            var teacherToGet = await this.teacherService.GetTeacherFullByIdAsync(id);
 
-            return Ok(teacher);
+            return Ok(teacherToGet);
+        }
+
+        [HttpDelete]
+        [Route("api/Teachers/{id}")]
+        public async Task<IActionResult> DeleteById(Guid id)
+        {
+            bool isTeacherDeleted = await this.teacherService.DeleteTeacherByIdAsync(id);
+
+            if (!isTeacherDeleted)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
     }
 }

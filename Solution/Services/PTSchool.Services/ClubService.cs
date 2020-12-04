@@ -53,6 +53,17 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
+        public async Task<bool> DeleteClubByIdAsync(Guid id)
+        {
+            ValidateClubId(id);
+            ValidateIfClubIsDeleted(id);
+
+            var clubToDelete = await this.db.Clubs.FindAsync(id);
+            clubToDelete.IsDeleted = true;
+            await db.SaveChangesAsync();
+
+            return true;
+        }
 
         public int GetPageSize()
         {

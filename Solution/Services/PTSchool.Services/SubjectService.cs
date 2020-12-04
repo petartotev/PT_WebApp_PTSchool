@@ -56,6 +56,18 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
+        public async Task<bool> DeleteSubjectByIdAsync(Guid id)
+        {
+            ValidateSubjectId(id);
+            ValidateIfSubjectIsDeleted(id);
+
+            var subjectToDelete = await this.db.Subjects.FindAsync(id);
+            subjectToDelete.IsDeleted = true;
+            await db.SaveChangesAsync();
+
+            return true;
+        }
+
         public int GetPageSize()
         {
             int pageSizeToGet = PageSize;
@@ -65,19 +77,6 @@ namespace PTSchool.Services.Implementations
         public int GetTotalCount()
         {
             return this.db.Subjects.Count();
-        }
-
-        public async Task<bool> DeleteSubjectByIdAsync(Guid id)
-        {
-            var subjectToDelete = await this.db.Subjects
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (subjectToDelete is null)
-            {
-                return false;
-            }
-
-            return true;
         }
 
 

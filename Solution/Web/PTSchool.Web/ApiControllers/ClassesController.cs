@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PTSchool.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PTSchool.Web.ApiControllers
@@ -21,18 +19,32 @@ namespace PTSchool.Web.ApiControllers
         [Route("api/Classes")]
         public async Task<IActionResult> GetAll([FromQuery] int page = 1)
         {
-            var classes = await this.classService.GetAllClassesLightByPageAsync(page);
+            var classesToGet = await this.classService.GetAllClassesLightByPageAsync(page);
 
-            return Ok(classes);
+            return Ok(classesToGet);
         }
 
         [HttpGet]
         [Route("api/Classes/{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var classy = await this.classService.GetClassFullByIdAsync(id);
+            var classToGet = await this.classService.GetClassFullByIdAsync(id);
 
-            return Ok(classy);
+            return Ok(classToGet);
+        }
+
+        [HttpDelete]
+        [Route("api/Classes/{id}")]
+        public async Task<IActionResult> DeleteById(Guid id)
+        {
+            bool isClassDeleted = await this.classService.DeleteClassByIdAsync(id);
+
+            if (!isClassDeleted)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
     }
 }

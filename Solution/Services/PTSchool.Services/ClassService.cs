@@ -54,6 +54,18 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
+        public async Task<bool> DeleteClassByIdAsync(Guid id)
+        {
+            ValidateClassId(id);
+            ValidateIfClassIsDeleted(id);
+
+            var classToDelete = await this.db.Classes.FindAsync(id);
+            classToDelete.IsDeleted = true;
+            await db.SaveChangesAsync();
+
+            return true;
+        }
+
         public int GetPageSize()
         {
             int pageSizeToGet = PageSize;

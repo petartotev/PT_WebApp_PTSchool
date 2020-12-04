@@ -50,6 +50,18 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
+        public async Task<bool> DeleteParentByIdAsync(Guid id)
+        {
+            ValidateParentId(id);
+            ValidateIfParentIsDeleted(id);
+
+            var parentToDelete = await this.db.Parents.FindAsync(id);
+            parentToDelete.IsDeleted = true;
+            await db.SaveChangesAsync();
+
+            return true;
+        }
+
         public int GetPageSize()
         {
             var pageSizeToGet = PageSize;

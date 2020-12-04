@@ -11,5 +11,7 @@ namespace PTSchool.Services
         Task<IEnumerable<ParentLightServiceModel>> GetAllParentsLightByPageAsync(int page = 1);
 
         Task<ParentFullServiceModel> GetParentFullByIdAsync(Guid id);
+
+        Task<bool> DeleteParentByIdAsync(Guid id);
     }
 }

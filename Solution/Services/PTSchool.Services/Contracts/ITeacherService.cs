@@ -11,5 +11,7 @@ namespace PTSchool.Services.Implementations
         Task<IEnumerable<TeacherLightServiceModel>> GetAllTeachersLightByPageAsync(int page = 1);
 
         Task<TeacherFullServiceModel> GetTeacherFullByIdAsync(Guid id);
+
+        Task<bool> DeleteTeacherByIdAsync(Guid id);
     }
 }
