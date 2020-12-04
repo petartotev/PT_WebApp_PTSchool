@@ -4,6 +4,61 @@
     <div class="row">
         <div class="col-md-5">
             <partial name="_ProfilePersonGeneralPartial" model="@Model" />
+            <partial name="_ProfilePersonInformationPartial" model="@Model" /> <!--General Information-->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card card-stats">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    <div class="icon-big text-center icon-warning">
+                                        <i class="nc-icon nc-trophy"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <div class="numbers">
+                                        <p class="card-category">Age</p>
+                                        <p class="card-title">@Model.Age</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-refresh"></i>
+                                @Model.FirstName is @Model.Age old.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-stats">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    <div class="icon-big text-center icon-warning">
+                                        <i class="nc-icon nc-diamond"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    <div class="numbers">
+                                        <p class="card-category">Occupation</p>
+                                        <p class="card-title">@Model.Occupation</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-refresh"></i> 
+                                A professional @Model.Occupation
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!--Score-->
         </div>
         <div class="col-md-7">
             <div class="card">

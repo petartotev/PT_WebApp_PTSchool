@@ -3,7 +3,6 @@ using PTSchool.Data;
 using PTSchool.Data.Models;
 using PTSchool.Data.Models.Enums;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PTSchool.Console.Seeder
@@ -204,13 +203,14 @@ namespace PTSchool.Console.Seeder
             "Pomorie Solna str. 9",
             "Pomorie Odrin str. 3",
             "Sozopol Rodopi str. 5",
-            "Karnobat Asen Zlatarov 15"
+            "Karnobat Asen Zlatarov 15",
         };
 
         private static readonly MyList<string> listOccupations = new MyList<string>()
         {
             "Architect",
             "Engineer",
+            "Geodesist",
             "Driver",
             "Doctor",
             "PhD",
@@ -221,7 +221,16 @@ namespace PTSchool.Console.Seeder
             "Teacher",
             "Soldier",
             "Politician",
-            "Fisherman"
+            "Fisherman",
+            "Nurse",
+            "Technician",
+            "Mechanic",
+            "Hygienist",
+            "Consultant",
+            "IT",
+            "Musician",
+            "Artist",
+            "3D Artist"
         };
 
 
@@ -696,7 +705,7 @@ namespace PTSchool.Console.Seeder
 
                     string occupation = GetRandomOccupation();
 
-                    int randomAgeParent = random.Next(25, 55);
+                    int randomAgeParent = random.Next(32, 54);
                     DateTime dateBirth = DateTime.Now.AddYears(randomAgeParent * (-1)).AddMonths(randomAgeParent).AddDays(randomAgeParent);
 
                     db.Parents.Add(new Parent
@@ -736,7 +745,7 @@ namespace PTSchool.Console.Seeder
                         ParentId = parent.Id,
                     });
                     db.SaveChanges();
-                    
+
                     parent.LastName = student.LastName;
                     db.SaveChanges();
 
