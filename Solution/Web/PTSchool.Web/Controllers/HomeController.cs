@@ -89,5 +89,10 @@ namespace PTSchool.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult About()
+        {
+            return this.View();
+        }
     }
 }

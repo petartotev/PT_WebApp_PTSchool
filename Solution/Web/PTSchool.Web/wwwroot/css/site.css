@@ -265,3 +265,7 @@ input[type=number], label {
     background: #65D1D4;
 }
 /*color sliders end*/
+
+.button-hover:hover {
+    color: #65D1D4;
+}
