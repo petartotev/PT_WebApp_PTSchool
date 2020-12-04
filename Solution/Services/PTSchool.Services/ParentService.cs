@@ -26,6 +26,7 @@ namespace PTSchool.Services.Implementations
         public async Task<IEnumerable<ParentLightServiceModel>> GetAllParentsLightByPageAsync(int page = 1)
         {
             var parents = await this.db.Parents
+                .Where(x => x.IsDeleted == false)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
                 //.Include(x => x.Students)
@@ -37,6 +38,9 @@ namespace PTSchool.Services.Implementations
 
         public async Task<ParentFullServiceModel> GetParentFullByIdAsync(Guid id)
         {
+            ValidateParentId(id);
+            ValidateIfParentIsDeleted(id);
+
             var parent = await db.Parents
                 .Include(x => x.Students)
                 .ThenInclude(studentParent => studentParent.Student)
@@ -55,6 +59,31 @@ namespace PTSchool.Services.Implementations
         public int GetTotalCount()
         {
             return this.db.Parents.Count();
+        }
+
+
+        private void ValidateParentId(Guid id)
+        {
+            if (!db.Parents.Any(x => x.Id == id))
+            {
+                throw new ArgumentException("No Parent with such id.");
+            }
+        }
+
+        private void ValidateIfParentIsBanned(Guid id)
+        {
+            if (db.Parents.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Parent is banned.");
+            }
+        }
+
+        private void ValidateIfParentIsDeleted(Guid id)
+        {
+            if (db.Parents.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Parent is deleted.");
+            }
         }
     }
 }

@@ -25,6 +25,7 @@ namespace PTSchool.Services.Implementations
         public async Task<IEnumerable<SubjectLightServiceModel>> GetAllSubjectsLightByPageAsync(int page = 1)
         {
             var subjects = await this.db.Subjects
+                .Where(x => x.IsDeleted == false)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
                 //.Include(x => x.Classes)
@@ -39,6 +40,9 @@ namespace PTSchool.Services.Implementations
 
         public async Task<SubjectFullServiceModel> GetSubjectFullByIdAsync(Guid id)
         {
+            ValidateSubjectId(id);
+            ValidateIfSubjectIsDeleted(id);
+
             var subject = await this.db.Subjects
                 //.Include(x => x.Marks)
                 //.Include(x => x.Notes)
@@ -74,6 +78,31 @@ namespace PTSchool.Services.Implementations
             }
 
             return true;
+        }
+
+
+        private void ValidateSubjectId(Guid id)
+        {
+            if (!db.Subjects.Any(x => x.Id == id))
+            {
+                throw new ArgumentException("No Subject with such id.");
+            }
+        }
+
+        private void ValidateIfSubjectIsUnlisted(Guid id)
+        {
+            if (db.Subjects.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Subject is unlisted.");
+            }
+        }
+
+        private void ValidateIfSubjectIsDeleted(Guid id)
+        {
+            if (db.Subjects.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Subject is deleted.");
+            }
         }
     }
 }

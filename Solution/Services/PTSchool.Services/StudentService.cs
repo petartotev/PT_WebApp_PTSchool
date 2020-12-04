@@ -25,8 +25,8 @@ namespace PTSchool.Services.Implementations
 
         public async Task<IEnumerable<StudentLightServiceModel>> GetAllStudentsLightByPageAsync(int page = 1)
         {
-            var students = await this.db
-                .Students
+            var students = await this.db.Students
+                .Where(x => x.IsDeleted == false)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
                 //.Include(x => x.Class)
@@ -40,8 +40,11 @@ namespace PTSchool.Services.Implementations
             return result;
         }
 
-        public async Task<StudentFullServiceModel> GetStudentFullByIdAsync(Guid studentId)
+        public async Task<StudentFullServiceModel> GetStudentFullByIdAsync(Guid id)
         {
+            ValidateStudentId(id);
+            ValidateIfStudentIsDeleted(id);
+
             var student = await db.Students
                 .Include(x => x.Class)
                 .Include(x => x.Marks)
@@ -50,7 +53,7 @@ namespace PTSchool.Services.Implementations
                 .ThenInclude(studentParent => studentParent.Parent)
                 .Include(x => x.Clubs)
                 .ThenInclude(clubStudent => clubStudent.Club)
-                .FirstOrDefaultAsync(x => x.Id == studentId);
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             var result = this.mapper.Map<StudentFullServiceModel>(student);
             return result;
@@ -82,6 +85,31 @@ namespace PTSchool.Services.Implementations
         public int GetTotalCount()
         {
             return this.db.Students.Count();
+        }
+
+
+        private void ValidateStudentId(Guid id)
+        {
+            if (!db.Students.Any(x => x.Id == id))
+            {
+                throw new ArgumentException("No Student with such id.");
+            }
+        }
+
+        private void ValidateIfStudentIsBanned(Guid id)
+        {
+            if (db.Students.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Student is banned.");
+            }
+        }
+
+        private void ValidateIfStudentIsDeleted(Guid id)
+        {
+            if (db.Students.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Student is deleted.");
+            }
         }
     }
 }

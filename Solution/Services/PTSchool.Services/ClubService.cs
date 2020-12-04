@@ -25,6 +25,7 @@ namespace PTSchool.Services.Implementations
         public async Task<IEnumerable<ClubLightServiceModel>> GetAllClubsLightByPageAsync(int page = 1)
         {
             var clubs = await this.db.Clubs
+                .Where(x => x.IsDeleted == false)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
                 //.Include(x => x.Students)
@@ -37,6 +38,9 @@ namespace PTSchool.Services.Implementations
 
         public async Task<ClubFullServiceModel> GetClubFullByIdAsync(Guid id)
         {
+            ValidateClubId(id);
+            ValidateIfClubIsDeleted(id);
+
             var club = await this.db.Clubs
                 .Where(x => x.Id == id)
                 .Include(x => x.Students)
@@ -73,6 +77,31 @@ namespace PTSchool.Services.Implementations
             int test = this.db.Clubs.Select(x => x.Teachers.Count()).ToList().Sum();
 
             return test;
+        }
+
+
+        private void ValidateClubId(Guid id)
+        {
+            if (!db.Clubs.Any(x => x.Id == id))
+            {
+                throw new ArgumentException("No Club with such id.");
+            }
+        }
+
+        private void ValidateIfClubIsUnlisted(Guid id)
+        {
+            if (db.Clubs.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Club is unlisted.");
+            }
+        }
+
+        private void ValidateIfClubIsDeleted(Guid id)
+        {
+            if (db.Clubs.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Club is deleted.");
+            }
         }
     }
 }

@@ -25,6 +25,7 @@ namespace PTSchool.Services.Implementations
         public async Task<IEnumerable<ClassLightServiceModel>> GetAllClassesLightByPageAsync(int page = 1)
         {
             var classes = await this.db.Classes
+                .Where(x => x.IsDeleted == false)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
                 //.Include(x => x.MasterTeacher)
@@ -39,6 +40,9 @@ namespace PTSchool.Services.Implementations
 
         public async Task<ClassFullServiceModel> GetClassFullByIdAsync(Guid id)
         {
+            ValidateClassId(id);
+            ValidateIfClassIsDeleted(id);
+
             var classy = await this.db.Classes
                 .Include(x => x.MasterTeacher)
                 .Include(x => x.Students)
@@ -59,6 +63,31 @@ namespace PTSchool.Services.Implementations
         public int GetTotalCount()
         {
             return this.db.Classes.Count();
+        }
+
+
+        private void ValidateClassId(Guid id)
+        {
+            if (!db.Classes.Any(x => x.Id == id))
+            {
+                throw new ArgumentException("No Class with such id.");
+            }
+        }
+
+        private void ValidateIfClassIsUnlisted(Guid id)
+        {
+            if (db.Classes.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Class is unlisted.");
+            }
+        }
+
+        private void ValidateIfClassIsDeleted(Guid id)
+        {
+            if (db.Classes.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Class is deleted.");
+            }
         }
     }
 }

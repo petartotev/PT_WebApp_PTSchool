@@ -24,8 +24,8 @@ namespace PTSchool.Services.Implementations
 
         public async Task<IEnumerable<TeacherLightServiceModel>> GetAllTeachersLightByPageAsync(int page = 1)
         {
-
             var teachers = await this.db.Teachers
+                .Where(x => x.IsDeleted == false)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
                 //.Include(x => x.Classes)
@@ -42,6 +42,9 @@ namespace PTSchool.Services.Implementations
 
         public async Task<TeacherFullServiceModel> GetTeacherFullByIdAsync(Guid id)
         {
+            ValidateTeacherId(id);
+            ValidateIfTeacherIsDeleted(id);
+
             var teacher = await this.db.Teachers
                 .Include(x => x.ClassMastered)
                 .Include(x => x.Marks)
@@ -65,6 +68,31 @@ namespace PTSchool.Services.Implementations
         public int GetTotalCount()
         {
             return this.db.Teachers.Count();
+        }
+
+
+        private void ValidateTeacherId(Guid id)
+        {
+            if (!db.Teachers.Any(x => x.Id == id))
+            {
+                throw new ArgumentException("No Teacher with such id.");
+            }
+        }
+
+        private void ValidateIfTeacherIsBanned(Guid id)
+        {
+            if (db.Teachers.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Teacher is banned.");
+            }
+        }
+
+        private void ValidateIfTeacherIsDeleted(Guid id)
+        {
+            if (db.Teachers.First(x => x.Id == id).IsDeleted)
+            {
+                throw new ArgumentException("Teacher is deleted.");
+            }
         }
     }
 }
