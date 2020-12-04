@@ -12,5 +12,8 @@ namespace PTSchool.Web.Models.Teacher
         public string Image { get; set; }
 
         public bool IsHeadTeacher { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

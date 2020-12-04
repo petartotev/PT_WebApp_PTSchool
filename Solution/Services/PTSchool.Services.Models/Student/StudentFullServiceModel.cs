@@ -48,5 +48,8 @@ namespace PTSchool.Services.Models.Student
         public IEnumerable<ClubLightServiceModel> Clubs { get; set; }
 
         public IEnumerable<ParentLightServiceModel> Parents { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

@@ -62,5 +62,8 @@ namespace PTSchool.Data.Models
         public ICollection<Note> Notes { get; set; } = new HashSet<Note>();
 
         public ICollection<StudentParent> Parents { get; set; } = new HashSet<StudentParent>();
+
+        public bool IsDeleted { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

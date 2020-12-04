@@ -62,5 +62,18 @@ namespace PTSchool.Services.Implementations
         {
             return this.db.Subjects.Count();
         }
+
+        public async Task<bool> DeleteSubjectByIdAsync(Guid id)
+        {
+            var subjectToDelete = await this.db.Subjects
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (subjectToDelete is null)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

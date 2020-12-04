@@ -11,5 +11,7 @@ namespace PTSchool.Services
         Task<IEnumerable<SubjectLightServiceModel>> GetAllSubjectsLightByPageAsync(int page = 1);
 
         Task<SubjectFullServiceModel> GetSubjectFullByIdAsync(Guid id);
+
+        Task<bool> DeleteSubjectByIdAsync(Guid id);
     }
 }

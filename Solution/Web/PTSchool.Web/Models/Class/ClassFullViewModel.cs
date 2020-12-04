@@ -14,5 +14,8 @@ namespace PTSchool.Web.Models.Class
         public TeacherLightViewModel MasterTeacher { get; set; }
 
         public IEnumerable<StudentLightViewModel> Students { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsUnlisted { get; set; }
     }
 }

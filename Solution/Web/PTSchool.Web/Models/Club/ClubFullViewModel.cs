@@ -19,5 +19,8 @@ namespace PTSchool.Web.Models.Club
         public IEnumerable<StudentLightViewModel> Students { get; set; }
 
         public IEnumerable<TeacherLightViewModel> Teachers { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsUnlisted { get; set; }
     }
 }

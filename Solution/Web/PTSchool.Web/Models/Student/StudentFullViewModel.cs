@@ -28,5 +28,8 @@ namespace PTSchool.Web.Models.Student
         public IEnumerable<ClubLightViewModel> Clubs { get; set; }
 
         public IEnumerable<ParentLightViewModel> Parents { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

@@ -26,5 +26,8 @@ namespace PTSchool.Services.Models.Club
         public int CountStudents { get; set; }
         public int CountGirls { get; set; }
         public int CountBoys { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsUnlisted { get; set; }
     }
 }

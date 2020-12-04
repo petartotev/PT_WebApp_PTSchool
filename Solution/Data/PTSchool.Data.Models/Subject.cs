@@ -27,5 +27,8 @@ namespace PTSchool.Data.Models
         public ICollection<Note> Notes { get; set; } = new HashSet<Note>();
 
         public ICollection<SubjectTeacher> Teachers { get; set; } = new HashSet<SubjectTeacher>();
+
+        public bool IsDeleted { get; set; }
+        public bool IsUnlisted { get; set; }
     }
 }

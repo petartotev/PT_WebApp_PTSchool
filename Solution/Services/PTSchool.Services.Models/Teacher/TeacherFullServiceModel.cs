@@ -43,5 +43,8 @@ namespace PTSchool.Services.Models.Teacher
         //public IEnumerable<ClubLightServiceModel> Classes { get; set; }
 
         public IEnumerable<SubjectLightServiceModel> Subjects { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

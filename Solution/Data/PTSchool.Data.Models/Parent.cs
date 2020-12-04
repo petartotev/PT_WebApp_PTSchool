@@ -50,5 +50,8 @@ namespace PTSchool.Data.Models
 
         // RELATIONS
         public ICollection<StudentParent> Students { get; set; } = new HashSet<StudentParent>();
+
+        public bool IsDeleted { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

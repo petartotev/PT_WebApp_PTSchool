@@ -9,5 +9,8 @@ namespace PTSchool.Web.Models.Parent
         public string Occupation { get; set; }
 
         public IEnumerable<StudentLightViewModel> Students { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

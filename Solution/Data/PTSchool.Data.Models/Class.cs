@@ -28,5 +28,8 @@ namespace PTSchool.Data.Models
         public ICollection<SubjectClass> Subjects { get; set; } = new HashSet<SubjectClass>();
 
         public ICollection<TeacherClass> Teachers { get; set; } = new HashSet<TeacherClass>();
+
+        public bool IsDeleted { get; set; }
+        public bool IsUnlisted { get; set; }
     }
 }

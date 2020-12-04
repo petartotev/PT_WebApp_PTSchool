@@ -11,5 +11,8 @@ namespace PTSchool.Services.Models.Student
         public string Image { get; set; }
 
         public bool IsSchoolCouncilMember { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

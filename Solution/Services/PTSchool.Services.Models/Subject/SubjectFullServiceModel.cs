@@ -18,5 +18,8 @@ namespace PTSchool.Services.Models.Subject
         public IEnumerable<ClassLightServiceModel> Classes { get; set; }
 
         public IEnumerable<TeacherLightServiceModel> Teachers { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsUnlisted { get; set; }
     }
 }

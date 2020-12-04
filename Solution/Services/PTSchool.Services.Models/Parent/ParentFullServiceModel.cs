@@ -28,5 +28,8 @@ namespace PTSchool.Services.Models.Parent
         public string Phone { get; set; }
 
         public IEnumerable<StudentLightServiceModel> Students { get; set; }
+
+        public bool IsDeleted { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

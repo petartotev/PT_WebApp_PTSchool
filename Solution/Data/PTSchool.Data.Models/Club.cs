@@ -30,5 +30,8 @@ namespace PTSchool.Data.Models
         public ICollection<ClubStudent> Students { get; set; } = new HashSet<ClubStudent>();
 
         public ICollection<ClubTeacher> Teachers { get; set; } = new HashSet<ClubTeacher>();
+
+        public bool IsDeleted { get; set; }
+        public bool IsUnlisted { get; set; }
     }
 }
