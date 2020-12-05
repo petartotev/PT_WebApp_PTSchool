@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
+using PTSchool.Data.Models;
 using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.Parent;
 using System;
@@ -88,6 +89,28 @@ namespace PTSchool.Services.Implementations
             return this.mapper.Map<ParentFullServiceModel>(parentInDbUpdated);
         }
 
+        public async Task<ParentFullServiceModel> CreateParentAsync(ParentFullServiceModel parent)
+        {
+            ValidateIfInputStringIsNotNullOrEmpty(parent.FirstName);
+            ValidateIfInputStringIsNotNullOrEmpty(parent.MiddleName);
+            ValidateIfInputStringIsNotNullOrEmpty(parent.LastName);
+            ValidateIfInputStringIsNotNullOrEmpty(parent.Email);
+            ValidateIfInputStringIsNotNullOrEmpty(parent.Phone);
+            ValidateIfInputStringIsNotNullOrEmpty(parent.Address);
+            ValidateIfDateIsNotNull(parent.DateBirth);
+
+            Parent parentToAddInDb = this.mapper.Map<Parent>(parent);
+
+            await SetDefaultImagePathIfImagePathIsNull(parentToAddInDb);
+            await SetDefaultDescriptionIfDescriptionIsNull(parentToAddInDb);
+
+            await this.db.Parents.AddAsync(parentToAddInDb);
+            await db.SaveChangesAsync();
+
+            Parent parentAddedInDb = await this.db.Parents.FirstOrDefaultAsync(x => x.FirstName == parent.FirstName && x.MiddleName == parent.MiddleName && x.LastName == parent.LastName);
+            return this.mapper.Map<ParentFullServiceModel>(parentAddedInDb);
+        }
+
         public int GetPageSize()
         {
             var pageSizeToGet = PageSize;
@@ -99,6 +122,30 @@ namespace PTSchool.Services.Implementations
             return this.db.Parents.Count();
         }
 
+
+        private async Task<string> SetDefaultImagePathIfImagePathIsNull(Parent parent)
+        {
+            if (parent.Image is null)
+            {
+                string imagePathDefault = $"/images/parents/default.jpg";
+                parent.Image = imagePathDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return parent.Image;
+        }
+
+        private async Task<string> SetDefaultDescriptionIfDescriptionIsNull(Parent parent)
+        {
+            if (string.IsNullOrEmpty(parent.Description))
+            {
+                string subjectDefault = $"{parent.FirstName} is a parent that is part of the PTSchool community. {parent.FirstName}'s child is the thing that makes world worth living!";
+                parent.Description = subjectDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return parent.Description;
+        }
 
         private void ValidateParentId(Guid id)
         {
@@ -129,6 +176,14 @@ namespace PTSchool.Services.Implementations
             if (string.IsNullOrEmpty(input))
             {
                 throw new ArgumentNullException("Name of a Parent cannot be null or empty.");
+            }
+        }
+
+        private void ValidateIfDateIsNotNull(DateTime date)
+        {
+            if (date == default)
+            {
+                throw new ArgumentException("Date cannot be default.");
             }
         }
     }

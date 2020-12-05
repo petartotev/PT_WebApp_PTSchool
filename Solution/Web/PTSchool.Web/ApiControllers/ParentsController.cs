@@ -50,11 +50,20 @@ namespace PTSchool.Web.ApiControllers
 
         [HttpPut]
         [Route("api/Parents/{id}")]
-        public async Task<IActionResult> Update([FromBody] ParentFullServiceModel parent)
+        public async Task<IActionResult> Put([FromBody] ParentFullServiceModel parent)
         {
             var parentUpdated = await this.parentService.UpdateParentAsync(parent);
 
             return Ok(parentUpdated);
+        }
+
+        [HttpPost]
+        [Route("api/Parents")]
+        public async Task<IActionResult> Post([FromBody] ParentFullServiceModel parent)
+        {
+            var parentCreated = await this.parentService.CreateParentAsync(parent);
+
+            return Ok(parentCreated);
         }
     }
 }

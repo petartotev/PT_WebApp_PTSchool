@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
+using PTSchool.Data.Models;
 using PTSchool.Services.Models.Teacher;
 using System;
 using System.Collections.Generic;
@@ -103,6 +104,29 @@ namespace PTSchool.Services.Implementations
             return this.mapper.Map<TeacherFullServiceModel>(teacherInDbUpdated);
         }
 
+        public async Task<TeacherFullServiceModel> CreateTeacherAsync(TeacherFullServiceModel teacher)
+        {
+            ValidateIfInputStringIsNotNullOrEmpty(teacher.FirstName);
+            ValidateIfInputStringIsNotNullOrEmpty(teacher.MiddleName);
+            ValidateIfInputStringIsNotNullOrEmpty(teacher.LastName);
+            ValidateIfInputStringIsNotNullOrEmpty(teacher.Email);
+            ValidateIfInputStringIsNotNullOrEmpty(teacher.Phone);
+            ValidateIfInputStringIsNotNullOrEmpty(teacher.PhoneEmergency);
+            ValidateIfInputStringIsNotNullOrEmpty(teacher.Address);
+            ValidateIfDateIsNotNull(teacher.DateBirth);
+
+            Teacher teacherToAddInDb = this.mapper.Map<Teacher>(teacher);
+
+            await SetDefaultImagePathIfImagePathIsNull(teacherToAddInDb);
+            await SetDefaultDescriptionIfDescriptionIsNull(teacherToAddInDb);
+
+            await this.db.Teachers.AddAsync(teacherToAddInDb);
+            await db.SaveChangesAsync();
+
+            Teacher teacherAddedInDb = await this.db.Teachers.FirstOrDefaultAsync(x => x.FirstName == teacher.FirstName && x.MiddleName == teacher.MiddleName && x.LastName == teacher.LastName);
+            return this.mapper.Map<TeacherFullServiceModel>(teacherAddedInDb);
+        }
+
         public int GetPageSize()
         {
             int pageSizeToGet = PageSize;
@@ -112,6 +136,30 @@ namespace PTSchool.Services.Implementations
         public int GetTotalCount()
         {
             return this.db.Teachers.Count();
+        }
+
+        private async Task<string> SetDefaultImagePathIfImagePathIsNull(Teacher teacher)
+        {
+            if (teacher.Image is null)
+            {
+                string imagePathDefault = $"/images/teachers/default.jpg";
+                teacher.Image = imagePathDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return teacher.Image;
+        }
+
+        private async Task<string> SetDefaultDescriptionIfDescriptionIsNull(Teacher teacher)
+        {
+            if (string.IsNullOrEmpty(teacher.Description))
+            {
+                string subjectDefault = $"{teacher.LastName} is a teacher that is part of the PTSchool community. {teacher.LastName} is keen on science, literature and spreading knowledge and skills among the students of the school.";
+                teacher.Description = subjectDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return teacher.Description;
         }
 
         private void ValidateTeacherId(Guid id)
@@ -143,6 +191,14 @@ namespace PTSchool.Services.Implementations
             if (string.IsNullOrEmpty(input))
             {
                 throw new ArgumentNullException("Name of a Teacher cannot be null or empty.");
+            }
+        }
+
+        private void ValidateIfDateIsNotNull(DateTime date)
+        {
+            if (date == default(DateTime))
+            {
+                throw new ArgumentException("Date cannot be default.");
             }
         }
     }

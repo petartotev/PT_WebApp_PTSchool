@@ -91,6 +91,7 @@ namespace PTSchool.Services.Implementations
         {
             ValidateIfObjectIsNotNull(club);
             ValidateIfInputIsNotNullOrEmpty(club.Name);
+            ValidateIfNameAlreadyExists(club.Name);
 
             Club clubToCreate = this.mapper.Map<Club>(club);
 
@@ -183,6 +184,14 @@ namespace PTSchool.Services.Implementations
             if (string.IsNullOrEmpty(input))
             {
                 throw new ArgumentNullException("Name / Description of a Club cannot be null or empty.");
+            }
+        }
+
+        private void ValidateIfNameAlreadyExists(string name)
+        {
+            if (this.db.Clubs.Any(x => x.Name == name))
+            {
+                throw new ArgumentException("There is already an entity with this name.");
             }
         }
 

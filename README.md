@@ -3,7 +3,7 @@
 ## General Information
 
 _N.B. This is a "legacy" project created for educational purposes before the start of my Telerik Academy Alpha formal education._  
-\*_It is currently in a process of massive refactoring. The goal is to achieve the same quality as our final project in Telerik Academy which I created in collaboration with Iva Pavlova..._  
+_It is currently in a process of massive refactoring. The goal is to achieve the same quality as our final project in Telerik Academy which I created in collaboration with Iva Pavlova..._  
 Link: https://gitlab.com/Iva_Pavlova/team9projectplaylistgenerator
 
 PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an online platform for different services for Parents, Teachers and Students within a school institution.
@@ -91,13 +91,13 @@ Play TicTacToe!
 
 ### PTShooterGame!!!
 
-A mouse-click shooter with no page-reloading.  
+A mouse-clicking shooter.  
 No page reloading, vanilla JavaScript only.
 
 Start with:
 
-- Health = 3
-- Gun Reload = 5
+- Health = 3 - so you can get shot by the bandits only twice
+- Gun Reload = 5 - don't forget to reload with Enter key
 - Enemies = 12
 
 You-shoot-them-all-or-they-shoot-you.  
@@ -110,6 +110,7 @@ As simple as that!
 ## Contents
 
 The solution contains 4 main directories with 6 projects:
+
 - Web
   - PTSchool\.Web
     - Models-Views-Controllers (MVC) application
@@ -122,6 +123,7 @@ The solution contains 4 main directories with 6 projects:
   - PTSchool.Data.Models
 - Console
   - PTSchool.Console
+
 ---
 
 ## Web Application
@@ -178,6 +180,7 @@ PTSchool.Data.Models is a .NET Standard 2.1 Class Library project.
 The project consists of all of the Data Models that are needed to manipulate the database.
 
 It includes the following Data Models:
+
 - /ApiNews - all data models transferring information on the 20 articles received via NewsApi from BBC and saved locally in the Database thanks to Hangfire at 07:00 daily
 - /Enums - all enums that the data models use
 - /Validations/StaticValidator.cs - a static class that holds all constant integers that represent MinLength, MaxLength Validations on properties - all at one place.
@@ -196,6 +199,7 @@ It includes the following Data Models:
 - Teacher.cs
 - TeacherClass.cs (many-to-many)
 - Tictactoe.cs
+
 ---
 
 ## Console Application
@@ -205,7 +209,7 @@ It includes the following Data Models:
 PTSchool.Console is a .NET Core 3.1 Console Application.  
 The Main() method in Program.cs calls a series of methods that seed information in the Database of the application.  
 They are called in a certain order, as entities in the database have certain relations that create dependencies between them.  
-*For example, to assign a Mark / Note to a Student you need to have a Subject and a Teacher etc.*  
+_For example, to assign a Mark / Note to a Student you need to have a Subject and a Teacher etc._
 
 Here is the order of the methods called in Main():
 

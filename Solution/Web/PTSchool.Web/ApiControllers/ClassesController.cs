@@ -50,7 +50,7 @@ namespace PTSchool.Web.ApiControllers
 
         [HttpPut]
         [Route("api/Classes/{id}")]
-        public async Task<IActionResult> Update([FromBody] ClassFullServiceModel classToUpdate)
+        public async Task<IActionResult> Put([FromBody] ClassFullServiceModel classToUpdate)
         {
             var classUpdated = await this.classService.UpdateClassAsync(classToUpdate);
 

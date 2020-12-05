@@ -49,7 +49,7 @@ namespace PTSchool.Web.Controllers
         public async Task<IActionResult> Index()
         {
             //ToDo: Put that as comment as soon as possible
-            await homeService.UpdateNewsLocalDb();
+            //await homeService.UpdateNewsLocalDb();
 
             HomeServiceModel homeServiceModel = await homeService.GetHomePageInformationPackage();
             HomeViewModel model = this.mapper.Map<HomeViewModel>(homeServiceModel);

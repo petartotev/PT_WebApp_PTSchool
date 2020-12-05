@@ -92,6 +92,7 @@ namespace PTSchool.Services.Implementations
         {
             ValidateIfObjectIsNotNull(classInput);
             ValidateIfInputIsNotNullOrEmpty(classInput.Name);
+            ValidateIfNameAlreadyExists(classInput.Name);
 
             Class classToCreate = this.mapper.Map<Class>(classInput);
 
@@ -169,6 +170,14 @@ namespace PTSchool.Services.Implementations
             if (string.IsNullOrEmpty(input))
             {
                 throw new ArgumentNullException("Name of a Class cannot be null or empty.");
+            }
+        }
+
+        private void ValidateIfNameAlreadyExists(string name)
+        {
+            if (this.db.Classes.Any(x => x.Name == name))
+            {
+                throw new ArgumentException("There is already an entity with this name.");
             }
         }
 

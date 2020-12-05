@@ -94,6 +94,7 @@ namespace PTSchool.Services.Implementations
         {
             ValidateIfObjectIsNotNull(subject);
             ValidateIfInputIsNotNullOrEmpty(subject.Name);
+            ValidateIfNameAlreadyExists(subject.Name);
 
             Subject subjectNew = this.mapper.Map<Subject>(subject);
 
@@ -175,6 +176,15 @@ namespace PTSchool.Services.Implementations
                 throw new ArgumentNullException("Name of a Subject cannot be null or empty.");
             }
         }
+
+        private void ValidateIfNameAlreadyExists(string name)
+        {
+            if (this.db.Subjects.Any(x => x.Name == name))
+            {
+                throw new ArgumentException("There is already an entity with this name.");
+            }
+        }
+
 
         private void ValidateIfObjectIsNotNull(SubjectFullServiceModel subject)
         {

@@ -50,11 +50,20 @@ namespace PTSchool.Web.ApiControllers
 
         [HttpPut]
         [Route("api/Students/{id}")]
-        public async Task<IActionResult> Update([FromBody] StudentFullServiceModel student)
+        public async Task<IActionResult> Put([FromBody] StudentFullServiceModel student)
         {
             var studentUpdated = await this.studentService.UpdateStudentAsync(student);
 
             return Ok(studentUpdated);
+        }
+
+        [HttpPost]
+        [Route("api/Students")]
+        public async Task<IActionResult> Post([FromBody] StudentFullServiceModel student)
+        {
+            var studentCreated = await this.studentService.CreateStudentAsync(student);
+
+            return Ok(studentCreated);
         }
     }
 }

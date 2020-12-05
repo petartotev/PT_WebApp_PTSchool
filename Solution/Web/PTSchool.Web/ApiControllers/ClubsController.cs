@@ -52,7 +52,7 @@ namespace PTSchool.Web.ApiControllers
 
         [HttpPut]
         [Route("api/Clubs/{id}")]
-        public async Task<IActionResult> Update([FromBody] ClubFullServiceModel club)
+        public async Task<IActionResult> Put([FromBody] ClubFullServiceModel club)
         {
             var clubUpdated = await this.clubService.UpdateClubAsync(club);
 

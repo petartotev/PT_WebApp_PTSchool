@@ -119,6 +119,28 @@ namespace PTSchool.Services.Implementations
             return this.mapper.Map<StudentFullServiceModel>(studentInDbUpdated);
         }
 
+        public async Task<StudentFullServiceModel> CreateStudentAsync(StudentFullServiceModel student)
+        {
+            ValidateIfInputStringIsNotNullOrEmpty(student.FirstName);
+            ValidateIfInputStringIsNotNullOrEmpty(student.MiddleName);
+            ValidateIfInputStringIsNotNullOrEmpty(student.LastName);
+            ValidateIfInputStringIsNotNullOrEmpty(student.Email);
+            ValidateIfInputStringIsNotNullOrEmpty(student.Phone);
+            ValidateIfInputStringIsNotNullOrEmpty(student.Address);
+            ValidateIfDateIsNotNull(student.DateBirth);
+
+            Student studentToAddInDb = this.mapper.Map<Student>(student);
+
+            await SetDefaultImagePathIfImagePathIsNull(studentToAddInDb);
+            await SetDefaultDescriptionIfDescriptionIsNull(studentToAddInDb);
+
+            await this.db.Students.AddAsync(studentToAddInDb);
+            await db.SaveChangesAsync();
+
+            Student studentAddedInDb = await this.db.Students.FirstOrDefaultAsync(x => x.FirstName == student.FirstName && x.MiddleName == student.MiddleName && x.LastName == student.LastName);
+            return this.mapper.Map<StudentFullServiceModel>(studentAddedInDb);
+        }
+
         public int GetPageSize()
         {
             int pageSizeToGet = PageSize;
@@ -130,6 +152,30 @@ namespace PTSchool.Services.Implementations
             return this.db.Students.Count();
         }
 
+
+        private async Task<string> SetDefaultImagePathIfImagePathIsNull(Student student)
+        {
+            if (student.Image is null)
+            {
+                string imagePathDefault = $"/images/students/default.jpg";
+                student.Image = imagePathDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return student.Image;
+        }
+
+        private async Task<string> SetDefaultDescriptionIfDescriptionIsNull(Student student)
+        {
+            if (string.IsNullOrEmpty(student.Description))
+            {
+                string subjectDefault = $"{student.FirstName} is a student that is part of the PTSchool community. Likes sports, studying and singing songs of joy.";
+                student.Description = subjectDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return student.Description;
+        }
 
         private void ValidateStudentId(Guid id)
         {
@@ -160,6 +206,14 @@ namespace PTSchool.Services.Implementations
             if (string.IsNullOrEmpty(input))
             {
                 throw new ArgumentNullException("Name of a Student cannot be null or empty.");
+            }
+        }
+
+        private void ValidateIfDateIsNotNull(DateTime date)
+        {
+            if (date == default(DateTime))
+            {
+                throw new ArgumentException("Date cannot be default.");
             }
         }
     }

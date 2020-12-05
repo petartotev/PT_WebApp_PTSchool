@@ -15,5 +15,7 @@ namespace PTSchool.Services
         Task<bool> DeleteParentByIdAsync(Guid id);
 
         Task<ParentFullServiceModel> UpdateParentAsync(ParentFullServiceModel parent);
+
+        Task<ParentFullServiceModel> CreateParentAsync(ParentFullServiceModel parent);
     }
 }
