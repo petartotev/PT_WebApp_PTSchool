@@ -5,6 +5,7 @@ using PTSchool.Data;
 using PTSchool.Data.Models.ApiNews;
 using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.ApiNews;
+using PTSchool.Services.Models.ApiWeather;
 using PTSchool.Services.Models.Home;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ using System.Net.Http;
 using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
-using static PTSchool.Services.ApiKeys.StaticApiKeyStorage;
+using static PTSchool.Services.ApiKeys.StaticApiDataStorage;
 
 namespace PTSchool.Services
 {
@@ -90,6 +91,7 @@ namespace PTSchool.Services
             HomeServiceModel model = new HomeServiceModel
             {
                 News = await Get3RandomNews(),
+                RootWeather = GetWeatherRoot(),
                 CountClasses = this.db.Classes.Count(),
                 CountClubs = this.db.Clubs.Count(),
                 CountParents = this.db.Parents.Count(),
@@ -100,7 +102,6 @@ namespace PTSchool.Services
 
             return model;
         }
-
 
         private async Task<string> GatherInfo(string url)
         {
@@ -126,18 +127,28 @@ namespace PTSchool.Services
             return result;
         }
 
-        private RootServiceModel GetNewsRoot()
+        private RootNewsServiceModel GetNewsRoot()
         {
-            string url = $"http://newsapi.org/v2/everything?q=education&language=en&sources=bbc-news&sortBy=publishedAt&apiKey={NewsApi.ApiKey}";
-
-            var responseString = GatherInfo(url).GetAwaiter().GetResult();
+            var responseString = GatherInfo(NewsApi.Url).GetAwaiter().GetResult();
 
             if (!string.IsNullOrEmpty(responseString))
             {
-                RootServiceModel rootNewsApi = JsonConvert.DeserializeObject<RootServiceModel>(responseString);
+                RootNewsServiceModel rootNewsApi = JsonConvert.DeserializeObject<RootNewsServiceModel>(responseString);
                 return rootNewsApi;
             }
 
+            return null;
+        }
+
+        private RootWeatherServiceModel GetWeatherRoot()
+        {
+            var responseString = GatherInfo(WeatherApi.Url).GetAwaiter().GetResult();
+
+            if (!string.IsNullOrEmpty(responseString))
+            {
+                RootWeatherServiceModel rootWeatherApi = JsonConvert.DeserializeObject<RootWeatherServiceModel>(responseString);
+                return rootWeatherApi;
+            }
             return null;
         }
 
@@ -174,7 +185,7 @@ namespace PTSchool.Services
             }
         }
 
-        private async Task AddArticlesAndSourcesToDb(RootServiceModel root)
+        private async Task AddArticlesAndSourcesToDb(RootNewsServiceModel root)
         {
             if (root != null)
             {

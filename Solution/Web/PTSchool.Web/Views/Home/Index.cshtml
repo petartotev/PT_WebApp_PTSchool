@@ -4,6 +4,50 @@
     ViewData["Title"] = "Home Page";
 }
 
+@{
+    var temp = Model.Weather.TempWeather - 273.15;
+    var tempStatus = "high";
+    var colorCardWeather = "bg-secondary";
+
+    if (temp <= 0)
+    {
+        colorCardWeather = "bg-info";
+        tempStatus = "low";
+    }
+    if (temp > 0 && temp <= 10)
+    {
+        colorCardWeather = "bg-primary";
+    }
+    if (temp > 10 && temp <= 20)
+    {
+        colorCardWeather = "bg-success";
+    }
+    if (temp > 20 && temp <= 30)
+    {
+        colorCardWeather = "bg-warning";
+    }
+    if (temp > 30)
+    {
+        colorCardWeather = "bg-danger";
+    }
+
+    var cloudPercentage = Model.Weather.CloudsWeather;
+    var cloudIcon = "fa-sun";
+
+    if (cloudPercentage >= 75)
+    {
+        cloudIcon = "fa-cloud-meatball";
+    }
+    else if (cloudPercentage >=50 && cloudPercentage < 75)
+    {
+        cloudIcon = "fa-cloud";
+    }
+    else if (cloudPercentage >= 25 && cloudPercentage < 50)
+    {
+        cloudIcon = "fa-cloud-sun";
+    }
+}
+
 <div class="row">
     <div class="col-md-9">
         <div class="card">
@@ -25,6 +69,40 @@
         </div>
     </div>
     <div class="col-md-3">
+        <div class="card card-stats text-white @colorCardWeather">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-3">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="fas @cloudIcon" style="font-size: 48px;"></i>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-9">
+                        <div class="numbers">
+                            <p class="card-category text-white">@Model.Weather.CityWeather / @Model.Weather.CountryWeather</p>
+                            <p class="card-title"><i class="fas fa-temperature-@tempStatus" style="font-size: 24px;"></i> @temp.ToString("F1")°</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats text-white">
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <p>Humidity</p>
+                            <p>Pressure</p>
+                            <p>Wind</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p>@Model.Weather.HumidityWeather%</p>
+                            <p>@Model.Weather.PressureWeather hPa</p>
+                            <p>@Model.Weather.WindDirectionWeather° / @Model.Weather.WindSpeedWeather m/s</p>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
         <div class="card card-stats">
             <div class="card-body ">
                 <div class="row">
@@ -129,14 +207,12 @@
         </script>
     }*@
 
-<!--Put this function in a button onclick="jsFunctionTest()"-->
 <script>
+    //!--Put this function in a button onclick = "jsFunctionTest()"
     function jsFunctionTest() {
         alert("You called the helloFunction()!");
     }
-</script>
 
-<script>
     function ajaxTest() {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {

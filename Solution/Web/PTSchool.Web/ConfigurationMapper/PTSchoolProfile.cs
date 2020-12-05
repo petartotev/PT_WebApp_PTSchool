@@ -2,6 +2,7 @@
 using PTSchool.Data.Models;
 using PTSchool.Data.Models.ApiNews;
 using PTSchool.Services.Models.ApiNews;
+using PTSchool.Services.Models.ApiWeather;
 using PTSchool.Services.Models.Class;
 using PTSchool.Services.Models.Club;
 using PTSchool.Services.Models.Home;
@@ -34,8 +35,6 @@ namespace PTSchool.Web.ConfigurationMapper
 
             CreateMap<Article, ArticleServiceModel>();
             CreateMap<Source, SourceServiceModel>();
-
-            CreateMap<HomeServiceModel, HomeViewModel>();
 
             CreateMap<Class, ClassLightServiceModel>();
             CreateMap<Class, ClassFullServiceModel>()
@@ -99,6 +98,18 @@ namespace PTSchool.Web.ConfigurationMapper
 
             CreateMap<ArticleServiceModel, ArticleViewModel>();
             CreateMap<SourceServiceModel, SourceViewModel>();
+
+            CreateMap<HomeServiceModel, HomeViewModel>();
+
+            CreateMap<RootWeatherServiceModel, WeatherViewModel>()
+                .ForMember(dest => dest.CountryWeather, opt => opt.MapFrom(src => src.sys.country))
+                .ForMember(dest => dest.CityWeather, opt => opt.MapFrom(src => src.name))
+                .ForMember(dest => dest.TempWeather, opt => opt.MapFrom(src => src.main.temp))
+                .ForMember(dest => dest.CloudsWeather, opt => opt.MapFrom(src => src.clouds.all))
+                .ForMember(dest => dest.HumidityWeather, opt => opt.MapFrom(src => src.main.humidity))
+                .ForMember(dest => dest.PressureWeather, opt => opt.MapFrom(src => src.main.pressure))
+                .ForMember(dest => dest.WindDirectionWeather, opt => opt.MapFrom(src => src.wind.deg))
+                .ForMember(dest => dest.WindSpeedWeather, opt => opt.MapFrom(src => src.wind.speed));
 
             CreateMap<ClassLightServiceModel, ClassLightViewModel>().ReverseMap();
             CreateMap<ClassFullServiceModel, ClassFullViewModel>().ReverseMap();

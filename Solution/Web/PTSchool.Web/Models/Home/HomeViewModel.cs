@@ -9,6 +9,8 @@ namespace PTSchool.Web.Models.Home
     {
         public IEnumerable<ArticleViewModel> News { get; set; }
 
+        public WeatherViewModel Weather { get; set; }
+
         public int CountStudents { get; set; }
         public int CountTeachers { get; set; }
         public int CountParents { get; set; }

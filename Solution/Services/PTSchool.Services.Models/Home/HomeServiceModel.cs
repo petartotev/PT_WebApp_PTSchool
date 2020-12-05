@@ -1,13 +1,14 @@
 ﻿using PTSchool.Services.Models.ApiNews;
-using System;
+using PTSchool.Services.Models.ApiWeather;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PTSchool.Services.Models.Home
 {
     public class HomeServiceModel
     {
         public IEnumerable<ArticleServiceModel> News { get; set; }
+
+        public RootWeatherServiceModel RootWeather { get; set; }
 
         public int CountStudents { get; set; }
         public int CountTeachers { get; set; }

@@ -70,6 +70,7 @@
                 </div>
                 <div class="card-body">
                     <div class="text-right">
+                        <i class="@(Model.Class.Name.StartsWith("8") ? "fas fa-carrot text-danger" : "")" style="font-size: 36px;"></i>
                         <a href="@Url.Action("Class", "Classes", new { id = Model.Class.Id })"><img src="@Model.Class.Image" height="50" class="img-circle-100" /></a>
                     </div>
                 </div>

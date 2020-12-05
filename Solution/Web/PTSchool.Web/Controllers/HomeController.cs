@@ -54,6 +54,9 @@ namespace PTSchool.Web.Controllers
             HomeServiceModel homeServiceModel = await homeService.GetHomePageInformationPackage();
             HomeViewModel model = this.mapper.Map<HomeViewModel>(homeServiceModel);
 
+            WeatherViewModel weather = this.mapper.Map<WeatherViewModel>(homeServiceModel.RootWeather);
+            model.Weather = weather;
+
             return View(model);
         }
 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PTSchool.Data.Models.ApiWeather
+namespace PTSchool.Services.Models.ApiWeather
 {
-    public class RootWeather
+    public class RootWeatherServiceModel
     {
         public Coord coord { get; set; }
         public List<Weather> weather { get; set; }

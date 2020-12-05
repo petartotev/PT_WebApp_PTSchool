@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PTSchool.Services.Models.ApiNews
 {
-    public class RootServiceModel
+    public class RootNewsServiceModel
     {
         public string Status { get; set; }
         public int TotalResults { get; set; }
