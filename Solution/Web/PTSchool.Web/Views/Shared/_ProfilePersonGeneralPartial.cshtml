@@ -1,17 +1,55 @@
 ﻿@model PTSchool.Web.Models.Abstracts.PersonEntity
 
-<div class="card">
-    <div class="card-header">
-        <h5 class="card-title">Profile</h5>
-        <p class="card-category">@Model.FirstName @Model.MiddleName[0]. @Model.LastName</p>
+@{
+    string status = string.Empty;
+    string type = Model.GetType().Name;
+
+    if (type == "StudentFullViewModel")
+    {
+        status = "Student";
+    }
+    else if (type == "ParentFullViewModel")
+    {
+        status = "Parent";
+    }
+    else if (type == "TeacherFullViewModel")
+    {
+        status = "Teacher";
+    }
+}
+
+<div class="card card-user">
+    <div class="image">
+        <img src="/images/common/user_background.jpg" alt="background">
     </div>
-    <div class="card-body text-center">
-        <img src="@Model.Image" class="img-circle-sm" />
-        <br />
-        <br />
-        <blockquote>
-            <p class="text-center blockquote blockquote-primary">@Model.Description</p>
-        </blockquote>
+    <div class="card-body">
+        <div class="author">
+            <a href="#">
+                <img class="avatar border-gray" src="@Model.Image" alt="@Model.FirstName @Model.LastName">
+                <h5 class="title text-primary">@Model.FirstName @Model.MiddleName[0]. @Model.LastName</h5>
+            </a>
+            <p class="description">
+                @@@status
+            </p>
+        </div>
+        <p class="description text-center">
+            @Model.Description
+        </p>
     </div>
-    @*<p>@Model.Id</p>*@    
+    <div class="card-footer">
+        <hr>
+        <div class="button-container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-6 ml-auto ml-auto">
+                    <h4><i class="nc-icon nc-tie-bow"></i><br><small>@Model.Gender</small></h4>
+                </div>
+                <div class="col-lg-4 col-md-6 col-6 text-center">
+                    <h4>Age<br><small>@Model.Age</small></h4>
+                </div>
+                <div class="col-lg-3 mr-auto">
+                    <h4><i class="nc-icon nc-calendar-60"></i><br><small>@Model.DateBirth.ToString().Split(" ").First()</small></h4>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

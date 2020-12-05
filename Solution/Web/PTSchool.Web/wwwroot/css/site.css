@@ -101,6 +101,10 @@ body {
     border-radius: 50%;
 }
 
+#img-circle {
+    border-radius: 50%;
+}
+
 /*scroll page start*/
 /* Style the header: fixed position (always stay at the top) */
 .scroll-header {

@@ -221,7 +221,7 @@ namespace PTSchool.Web
 
             app.UseHangfireServer();
             app.UseHangfireDashboard();
-            RecurringJob.AddOrUpdate(() => homeService.UpdateNewsLocalDb(), "06 11 * * *");
+            RecurringJob.AddOrUpdate(() => homeService.UpdateNewsLocalDb(), "59 4 * * *"); // minute hourUtc * * *, a.k.a. CRON
 
             app.UseEndpoints(endpoints =>
             {

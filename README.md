@@ -45,16 +45,22 @@ The main functionality of the web app is to facilitate the communication between
 - check their child's marks / notes and sign them
 - receive code-red notifications for a poor mark or a note concerning inappropriate behavior
 
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_Wide_Parents.jpg)
+
 ### (T)eachers
 
 - add new marks / notes to (S)tudents
 - create new Clubs
+
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_Wide_Teachers.jpg)
 
 ### (S)tudents
 
 - apply for a Club
 - communicate with each other (S)<>(S)
 - end an email to a (T)eacher or chat directly
+
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_Wide_Students.jpg)
 
 ## Additional Functionalities
 

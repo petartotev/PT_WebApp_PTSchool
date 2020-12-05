@@ -38,7 +38,7 @@
     {
         cloudIcon = "fa-cloud-meatball";
     }
-    else if (cloudPercentage >=50 && cloudPercentage < 75)
+    else if (cloudPercentage >= 50 && cloudPercentage < 75)
     {
         cloudIcon = "fa-cloud";
     }
@@ -47,6 +47,8 @@
         cloudIcon = "fa-cloud-sun";
     }
 }
+
+<partial name="_ScrollIndicatorPartial" />
 
 <div class="row">
     <div class="col-md-9">
@@ -59,7 +61,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <!--PT: CACHE IN VIEW-->
-                        <h1 class="">Here is a <strong>ASP.NET Core 3.1 MVC App</strong> that was created to make communication in <strong>School</strong> smooth as a baby's bottom.</h1>
+                        <h1 class=""><strong>ASP.NET Core 3.1 App (MVC)</strong> that was created to make communication in <strong>School</strong> smooth as a baby's bottom.</h1>
                         <hr class="border border-success" />
                         <p>
                             The purpose of PTSchool is to facilitate the communication between the 3 main "sides" within the School Institution:
@@ -77,8 +79,8 @@
                     <div class="col-md-6">
                         <img class="img-fluid" src="~/images/PTSchool2.png" alt="LogoPTSchool">
                     </div>
-                </div>                
-            </div>            
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-3">
@@ -112,7 +114,7 @@
                             <p>@Model.Weather.PressureWeather hPa</p>
                             <p>@Model.Weather.WindDirectionWeather° / @Model.Weather.WindSpeedWeather m/s</p>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>

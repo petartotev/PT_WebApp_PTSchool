@@ -4,7 +4,6 @@
     <div class="row">
         <div class="col-md-5">
             <partial name="_ProfilePersonGeneralPartial" model="@Model" /> <!--Profile-->
-            <partial name="_ProfilePersonInformationPartial" model="@Model" /> <!--General Information-->
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card card-stats">
@@ -60,7 +59,25 @@
                     </div>
                 </div>
             </div> <!--Score-->
-
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Clubs</h5>
+                    <p class="card-category">@Model.FirstName participates in the following clubs:</p>
+                </div>
+                <div class="card-body">
+                    @foreach (var item in Model.Clubs)
+                    {
+                        <div class="row">
+                            <div class="col-md-6 text-left">
+                                <h5 class="card-title text-primary">@item.Name</h5>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a href="@Url.Action("Club", "Clubs", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div> <!--Clubs-->
         </div>
         <div class="col-md-7">
             <div class="card">
@@ -75,33 +92,6 @@
                     </div>
                 </div>
             </div> <!--Class-->
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Clubs</h5>
-                    <p class="card-category">@Model.FirstName participates in the following clubs:</p>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class=" text-primary">
-                                <tr>
-                                    <th>Name</th>
-                                    <th class="text-right">Image</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.Clubs)
-                                {
-                                    <tr>
-                                        <td>@item.Name</td>
-                                        <td class="text-right"><a href="@Url.Action("Club", "Clubs", new { id = item.Id })"><img src="@item.Image" height="50" class="img-circle-100" /></a></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div> <!--Clubs-->
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Parents</h5>
