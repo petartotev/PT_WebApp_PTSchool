@@ -27,7 +27,10 @@ PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an onlin
 - NewsApi (API)  
   Link: https://newsapi.org  
   Using Hangfire everyday at 09:00 AM we gather a collection of current news about Education from BBC News, automatically.  
-  The news we got we store in our database for the day. This time optimization has great impact on user experience and performance.
+  The news we get we store in our database during the day. This optimizes performance, ergo user experience.
+- OpenWeatherMap (API)  
+  Link: https://openweathermap.org/  
+  Accurate, basic information about the weather in Burgas is provided in the top right corner of the home page, thanks to this friendly API.
 
 ## User Guide
 

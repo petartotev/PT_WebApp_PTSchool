@@ -50,22 +50,35 @@
 
 <div class="row">
     <div class="col-md-9">
-        <div class="card">
-            <div class="container text-center">
-                <h1 class="display-4">Welcome to <strong>PTS</strong>chool!</h1>
-                <hr />
-                <img class="img-fluid" src="~/images/PTSchool.png" alt="LogoPTSchool" width="450" height="450">
-                <hr />
-                <h5>This is an <strong>ASP.NET Core (MVC) Web Application</strong> that was created to make information-exchange within a <strong>School</strong> easier.</h5>
-                <hr>
-                <p>In this platform <strong>Parents</strong>, <strong>Teachers</strong> and <strong>Students</strong> can communicate directly/indirectly - depending on the privacy of the subject.</p>
-                <p>Chatting or sending emails between <strong>Student</strong><><strong>Student</strong> | <strong>Student</strong><><strong>Teacher</strong> | <strong>Teacher</strong><><strong>Teacher</strong> | <strong>Parent</strong><><strong>Teacher</strong> is now a piece of cake!</p>
-                <hr />
-                <!--PT: CACHE IN VIEW-->
-                <cache expires-after="TimeSpan.FromSeconds(30)" vary-by-query="id">
-                    <h4 class="text-dark"><strong>Cache Test <i>(30sec)</i></strong> | <mark>@DateTime.Now</mark></h4>
-                </cache>
+        <div class="card bg-warning">
+            <div class="card-header">
+                <h1 class="card-title">PTSchool</h1>
+                <h4 class="card-title">Welcome to the PTSchool web platform!</h4>
             </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!--PT: CACHE IN VIEW-->
+                        <h1 class="">Here is a <strong>ASP.NET Core 3.1 MVC App</strong> that was created to make communication in <strong>School</strong> smooth as a baby's bottom.</h1>
+                        <hr class="border border-success" />
+                        <p>
+                            The purpose of PTSchool is to facilitate the communication between the 3 main "sides" within the School Institution:
+                            <ul>
+                                <li>(P)arents</li>
+                                <li>(T)eachers</li>
+                                <li>(S)tudents</li>
+                            </ul>
+                        </p>
+                        <hr class="border border-primary" />
+                        <cache expires-after="TimeSpan.FromSeconds(30)" vary-by-query="id">
+                            <h6 class="text-center">Cache Test (30sec) &nbsp;&nbsp;|&nbsp;&nbsp; @DateTime.Now.ToString()</h6>
+                        </cache>
+                    </div>
+                    <div class="col-md-6">
+                        <img class="img-fluid" src="~/images/PTSchool2.png" alt="LogoPTSchool">
+                    </div>
+                </div>                
+            </div>            
         </div>
     </div>
     <div class="col-md-3">
