@@ -4,6 +4,7 @@ using PTSchool.Data.Models.ApiNews;
 using PTSchool.Services.Models.ApiNews;
 using PTSchool.Services.Models.Class;
 using PTSchool.Services.Models.Club;
+using PTSchool.Services.Models.Home;
 using PTSchool.Services.Models.Mark;
 using PTSchool.Services.Models.Note;
 using PTSchool.Services.Models.Parent;
@@ -33,6 +34,8 @@ namespace PTSchool.Web.ConfigurationMapper
 
             CreateMap<Article, ArticleServiceModel>();
             CreateMap<Source, SourceServiceModel>();
+
+            CreateMap<HomeServiceModel, HomeViewModel>();
 
             CreateMap<Class, ClassLightServiceModel>();
             CreateMap<Class, ClassFullServiceModel>()

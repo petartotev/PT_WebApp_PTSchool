@@ -77,26 +77,28 @@ namespace PTSchool.Services
             }
         }
 
-        public async Task<IEnumerable<ArticleServiceModel>> Get3RandomNews()
-        {
-            var countNews = db.Articles.Count();
-            var randomStartPoint = random.Next(0, countNews - 4);
-
-            var collectionArticles = await this.db.Articles
-                .Skip(randomStartPoint)
-                .Take(3)
-                .Include(x => x.Source)
-                .ToListAsync();
-
-            return this.mapper.Map<IEnumerable<ArticleServiceModel>>(collectionArticles);
-        }
-
         public async Task UpdateNewsLocalDb()
         {
             await RemoveCurrentArticlesAndSources();
 
             var root = GetNewsRoot();
             await AddArticlesAndSourcesToDb(root);
+        }
+
+        public async Task<HomeServiceModel> GetHomePageInformationPackage()
+        {
+            HomeServiceModel model = new HomeServiceModel
+            {
+                News = await Get3RandomNews(),
+                CountClasses = this.db.Classes.Count(),
+                CountClubs = this.db.Clubs.Count(),
+                CountParents = this.db.Parents.Count(),
+                CountTeachers = this.db.Teachers.Count(),
+                CountStudents = this.db.Students.Count(),
+                CountSubjects = this.db.Subjects.Count()
+            };
+
+            return model;
         }
 
 
@@ -126,7 +128,7 @@ namespace PTSchool.Services
 
         private RootServiceModel GetNewsRoot()
         {
-            string url = $"http://newsapi.org/v2/everything?q=schools&language=en&sources=bbc-news&sortBy=publishedAt&apiKey={NewsApi.ApiKey}";
+            string url = $"http://newsapi.org/v2/everything?q=education&language=en&sources=bbc-news&sortBy=publishedAt&apiKey={NewsApi.ApiKey}";
 
             var responseString = GatherInfo(url).GetAwaiter().GetResult();
 
@@ -137,6 +139,20 @@ namespace PTSchool.Services
             }
 
             return null;
+        }
+
+        private async Task<IEnumerable<ArticleServiceModel>> Get3RandomNews()
+        {
+            var countNews = db.Articles.Count();
+            var randomStartPoint = random.Next(0, countNews - 4);
+
+            var collectionArticles = await this.db.Articles
+                .Skip(randomStartPoint)
+                .Take(3)
+                .Include(x => x.Source)
+                .ToListAsync();
+
+            return this.mapper.Map<IEnumerable<ArticleServiceModel>>(collectionArticles);
         }
 
         private async Task RemoveCurrentArticlesAndSources()
@@ -180,7 +196,7 @@ namespace PTSchool.Services
                         Title = article.Title,
                         Description = article.Description,
                         Url = article.Url,
-                        UrlToImage = article.Url,
+                        UrlToImage = article.UrlToImage,
                         PublishedAt = article.PublishedAt,
                         Content = article.Content,
                         SourceId = article.Source.Id,

@@ -48,8 +48,11 @@ namespace PTSchool.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var collection3NewsServiceModels = await homeService.Get3RandomNews();
-            var model = this.mapper.Map<IEnumerable<ArticleViewModel>>(collection3NewsServiceModels);
+            //ToDo: Put that as comment as soon as possible
+            await homeService.UpdateNewsLocalDb();
+
+            HomeServiceModel homeServiceModel = await homeService.GetHomePageInformationPackage();
+            HomeViewModel model = this.mapper.Map<HomeViewModel>(homeServiceModel);
 
             return View(model);
         }

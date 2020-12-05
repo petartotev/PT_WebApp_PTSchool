@@ -1,21 +1,123 @@
-﻿@{
+﻿@model PTSchool.Web.Models.Home.HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container text-center">
-    <h1 class="display-4">Welcome to <strong>PTS</strong>chool!</h1>
-    <hr />
-    <img class="img-fluid" src="~/images/PTSchool.png" alt="LogoPTSchool" width="450" height="450">
-    <hr />
-    <h5>This is an <strong>ASP.NET Core (MVC) Web Application</strong> that was created to make information-exchange within a <strong>School</strong> easier.</h5>
-    <hr>
-    <p>In this platform <strong>Parents</strong>, <strong>Teachers</strong> and <strong>Students</strong> can communicate directly/indirectly - depending on the privacy of the subject.</p>
-    <p>Chatting or sending emails between <strong>Student</strong><><strong>Student</strong> | <strong>Student</strong><><strong>Teacher</strong> | <strong>Teacher</strong><><strong>Teacher</strong> | <strong>Parent</strong><><strong>Teacher</strong> is now a piece of cake!</p>
-    <hr />
-    <!--PT: CACHE IN VIEW-->
-    <cache expires-after="TimeSpan.FromSeconds(30)" vary-by-query="id">
-        <h4 class="text-dark"><strong>Cache Test <i>(30sec)</i></strong> | <mark>@DateTime.Now</mark></h4>
-    </cache>
+<div class="row">
+    <div class="col-md-9">
+        <div class="card">
+            <div class="container text-center">
+                <h1 class="display-4">Welcome to <strong>PTS</strong>chool!</h1>
+                <hr />
+                <img class="img-fluid" src="~/images/PTSchool.png" alt="LogoPTSchool" width="450" height="450">
+                <hr />
+                <h5>This is an <strong>ASP.NET Core (MVC) Web Application</strong> that was created to make information-exchange within a <strong>School</strong> easier.</h5>
+                <hr>
+                <p>In this platform <strong>Parents</strong>, <strong>Teachers</strong> and <strong>Students</strong> can communicate directly/indirectly - depending on the privacy of the subject.</p>
+                <p>Chatting or sending emails between <strong>Student</strong><><strong>Student</strong> | <strong>Student</strong><><strong>Teacher</strong> | <strong>Teacher</strong><><strong>Teacher</strong> | <strong>Parent</strong><><strong>Teacher</strong> is now a piece of cake!</p>
+                <hr />
+                <!--PT: CACHE IN VIEW-->
+                <cache expires-after="TimeSpan.FromSeconds(30)" vary-by-query="id">
+                    <h4 class="text-dark"><strong>Cache Test <i>(30sec)</i></strong> | <mark>@DateTime.Now</mark></h4>
+                </cache>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-4">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="nc-icon nc-satisfied"></i>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category">Students / Teachers</p>
+                            <p class="card-title">@Model.CountStudents / @Model.CountTeachers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="fa fa-refresh"></i>
+                    @(Model.CountStudents + Model.CountTeachers) people create our PTSchool community.
+                </div>
+            </div>
+        </div>
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-4">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="nc-icon nc-atom"></i>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category">Subjects</p>
+                            <p class="card-title">@Model.CountSubjects</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="fa fa-refresh"></i>
+                    PTSchool curriculum includes @Model.CountSubjects Subjects.
+                </div>
+            </div>
+        </div>
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-4">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="nc-icon nc-chart-bar-32"></i>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category">Classes / Clubs</p>
+                            <p class="card-title">@Model.CountClasses / @Model.CountClubs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="fa fa-refresh"></i>
+                    @Model.CountClasses imperative Classes, @Model.CountClubs volunteer Clubs.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var article in Model.News)
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">@(article.Title.Length > 75 ? article.Title.Substring(0,75) + "..." : article.Title) </h5>
+                    <p class="card-category">@(article.Description.Length > 120 ? article.Description.Substring(0,120) + "..." : article.Description) </p>
+                </div>
+                <div class="card-body">
+                    <img src="@article.UrlToImage" />
+                    <div class="text-right">
+                        <a class="btn btn-success btn-round" href="@article.Url" target="_blank">Read more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 <br />
 <br />

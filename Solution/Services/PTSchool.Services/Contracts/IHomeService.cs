@@ -1,8 +1,4 @@
-﻿using PTSchool.Services.Models.ApiNews;
-using PTSchool.Services.Models.Home;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using PTSchool.Services.Models.Home;
 using System.Threading.Tasks;
 
 namespace PTSchool.Services.Contracts
@@ -13,6 +9,6 @@ namespace PTSchool.Services.Contracts
 
         Task UpdateNewsLocalDb();
 
-        Task<IEnumerable<ArticleServiceModel>> Get3RandomNews();
+        Task<HomeServiceModel> GetHomePageInformationPackage();
     }
 }
