@@ -8,7 +8,7 @@ Link: https://gitlab.com/Iva_Pavlova/team9projectplaylistgenerator
 
 PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an online platform for different services for Parents, Teachers and Students within a school institution.
 
-![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_0.jpg)
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_00.jpg)
 
 ## Technologies
 
@@ -110,20 +110,18 @@ As simple as that!
 ## Contents
 
 The solution contains 4 main directories with 6 projects:
-
-- Console
-  - PTSchool.Console
-- Data
-  - PTSchool.Data
-  - PTSchool.Data.Models
-- Services
-  - PTSchool.Services
-  - PTSchool.Services.Models
 - Web
   - PTSchool\.Web
     - Models-Views-Controllers (MVC) application
     - ApiControllers ( : ControllerBase) to serve the purposes of a RESTful API
-
+- Services
+  - PTSchool.Services
+  - PTSchool.Services.Models
+- Data
+  - PTSchool.Data
+  - PTSchool.Data.Models
+- Console
+  - PTSchool.Console
 ---
 
 ## Web Application
@@ -148,6 +146,8 @@ A screenshot of the Operations - API Documentation by Swagger
 
 PTSchool.Services is a .NET Standard 2.1 Class Library project.
 
+---
+
 ### PTSchool.Services.Models
 
 PTSchool.Services.Models is a .NET Standard 2.1 Class Library project.
@@ -160,10 +160,42 @@ PTSchool.Services.Models is a .NET Standard 2.1 Class Library project.
 
 PTSchool.Data is a .NET Standard 2.1 Class Library project.
 
+The project consists of all configurations, migrations, DbContext and data settings needed for a Database to be manipulated via Entity Framework Core.
+
+It includes:
+
+- /Configuration/... - all configuration files defining the relations between entities and their behavior in case of delete
+- /Data/Migrations/... - all migrations that keep the history of database changes
+- PTSchoolDataSettings.cs - a const string "DefaultConnection"
+- PTSchoolDbContext.cs
+
+---
+
 ### PTSchool.Data.Models
 
 PTSchool.Data.Models is a .NET Standard 2.1 Class Library project.
 
+The project consists of all of the Data Models that are needed to manipulate the database.
+
+It includes the following Data Models:
+- /ApiNews - all data models transferring information on the 20 articles received via NewsApi from BBC and saved locally in the Database thanks to Hangfire at 07:00 daily
+- /Enums - all enums that the data models use
+- /Validations/StaticValidator.cs - a static class that holds all constant integers that represent MinLength, MaxLength Validations on properties - all at one place.
+- Class.cs
+- Club.cs
+- ClubStudent.cs (many-to-many)
+- ClubTeacher.cs (many-to-many)
+- Mark.cs
+- Note.cs
+- Parent.cs
+- Student.cs
+- StudentParent.cs (many-to-many)
+- Subject.cs
+- SubjectClass.cs (many-to-many)
+- SubjectTeacher.cs (many-to-many)
+- Teacher.cs
+- TeacherClass.cs (many-to-many)
+- Tictactoe.cs
 ---
 
 ## Console Application
@@ -173,7 +205,8 @@ PTSchool.Data.Models is a .NET Standard 2.1 Class Library project.
 PTSchool.Console is a .NET Core 3.1 Console Application.  
 The Main() method in Program.cs calls a series of methods that seed information in the Database of the application.  
 They are called in a certain order, as entities in the database have certain relations that create dependencies between them.  
-_For example, to assign a Mark or a Note to e Student you need to have a Subject, a Teacher etc._
+*For example, to assign a Mark / Note to a Student you need to have a Subject and a Teacher etc.*  
+
 Here is the order of the methods called in Main():
 
 🏁  
