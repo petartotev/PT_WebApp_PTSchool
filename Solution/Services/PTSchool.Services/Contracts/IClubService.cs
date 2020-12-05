@@ -16,6 +16,8 @@ namespace PTSchool.Services
 
         Task<ClubFullServiceModel> UpdateClubAsync(ClubFullServiceModel club);
 
+        Task<ClubFullServiceModel> CreateClubAsync(ClubFullServiceModel club);
+
         int GetTotalCountStudentsInClubs();
         int GetTotalCountTeachersInClubs();
     }

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using PTSchool.Data.Models;
+using PTSchool.Data.Models.ApiNews;
+using PTSchool.Services.Models.ApiNews;
 using PTSchool.Services.Models.Class;
 using PTSchool.Services.Models.Club;
 using PTSchool.Services.Models.Mark;
@@ -11,6 +13,7 @@ using PTSchool.Services.Models.Teacher;
 using PTSchool.Services.Models.Tictactoe;
 using PTSchool.Web.Models.Class;
 using PTSchool.Web.Models.Club;
+using PTSchool.Web.Models.Home;
 using PTSchool.Web.Models.Mark;
 using PTSchool.Web.Models.Note;
 using PTSchool.Web.Models.Parent;
@@ -28,11 +31,15 @@ namespace PTSchool.Web.ConfigurationMapper
         {
             // Data Models > Service Models
 
+            CreateMap<Article, ArticleServiceModel>();
+            CreateMap<Source, SourceServiceModel>();
+
             CreateMap<Class, ClassLightServiceModel>();
             CreateMap<Class, ClassFullServiceModel>()
                 .ForMember(dest => dest.CountStudents, opt => opt.MapFrom(src => src.Students.Count()))
                 .ForMember(dest => dest.CountGirls, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Female).Count()))
-                .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Male).Count()));
+                .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Male).Count()))
+                .ReverseMap();
 
             CreateMap<Club, ClubLightServiceModel>();
             CreateMap<Club, ClubFullServiceModel>()
@@ -40,7 +47,8 @@ namespace PTSchool.Web.ConfigurationMapper
                 .ForMember(dest => dest.CountStudents, opt => opt.MapFrom(src => src.Students.Count()))
                 .ForMember(dest => dest.CountGirls, opt => opt.MapFrom(src => src.Students.Where(x => x.Student.Gender == PTSchool.Data.Models.Enums.EnumGender.Female).Count()))
                 .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Student.Gender == PTSchool.Data.Models.Enums.EnumGender.Male).Count()))
-                .ForMember(dest => dest.Teachers, opt => opt.MapFrom(src => src.Teachers.Select(x => x.Teacher)));
+                .ForMember(dest => dest.Teachers, opt => opt.MapFrom(src => src.Teachers.Select(x => x.Teacher)))
+                .ReverseMap();
 
             CreateMap<Mark, MarkLightServiceModel>()
                 .ForMember(dest => dest.ValueMark, opt => opt.MapFrom(src => Convert.ToInt32(src.ValueMark)));
@@ -70,7 +78,8 @@ namespace PTSchool.Web.ConfigurationMapper
             CreateMap<Subject, SubjectLightServiceModel>();
             CreateMap<Subject, SubjectFullServiceModel>()
                 .ForMember(dest => dest.Classes, opt => opt.MapFrom(src => src.Classes.Select(x => x.Class)))
-                .ForMember(dest => dest.Teachers, opt => opt.MapFrom(src => src.Teachers.Select(x => x.Teacher)));
+                .ForMember(dest => dest.Teachers, opt => opt.MapFrom(src => src.Teachers.Select(x => x.Teacher)))
+                .ReverseMap();
 
             CreateMap<Teacher, TeacherLightServiceModel>();
             CreateMap<Teacher, TeacherFullServiceModel>()
@@ -84,6 +93,9 @@ namespace PTSchool.Web.ConfigurationMapper
             CreateMap<Tictactoe, TictactoeServiceModel>();
 
             // Service Models <> View Models
+
+            CreateMap<ArticleServiceModel, ArticleViewModel>();
+            CreateMap<SourceServiceModel, SourceViewModel>();
 
             CreateMap<ClassLightServiceModel, ClassLightViewModel>().ReverseMap();
             CreateMap<ClassFullServiceModel, ClassFullViewModel>().ReverseMap();

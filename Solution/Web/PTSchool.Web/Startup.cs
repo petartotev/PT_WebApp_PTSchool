@@ -1,4 +1,5 @@
 using AutoMapper;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -94,6 +95,11 @@ namespace PTSchool.Web
             services.AddTransient<ITictactoeService, TictactoeService>();
             services.AddTransient<IHomeService, HomeService>();
 
+            services.AddHangfire(configuration =>
+            {
+                configuration.UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection"));
+            });
+
             //PT: USE WEB SOCKETS! (2)
             services.AddHttpContextAccessor();
 
@@ -156,7 +162,7 @@ namespace PTSchool.Web
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         //PT: MIDDLEWARES!
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHomeService homeService)
         {
             if (env.IsDevelopment())
             {
@@ -212,6 +218,10 @@ namespace PTSchool.Web
             //PT: The 2 following MIDDLEWARES ARE OBLIGATORY FOR Authentication/Authorization processes... By defaul they are here.
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
+            RecurringJob.AddOrUpdate(() => homeService.UpdateNewsLocalDb(), "06 11 * * *");
 
             app.UseEndpoints(endpoints =>
             {

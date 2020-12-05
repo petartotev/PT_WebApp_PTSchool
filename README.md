@@ -2,6 +2,10 @@
 
 ## General Information
 
+_N.B. This is a "legacy" project created for educational purposes before the start of my Telerik Academy Alpha formal education._  
+\*_It is currently in a process of massive refactoring. The goal is to achieve the same quality as our final project in Telerik Academy which I created in collaboration with Iva Pavlova..._  
+Link: https://gitlab.com/Iva_Pavlova/team9projectplaylistgenerator
+
 PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an online platform for different services for Parents, Teachers and Students within a school institution.
 
 ![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_0.jpg)
@@ -11,9 +15,19 @@ PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an onlin
 - Automapper
 - EntityFrameworkCore.SqlServer
 - EntityFrameworkCore.Tools
+- Hangfire
 - Serilog
 - SignalR
 - Swagger
+
+## Resources
+
+- Creative Tim (Bootstrap Template)  
+  Link: https://www.creative-tim.com
+- NewsApi (API)  
+  Link: https://newsapi.org  
+  Using Hangfire everyday at 09:00 AM we gather a collection of current news about Education from BBC News, automatically.  
+  The news we got we store in our database for the day. This time optimization has great impact on user experience and performance.
 
 ## User Guide
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
+using PTSchool.Data.Models;
 using PTSchool.Services.Models.Club;
 using System;
 using System.Collections.Generic;
@@ -86,6 +87,23 @@ namespace PTSchool.Services.Implementations
             return this.mapper.Map<ClubFullServiceModel>(clubInDbUpdated);
         }
 
+        public async Task<ClubFullServiceModel> CreateClubAsync(ClubFullServiceModel club)
+        {
+            ValidateIfObjectIsNotNull(club);
+            ValidateIfInputIsNotNullOrEmpty(club.Name);
+
+            Club clubToCreate = this.mapper.Map<Club>(club);
+
+            await SetDefaultImagePathIfImagePathIsNull(clubToCreate);
+            await SetDefaultDescriptionIfDescriptionIsNull(clubToCreate);
+
+            await db.Clubs.AddAsync(clubToCreate);
+            await db.SaveChangesAsync();
+
+            Club clubCreated = db.Clubs.FirstOrDefault(x => x.Name == club.Name && x.Description == clubToCreate.Description);
+            return this.mapper.Map<ClubFullServiceModel>(clubCreated);
+        }
+
         public int GetPageSize()
         {
             int pageSizeToGet = PageSize;
@@ -111,6 +129,30 @@ namespace PTSchool.Services.Implementations
             return test;
         }
 
+
+        private async Task<string> SetDefaultImagePathIfImagePathIsNull(Club club)
+        {
+            if (club.Image is null)
+            {
+                string imagePathDefault = $"/images/clubs/default.jpg";
+                club.Image = imagePathDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return club.Image;
+        }
+
+        private async Task<string> SetDefaultDescriptionIfDescriptionIsNull(Club club)
+        {
+            if (string.IsNullOrEmpty(club.Description))
+            {
+                string subjectDefault = $"{club.Name} is a school club which is a symbiosis between Teachers and Students and an additional attempt for those to contribute.";
+                club.Description = subjectDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return club.Description;
+        }
 
         private void ValidateClubId(Guid id)
         {
@@ -141,6 +183,14 @@ namespace PTSchool.Services.Implementations
             if (string.IsNullOrEmpty(input))
             {
                 throw new ArgumentNullException("Name / Description of a Club cannot be null or empty.");
+            }
+        }
+
+        private void ValidateIfObjectIsNotNull(ClubFullServiceModel club)
+        {
+            if (club is null)
+            {
+                throw new ArgumentNullException("The Club cannot be null and needs to have value.");
             }
         }
     }

@@ -56,5 +56,14 @@ namespace PTSchool.Web.ApiControllers
 
             return Ok(classUpdated);
         }
+
+        [HttpPost]
+        [Route("api/Classes")]
+        public async Task<IActionResult> Post([FromBody] ClassFullServiceModel classToCreate)
+        {
+            var classCreated = await this.classService.CreateClassAsync(classToCreate);
+
+            return Ok(classCreated);
+        }
     }
 }

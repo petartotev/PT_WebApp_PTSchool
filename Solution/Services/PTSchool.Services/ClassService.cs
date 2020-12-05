@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
+using PTSchool.Data.Models;
 using PTSchool.Services.Models.Class;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ namespace PTSchool.Services.Implementations
         {
             ValidateClassId(classToUpdate.Id);
             ValidateIfClassIsDeleted(classToUpdate.Id);
-            ValidateIfNameIsNotNullOrEmpty(classToUpdate.Name);
+            ValidateIfInputIsNotNullOrEmpty(classToUpdate.Name);
 
             var classInDb = await db.Classes.FindAsync(classToUpdate.Id);
 
@@ -87,6 +88,23 @@ namespace PTSchool.Services.Implementations
             return this.mapper.Map<ClassFullServiceModel>(classInDbUpdated);
         }
 
+        public async Task<ClassFullServiceModel> CreateClassAsync(ClassFullServiceModel classInput)
+        {
+            ValidateIfObjectIsNotNull(classInput);
+            ValidateIfInputIsNotNullOrEmpty(classInput.Name);
+
+            Class classToCreate = this.mapper.Map<Class>(classInput);
+
+            await SetDefaultImagePathIfImagePathIsNull(classToCreate);
+            await SetDefaultDescriptionIfDescriptionIsNull(classToCreate);
+
+            await db.Classes.AddAsync(classToCreate);
+            await db.SaveChangesAsync();
+
+            Class classCreated = db.Classes.FirstOrDefault(x => x.Name == classInput.Name && x.Description == classToCreate.Description);
+            return this.mapper.Map<ClassFullServiceModel>(classCreated);
+        }
+
         public int GetPageSize()
         {
             int pageSizeToGet = PageSize;
@@ -98,6 +116,29 @@ namespace PTSchool.Services.Implementations
             return this.db.Classes.Count();
         }
 
+        private async Task<string> SetDefaultImagePathIfImagePathIsNull(Class classy)
+        {
+            if (classy.Image is null)
+            {
+                string imagePathDefault = $"/images/classes/default.jpg";
+                classy.Image = imagePathDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return classy.Image;
+        }
+
+        private async Task<string> SetDefaultDescriptionIfDescriptionIsNull(Class classy)
+        {
+            if (string.IsNullOrEmpty(classy.Description))
+            {
+                string subjectDefault = $"{classy.Name} is a school class with a number of Students and Teacher that is the master of {classy.Name}.";
+                classy.Description = subjectDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return classy.Description;
+        }
 
         private void ValidateClassId(Guid id)
         {
@@ -123,12 +164,21 @@ namespace PTSchool.Services.Implementations
             }
         }
 
-        private void ValidateIfNameIsNotNullOrEmpty(string name)
+        private void ValidateIfInputIsNotNullOrEmpty(string input)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(input))
             {
                 throw new ArgumentNullException("Name of a Class cannot be null or empty.");
             }
         }
+
+        private void ValidateIfObjectIsNotNull(ClassFullServiceModel classy)
+        {
+            if (classy is null)
+            {
+                throw new ArgumentNullException("The Class cannot be null and needs to have value.");
+            }
+        }
+
     }
 }

@@ -58,5 +58,14 @@ namespace PTSchool.Web.ApiControllers
 
             return Ok(clubUpdated);
         }
+
+        [HttpPost]
+        [Route("api/Clubs")]
+        public async Task<IActionResult> Post([FromBody] ClubFullServiceModel club)
+        {
+            var clubCreated = await this.clubService.CreateClubAsync(club);
+
+            return Ok(clubCreated);
+        }
     }
 }

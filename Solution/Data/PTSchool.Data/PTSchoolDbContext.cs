@@ -1,10 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PTSchool.Data.Models;
+using PTSchool.Data.Models.ApiNews;
 
 namespace PTSchool.Data
 {
     public class PTSchoolDbContext : DbContext
     {
+        public DbSet<Source> Sources { get; set; }
+
+        public DbSet<Article> Articles { get; set; }
+
         public DbSet<Class> Classes { get; set; }
 
         public DbSet<Club> Clubs { get; set; }

@@ -48,7 +48,7 @@ namespace PTSchool.Console
             //PTSchoolDbSeeder.SeedNotes(db);
 
             // ADD MARKS!
-            //PTSchoolDbSeeder.SeedMarks(db);
+            PTSchoolDbSeeder.SeedMarks(db);
         }
     }
 }

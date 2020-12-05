@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -7,9 +8,11 @@ using PTSchool.Services.Models.Home;
 using PTSchool.Web.Models;
 using PTSchool.Web.Models.Home;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Mail;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace PTSchool.Web.Controllers
 {
@@ -17,12 +20,14 @@ namespace PTSchool.Web.Controllers
     {
         private readonly IMemoryCache memoryCache;
         private readonly IHomeService homeService;
+        private readonly IMapper mapper;
 
         //PT: INJECT CACHE
-        public HomeController(IMemoryCache memoryCache, IHomeService homeService)
+        public HomeController(IMemoryCache memoryCache, IHomeService homeService, IMapper mapper)
         {
             this.memoryCache = memoryCache;
             this.homeService = homeService;
+            this.mapper = mapper;
         }
 
         public IActionResult RegisterPolicy()
@@ -41,9 +46,12 @@ namespace PTSchool.Web.Controllers
             return this.Ok(value);
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var collection3NewsServiceModels = await homeService.Get3RandomNews();
+            var model = this.mapper.Map<IEnumerable<ArticleViewModel>>(collection3NewsServiceModels);
+
+            return View(model);
         }
 
         [Authorize]

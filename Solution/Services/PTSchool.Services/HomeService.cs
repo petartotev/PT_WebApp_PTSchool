@@ -1,13 +1,36 @@
-﻿using PTSchool.Services.Contracts;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using PTSchool.Data;
+using PTSchool.Data.Models.ApiNews;
+using PTSchool.Services.Contracts;
+using PTSchool.Services.Models.ApiNews;
 using PTSchool.Services.Models.Home;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mail;
+using System.Threading;
+using System.Threading.Tasks;
+using static PTSchool.Services.ApiKeys.StaticApiKeyStorage;
 
 namespace PTSchool.Services
 {
     public class HomeService : IHomeService
     {
+        private readonly Random random = new Random();
+
+        private readonly PTSchoolDbContext db;
+        private readonly IMapper mapper;
+
+        public HomeService(PTSchoolDbContext db, IMapper mapper)
+        {
+            this.db = db;
+            this.mapper = mapper;
+        }
+
         public bool SendEmail(EmailSendServiceModel model)
         {
             #region CommentsOnSmtpClient
@@ -51,6 +74,119 @@ namespace PTSchool.Services
             {
                 Console.WriteLine(ex.ToString());
                 return false;
+            }
+        }
+
+        public async Task<IEnumerable<ArticleServiceModel>> Get3RandomNews()
+        {
+            var countNews = db.Articles.Count();
+            var randomStartPoint = random.Next(0, countNews - 4);
+
+            var collectionArticles = await this.db.Articles
+                .Skip(randomStartPoint)
+                .Take(3)
+                .Include(x => x.Source)
+                .ToListAsync();
+
+            return this.mapper.Map<IEnumerable<ArticleServiceModel>>(collectionArticles);
+        }
+
+        public async Task UpdateNewsLocalDb()
+        {
+            await RemoveCurrentArticlesAndSources();
+
+            var root = GetNewsRoot();
+            await AddArticlesAndSourcesToDb(root);
+        }
+
+
+        private async Task<string> GatherInfo(string url)
+        {
+            string result = string.Empty;
+
+            var client = new HttpClient();
+
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    var response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+                    result = await response.Content.ReadAsStringAsync();
+                    break;
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(500);
+                }
+            }
+
+            return result;
+        }
+
+        private RootServiceModel GetNewsRoot()
+        {
+            string url = $"http://newsapi.org/v2/everything?q=schools&language=en&sources=bbc-news&sortBy=publishedAt&apiKey={NewsApi.ApiKey}";
+
+            var responseString = GatherInfo(url).GetAwaiter().GetResult();
+
+            if (!string.IsNullOrEmpty(responseString))
+            {
+                RootServiceModel rootNewsApi = JsonConvert.DeserializeObject<RootServiceModel>(responseString);
+                return rootNewsApi;
+            }
+
+            return null;
+        }
+
+        private async Task RemoveCurrentArticlesAndSources()
+        {
+            var countCurrentArticles = this.db.Articles.Count();
+
+            for (int i = 0; i < countCurrentArticles; i++)
+            {
+                this.db.Articles.Remove(this.db.Articles.First());
+                await this.db.SaveChangesAsync();
+            }
+
+            var countCurrentSources = this.db.Sources.Count();
+
+            for (int i = 0; i < countCurrentSources; i++)
+            {
+                this.db.Sources.Remove(this.db.Sources.First());
+                await this.db.SaveChangesAsync();
+            }
+        }
+
+        private async Task AddArticlesAndSourcesToDb(RootServiceModel root)
+        {
+            if (root != null)
+            {
+                foreach (var article in root.Articles)
+                {
+                    if (!this.db.Sources.Any(x => x.Id == article.Source.Id))
+                    {
+                        db.Sources.Add(new Source
+                        {
+                            Id = article.Source.Id,
+                            Name = article.Source.Name,
+                        });
+                        await db.SaveChangesAsync();
+                    }
+
+                    db.Articles.Add(new Article
+                    {
+                        Author = article.Author,
+                        Title = article.Title,
+                        Description = article.Description,
+                        Url = article.Url,
+                        UrlToImage = article.Url,
+                        PublishedAt = article.PublishedAt,
+                        Content = article.Content,
+                        SourceId = article.Source.Id,
+                    });
+                    await db.SaveChangesAsync();
+                }
             }
         }
     }

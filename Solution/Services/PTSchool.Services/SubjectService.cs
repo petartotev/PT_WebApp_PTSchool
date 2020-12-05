@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
+using PTSchool.Data.Models;
 using PTSchool.Services.Models.Subject;
 using System;
 using System.Collections.Generic;
@@ -89,6 +90,24 @@ namespace PTSchool.Services.Implementations
             return this.mapper.Map<SubjectFullServiceModel>(subjectInDbUpdated);
         }
 
+        public async Task<SubjectFullServiceModel> CreateSubjectAsync(SubjectFullServiceModel subject)
+        {
+            ValidateIfObjectIsNotNull(subject);
+            ValidateIfInputIsNotNullOrEmpty(subject.Name);
+
+            Subject subjectNew = this.mapper.Map<Subject>(subject);
+
+            await SetDefaultImagePathIfImagePathIsNull(subjectNew);
+            await SetDefaultDescriptionIfDescriptionIsNull(subjectNew);
+
+            await db.Subjects.AddAsync(subjectNew);
+            await db.SaveChangesAsync();
+
+            Subject subjectCreated = db.Subjects.FirstOrDefault(x => x.Name == subject.Name && x.Description == subjectNew.Description);
+            return this.mapper.Map<SubjectFullServiceModel>(subjectCreated);
+        }
+
+
         public int GetPageSize()
         {
             int pageSizeToGet = PageSize;
@@ -100,6 +119,30 @@ namespace PTSchool.Services.Implementations
             return this.db.Subjects.Count();
         }
 
+
+        private async Task<string> SetDefaultImagePathIfImagePathIsNull(Subject subject)
+        {
+            if (subject.Image is null)
+            {
+                string imagePathDefault = $"/images/subjects/default.jpg";
+                subject.Image = imagePathDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return subject.Image;
+        }
+
+        private async Task<string> SetDefaultDescriptionIfDescriptionIsNull(Subject subject)
+        {
+            if (string.IsNullOrEmpty(subject.Description))
+            {
+                string subjectDefault = $"{subject.Name} is a school subject that expands the skills of the students when it comes to this matter.";
+                subject.Description = subjectDefault;
+                await db.SaveChangesAsync();
+            }
+
+            return subject.Description;
+        }
 
         private void ValidateSubjectId(Guid id)
         {
@@ -133,5 +176,12 @@ namespace PTSchool.Services.Implementations
             }
         }
 
+        private void ValidateIfObjectIsNotNull(SubjectFullServiceModel subject)
+        {
+            if (subject is null)
+            {
+                throw new ArgumentNullException("The Subject cannot be null and needs to have value.");
+            }
+        }
     }
 }

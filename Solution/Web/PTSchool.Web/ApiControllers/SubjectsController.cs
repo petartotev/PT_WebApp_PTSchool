@@ -56,5 +56,14 @@ namespace PTSchool.Web.ApiControllers
 
             return Ok(subjectUpdated);
         }
+
+        [HttpPost]
+        [Route("api/Subjects")]
+        public async Task<IActionResult> Post([FromBody] SubjectFullServiceModel subject)
+        {
+            var subjectCreated = await this.subjectService.CreateSubjectAsync(subject);
+
+            return Ok(subjectCreated);
+        }
     }
 }
