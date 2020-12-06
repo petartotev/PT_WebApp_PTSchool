@@ -82,13 +82,17 @@ namespace PTSchool.Services.Implementations
 
             teacherInDb.FirstName = teacher.FirstName;
             teacherInDb.MiddleName = teacher.MiddleName;
-            teacherInDb.LastName = teacher.LastName;
-            teacherInDb.Description = teacher.Description;
+            teacherInDb.LastName = teacher.LastName;            
             teacherInDb.Image = teacher.Image;
+            teacherInDb.Description = teacher.Description;
             teacherInDb.Address = teacher.Address;
             teacherInDb.Email = teacher.Email;
             teacherInDb.Phone = teacher.Phone;
             teacherInDb.PhoneEmergency = teacher.PhoneEmergency;
+
+            await SetDefaultImagePathIfImagePathIsNull(teacherInDb);
+            await SetDefaultDescriptionIfDescriptionIsNull(teacherInDb);
+
             await db.SaveChangesAsync();
 
             var teacherInDbUpdated = await this.db.Teachers
