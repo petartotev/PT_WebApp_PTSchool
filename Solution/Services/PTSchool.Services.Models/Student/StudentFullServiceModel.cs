@@ -23,6 +23,10 @@ namespace PTSchool.Services.Models.Student
 
         public string Gender { get; set; }
 
+        public string Status { get; set; }
+
+        public int NumberInClass { get; set; }
+
         public double AverageScore { get; set; }
         public double AverageBehavior { get; set; }
 

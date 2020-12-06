@@ -40,8 +40,7 @@ namespace PTSchool.Web.ConfigurationMapper
             CreateMap<Class, ClassFullServiceModel>()
                 .ForMember(dest => dest.CountStudents, opt => opt.MapFrom(src => src.Students.Count()))
                 .ForMember(dest => dest.CountGirls, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Female).Count()))
-                .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Male).Count()))
-                .ReverseMap();
+                .ForMember(dest => dest.CountBoys, opt => opt.MapFrom(src => src.Students.Where(x => x.Gender == PTSchool.Data.Models.Enums.EnumGender.Male).Count()));
 
             CreateMap<Club, ClubLightServiceModel>();
             CreateMap<Club, ClubFullServiceModel>()
@@ -75,9 +74,9 @@ namespace PTSchool.Web.ConfigurationMapper
                 .ForMember(dest => dest.AverageScore, opt => opt.MapFrom(src => src.Marks.Select(x => (int)x.ValueMark).DefaultIfEmpty(0).Average()))
                 .ForMember(dest => dest.AverageBehavior, opt => opt.MapFrom(src => src.Notes.Select(x => (int)x.StatusNote).DefaultIfEmpty(0).Average()))
                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
                 .ForMember(dest => dest.Parents, opt => opt.MapFrom(src => src.Parents.Select(x => x.Parent)))
-                .ForMember(dest => dest.Clubs, opt => opt.MapFrom(src => src.Clubs.Select(x => x.Club)))
-                .ReverseMap();
+                .ForMember(dest => dest.Clubs, opt => opt.MapFrom(src => src.Clubs.Select(x => x.Club)));
 
             CreateMap<Subject, SubjectLightServiceModel>();
             CreateMap<Subject, SubjectFullServiceModel>()
@@ -86,6 +85,7 @@ namespace PTSchool.Web.ConfigurationMapper
                 .ReverseMap();
 
             CreateMap<Teacher, TeacherLightServiceModel>();
+            CreateMap<TeacherLightServiceModel, Teacher>();
             CreateMap<Teacher, TeacherFullServiceModel>()
                 .ForMember(dest => dest.AverageMark, opt => opt.MapFrom(src => src.Marks.Select(x => (int)x.ValueMark).DefaultIfEmpty(0).Average()))
                 .ForMember(dest => dest.AverageNote, opt => opt.MapFrom(src => src.Notes.Select(x => (int)x.StatusNote).DefaultIfEmpty(0).Average()))

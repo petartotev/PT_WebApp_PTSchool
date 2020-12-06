@@ -15,6 +15,10 @@ namespace PTSchool.Web.Models.Student
         public double AverageScore { get; set; }
         public double AverageBehavior { get; set; }
 
+        public int NumberInClass { get; set; }
+
+        public string Status { get; set; }
+
         public bool IsSchoolCouncilMember { get; set; }
 
         public ClassLightViewModel Class { get; set; }

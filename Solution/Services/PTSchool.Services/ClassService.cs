@@ -94,7 +94,18 @@ namespace PTSchool.Services.Implementations
             ValidateIfInputIsNotNullOrEmpty(classInput.Name);
             ValidateIfNameAlreadyExists(classInput.Name);
 
-            Class classToCreate = this.mapper.Map<Class>(classInput);
+            Teacher teacherOfClassInput = await this.db.Teachers.FirstOrDefaultAsync(x => x.Id == classInput.MasterTeacher.Id);
+
+            Class classToCreate = new Class
+            {
+                Name = classInput.Name,
+                Description = classInput.Description,
+                Image = classInput.Image,
+                IsDeleted = false,
+                IsUnlisted = false,
+                MasterTeacher = teacherOfClassInput,
+                MasterTeacherId = teacherOfClassInput.Id,
+            };
 
             await SetDefaultImagePathIfImagePathIsNull(classToCreate);
             await SetDefaultDescriptionIfDescriptionIsNull(classToCreate);

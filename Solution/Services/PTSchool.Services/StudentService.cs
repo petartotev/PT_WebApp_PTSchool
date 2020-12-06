@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
 using PTSchool.Data.Models;
+using PTSchool.Data.Models.Enums;
 using PTSchool.Services.Models.Student;
 using System;
 using System.Collections.Generic;
@@ -129,7 +130,28 @@ namespace PTSchool.Services.Implementations
             ValidateIfInputStringIsNotNullOrEmpty(student.Address);
             ValidateIfDateIsNotNull(student.DateBirth);
 
-            Student studentToAddInDb = this.mapper.Map<Student>(student);
+            Class classOfThisStudent = await this.db.Classes.FirstOrDefaultAsync(x => x.Id == student.Class.Id);
+
+            Student studentToAddInDb = new Student
+            {
+                FirstName = student.FirstName,
+                MiddleName = student.MiddleName,
+                LastName = student.LastName,
+                IsBanned = false,
+                IsDeleted = false,
+                Class = classOfThisStudent,
+                ClassId = classOfThisStudent.Id,
+                Status = (EnumStatusStudent)Enum.Parse(typeof(EnumStatusStudent), student.Status),
+                IsSchoolCouncilMember = student.IsSchoolCouncilMember,
+                Address = student.Address,
+                Email = student.Email,
+                Phone = student.Phone,
+                DateBirth = student.DateBirth,
+                Description = student.Description,
+                Gender = (EnumGender)Enum.Parse(typeof(EnumGender), student.Gender),
+                Image = student.Image,
+                NumberInClass = student.NumberInClass,
+            };
 
             await SetDefaultImagePathIfImagePathIsNull(studentToAddInDb);
             await SetDefaultDescriptionIfDescriptionIsNull(studentToAddInDb);

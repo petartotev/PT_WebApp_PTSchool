@@ -11,7 +11,7 @@ namespace PTSchool.Web.Models.Class
         public int CountGirls { get; set; }
         public int CountBoys { get; set; }
 
-        public TeacherLightViewModel MasterTeacher { get; set; }
+        public TeacherFullViewModel MasterTeacher { get; set; }
 
         public IEnumerable<StudentLightViewModel> Students { get; set; }
 

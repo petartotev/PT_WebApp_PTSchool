@@ -15,7 +15,7 @@ namespace PTSchool.Services.Models.Class
 
         public string Image { get; set; }
 
-        public TeacherLightServiceModel MasterTeacher { get; set; }
+        public TeacherFullServiceModel MasterTeacher { get; set; }
 
         public IEnumerable<StudentLightServiceModel> Students { get; set; }
 
