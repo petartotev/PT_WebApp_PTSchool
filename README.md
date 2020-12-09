@@ -15,6 +15,7 @@ PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an onlin
 - Automapper
 - EntityFrameworkCore.SqlServer
 - EntityFrameworkCore.Tools
+- ML.NET (Recommendation Task)
 - Hangfire
 - Serilog
 - SignalR
