@@ -116,6 +116,38 @@
         <div class="col-md-7">
             <div class="card">
                 <div class="card-header">
+                    <h5 class="card-title">Twin Clubs</h5>
+                    <p class="card-category">Some of the Members of this Class also attend:</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th class="text-left">Name</th>
+                                    <th class="text-center">Score</th>
+                                    <th class="text-right">Image</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ClubsRecommendedByMLNet)
+                                {
+                                <tr>
+                                    <td class="text-left">@item.Key.Name</td>
+                                    <td class="text-center">@item.Value.ToString("F2")</td>
+                                    <td class="text-right">
+                                        <a href="@Url.Action("Club", "Clubs", new { id = item.Key.Id })"><img src="@item.Key.Image" height="50" class="img-circle-100" /></a>
+                                    </td>
+
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!--Teachers-->
+            <div class="card">
+                <div class="card-header">
                     <h5 class="card-title">Teachers</h5>
                     <p class="card-category">Teachers that participate in '@Model.Name':</p>
                 </div>

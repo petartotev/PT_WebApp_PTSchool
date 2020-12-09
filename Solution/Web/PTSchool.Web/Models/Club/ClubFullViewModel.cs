@@ -22,5 +22,7 @@ namespace PTSchool.Web.Models.Club
 
         public bool IsDeleted { get; set; }
         public bool IsUnlisted { get; set; }
+
+        public Dictionary<ClubLightViewModel, float> ClubsRecommendedByMLNet { get; set; }
     }
 }

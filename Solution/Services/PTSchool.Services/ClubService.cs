@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
 using PTSchool.Data.Models;
+using PTSchool.Services.Models.ApiMLNet;
 using PTSchool.Services.Models.Club;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,9 @@ namespace PTSchool.Services.Implementations
                 .ThenInclude(clubTeacher => clubTeacher.Teacher)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            return this.mapper.Map<ClubFullServiceModel>(club);
+            var output = this.mapper.Map<ClubFullServiceModel>(club);
+            output.ClubsRecommendedByMLNet = GetRecommendedClubsByMLNet(id);
+            return output;
         }
 
         public async Task<bool> DeleteClubByIdAsync(Guid id)
@@ -103,6 +106,53 @@ namespace PTSchool.Services.Implementations
 
             Club clubCreated = db.Clubs.FirstOrDefault(x => x.Name == club.Name && x.Description == clubToCreate.Description);
             return this.mapper.Map<ClubFullServiceModel>(clubCreated);
+        }
+
+        public Dictionary<ClubLightServiceModel, float> GetRecommendedClubsByMLNet(Guid id)
+        {
+            //MLModelBuilder.CreateModel();
+
+            // Create single instance of sample data from first line of dataset for model input
+            List<ModelInput> modelInputs = new List<ModelInput>();
+
+            var student = db.Students.First(x => x.Id == db.ClubsStudents.First(y => y.ClubId == id).StudentId);                       
+                        
+            foreach (var club in this.db.Clubs.Where(x => x.Id != id))
+            {
+                modelInputs.Add(new ModelInput
+                {
+                    StudentId = student.Id.ToString().ToUpper(),
+                    ClubId = club.Id.ToString().ToUpper(),
+                });
+            }
+
+            // Make a single prediction on the sample data and print results
+            //var predictionResult = ConsumeModel.Predict(sampleData);
+
+            Dictionary<ClubLightServiceModel, float> dictionary = new Dictionary<ClubLightServiceModel, float>();
+
+            foreach (var input in modelInputs)
+            {
+                var predictionResult = ConsumeModel.Predict(input);
+                var predictionResultScore = predictionResult.Score;
+
+                Club club = this.db.Clubs.First(x => x.Id == Guid.Parse(input.ClubId));
+                ClubLightServiceModel model = this.mapper.Map<ClubLightServiceModel>(club);
+
+                dictionary.Add(model, predictionResultScore);
+            }
+
+            //Console.WriteLine("Using model to make single prediction -- Comparing actual Score with predicted Score from sample data...\n\n");
+            //Console.WriteLine($"StudentId: {sampleData.StudentId}");
+            //Console.WriteLine($"ClubId: {sampleData.ClubId}");
+            //Console.WriteLine($"\n\nPredicted Score: {predictionResult.Score}\n\n");
+            //Console.WriteLine("=============== End of process, hit any key to finish ===============");
+            //Console.ReadKey();
+
+            return dictionary
+                .Where(x => x.Value >= 0.1f)
+                .OrderByDescending(x => x.Value)
+                .ToDictionary(x => x.Key, x => x.Value);
         }
 
         public int GetPageSize()
