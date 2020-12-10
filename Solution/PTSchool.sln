@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTSchool.Web", "Web\PTSchoo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTSchool.Console", "Console\PTSchool.Console\PTSchool.Console.csproj", "{09DFE023-2718-4DAF-ABFC-5082460353CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTSchool.Services.Tests", "Services\PTSchool.Services.Tests\PTSchool.Services.Tests.csproj", "{1CFECB33-0689-48AB-A77B-4ECD8F81D5C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{09DFE023-2718-4DAF-ABFC-5082460353CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09DFE023-2718-4DAF-ABFC-5082460353CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09DFE023-2718-4DAF-ABFC-5082460353CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CFECB33-0689-48AB-A77B-4ECD8F81D5C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CFECB33-0689-48AB-A77B-4ECD8F81D5C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CFECB33-0689-48AB-A77B-4ECD8F81D5C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CFECB33-0689-48AB-A77B-4ECD8F81D5C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{F71A5351-F3EB-4859-A660-178C621CE5E2} = {5C6425A8-88A5-4DCD-B881-E89C8FB4EDEB}
 		{C38850CC-98C5-4FD1-8A9B-8AC56142F5EC} = {A7D7023F-DBEA-4379-8C58-BE7254AB5E8D}
 		{09DFE023-2718-4DAF-ABFC-5082460353CC} = {67138BDC-5F0D-4E81-960A-115BC93B4A31}
+		{1CFECB33-0689-48AB-A77B-4ECD8F81D5C9} = {5C6425A8-88A5-4DCD-B881-E89C8FB4EDEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73673CB9-C122-44E0-8588-512477AF8B62}
