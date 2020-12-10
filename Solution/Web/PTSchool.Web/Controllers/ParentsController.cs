@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PTSchool.Services;
-using PTSchool.Web.Models.Class;
+using PTSchool.Services.Contracts;
 using PTSchool.Web.Models.Parent;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.WebSockets;
 using System.Threading.Tasks;
 
 namespace PTSchool.Web.Controllers

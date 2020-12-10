@@ -6,6 +6,10 @@ namespace PTSchool.Data
 {
     public class PTSchoolDbContext : DbContext
     {
+        public PTSchoolDbContext(DbContextOptions<PTSchoolDbContext> options) : base(options)
+        {
+        }
+
         public DbSet<Source> Sources { get; set; }
 
         public DbSet<Article> Articles { get; set; }
@@ -47,10 +51,11 @@ namespace PTSchool.Data
                 optionsBuilder.UseSqlServer(PTSchoolDataSettings.DefaultConnection);
             }
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+            //modelBuilder.Entity<User>().ToTable("Users", "dbo");
         }
     }
 }

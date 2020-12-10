@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PTSchool.Services
+namespace PTSchool.Services.Contracts
 {
     public interface ISubjectService : IPageable
     {

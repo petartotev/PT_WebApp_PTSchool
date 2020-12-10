@@ -2,13 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
 using PTSchool.Data.Models;
+using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.Subject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PTSchool.Services.Implementations
+namespace PTSchool.Services
 {
     public class SubjectService : ISubjectService
     {

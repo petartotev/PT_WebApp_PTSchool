@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PTSchool.Services.Implementations
+namespace PTSchool.Services
 {
     public class ParentService : IParentService
     {

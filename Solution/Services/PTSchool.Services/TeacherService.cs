@@ -2,14 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
 using PTSchool.Data.Models;
+using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.Teacher;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace PTSchool.Services.Implementations
+namespace PTSchool.Services
 {
     public class TeacherService : ITeacherService
     {
@@ -82,7 +82,7 @@ namespace PTSchool.Services.Implementations
 
             teacherInDb.FirstName = teacher.FirstName;
             teacherInDb.MiddleName = teacher.MiddleName;
-            teacherInDb.LastName = teacher.LastName;            
+            teacherInDb.LastName = teacher.LastName;
             teacherInDb.Image = teacher.Image;
             teacherInDb.Description = teacher.Description;
             teacherInDb.Address = teacher.Address;

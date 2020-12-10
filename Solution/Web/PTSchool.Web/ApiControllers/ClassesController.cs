@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PTSchool.Services;
+using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.Class;
 using System;
 using System.Threading.Tasks;

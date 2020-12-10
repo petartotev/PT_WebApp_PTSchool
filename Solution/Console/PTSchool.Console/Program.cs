@@ -8,7 +8,10 @@ namespace PTSchool.Console
     {
         static void Main(string[] args)
         {
-            using var db = new PTSchoolDbContext();
+            using var db = new PTSchoolDbContext(new DbContextOptionsBuilder<PTSchoolDbContext>()
+            .UseSqlServer("Server=PT\\SQLEXPRESS;Database=PTSchoolDatabase;Integrated Security=True;")
+            .Options);
+
             db.Database.Migrate();
 
             //// ADD 45 TEACHERS.

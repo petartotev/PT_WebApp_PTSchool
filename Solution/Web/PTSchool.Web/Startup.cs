@@ -12,7 +12,6 @@ using Microsoft.OpenApi.Models;
 using PTSchool.Data;
 using PTSchool.Services;
 using PTSchool.Services.Contracts;
-using PTSchool.Services.Implementations;
 using PTSchool.Web.ConfigurationMapper;
 using PTSchool.Web.Data;
 using PTSchool.Web.Hubs;

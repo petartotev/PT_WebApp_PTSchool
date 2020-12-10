@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PTSchool.Services
+namespace PTSchool.Services.Contracts
 {
     public interface ITictactoeService
     {

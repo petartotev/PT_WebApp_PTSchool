@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
 using PTSchool.Data.Models;
 using PTSchool.Data.Models.Enums;
+using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.Mark;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PTSchool.Services.Implementations
+namespace PTSchool.Services
 {
     public class MarkService : IMarkService
     {

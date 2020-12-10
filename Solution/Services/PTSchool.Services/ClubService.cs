@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
 using PTSchool.Data.Models;
+using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.ApiMLNet;
 using PTSchool.Services.Models.Club;
 using System;
@@ -9,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PTSchool.Services.Implementations
+namespace PTSchool.Services
 {
     public class ClubService : IClubService
     {
@@ -115,8 +116,8 @@ namespace PTSchool.Services.Implementations
             // Create single instance of sample data from first line of dataset for model input
             List<ModelInput> modelInputs = new List<ModelInput>();
 
-            var student = db.Students.First(x => x.Id == db.ClubsStudents.First(y => y.ClubId == id).StudentId);                       
-                        
+            var student = db.Students.First(x => x.Id == db.ClubsStudents.First(y => y.ClubId == id).StudentId);
+
             foreach (var club in this.db.Clubs.Where(x => x.Id != id))
             {
                 modelInputs.Add(new ModelInput

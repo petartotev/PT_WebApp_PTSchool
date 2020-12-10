@@ -2,13 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
 using PTSchool.Data.Models;
+using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.Class;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PTSchool.Services.Implementations
+namespace PTSchool.Services
 {
     public class ClassService : IClassService
     {
@@ -127,6 +128,7 @@ namespace PTSchool.Services.Implementations
         {
             return this.db.Classes.Count();
         }
+
 
         private async Task<string> SetDefaultImagePathIfImagePathIsNull(Class classy)
         {

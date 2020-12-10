@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PTSchool.Services;
+using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.Club;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PTSchool.Web.ApiControllers

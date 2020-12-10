@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PTSchool.Services;
+using PTSchool.Services.Contracts;
 using PTSchool.Web.Models.Club;
 using System;
 using System.Collections.Generic;

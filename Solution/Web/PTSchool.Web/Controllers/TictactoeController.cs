@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using PTSchool.Services;
+using PTSchool.Services.Contracts;
 using PTSchool.Web.Hubs;
 using PTSchool.Web.Models.Tictactoe;
 using System;

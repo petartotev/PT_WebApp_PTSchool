@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClassServiceTests\" />
     <Folder Include="ClubServiceTests\" />
     <Folder Include="HomeServiceTests\" />
     <Folder Include="MarkServiceTests\" />

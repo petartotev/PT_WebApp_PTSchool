@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PTSchool.Services.Implementations;
+using PTSchool.Services.Contracts;
 using PTSchool.Web.Models.Teacher;
 using System;
 using System.Collections.Generic;

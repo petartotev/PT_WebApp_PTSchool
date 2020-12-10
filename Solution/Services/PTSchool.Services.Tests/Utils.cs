@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PTSchool.Data;
 using PTSchool.Data.Models;
 using PTSchool.Data.Models.ApiNews;
+using PTSchool.Data.Models.Enums;
 using PTSchool.Services.Models.ApiNews;
 using PTSchool.Services.Models.ApiWeather;
 using PTSchool.Services.Models.Class;
@@ -159,6 +160,44 @@ namespace PTSchool.Services.Tests
 
                 return mapper;
             }
+        }
+
+        public static Teacher CreateMockTeacher(string firstName = "firstName", string middleName = "middleName", string lastName = "lastName", string description = "description", string image = "/images/teachers/default.jpg", EnumGender gender = EnumGender.Male, bool isHeadTeacher = false, string address = "address", string email = "email@email.email", string phone = "phone", string phoneEmergency = "phoneEmergency", bool isBanned = false, bool isDeleted = false)
+        {
+            return new Teacher
+            {
+                Id = Guid.NewGuid(),
+                FirstName = firstName,
+                MiddleName = middleName,
+                LastName = lastName,
+                Description = description,
+                Image = image,
+                Gender = gender,
+                IsHeadTeacher = isHeadTeacher,
+                DateBirth = DateTime.Parse("10/10/1980"),
+                DateEmployed = DateTime.Parse("10/10/2015"),
+                DateCareerStart = DateTime.Parse("10/10/2010"),
+                Address = address,
+                Email = email,
+                Phone = phone,
+                PhoneEmergency = phoneEmergency,
+                IsBanned = isBanned,
+                IsDeleted = isDeleted
+            };
+        }
+
+        public static Class CreateMockClass(Guid teacherId, string name = "nameClass", string description = "descriptionClass", string image = "imageClass", bool isDeleted = false, bool isUnlisted = false)
+        {
+            return new Class
+            {
+                Id = Guid.NewGuid(),
+                Name = name,
+                Description = description,
+                Image = image,
+                MasterTeacherId = teacherId,
+                IsDeleted = isDeleted,
+                IsUnlisted = isUnlisted
+            };
         }
     }
 }
