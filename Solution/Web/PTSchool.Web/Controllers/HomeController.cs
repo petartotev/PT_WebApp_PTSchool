@@ -39,7 +39,7 @@ namespace PTSchool.Web.Controllers
         {
             if (!this.memoryCache.TryGetValue<DateTime>("TimeNow", out var value))
             {
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 value = DateTime.UtcNow;
                 this.memoryCache.Set("TimeNow", value, TimeSpan.FromSeconds(10));
             }
@@ -56,6 +56,14 @@ namespace PTSchool.Web.Controllers
 
             WeatherViewModel weather = this.mapper.Map<WeatherViewModel>(homeServiceModel.RootWeather);
             model.Weather = weather;
+
+            if (!this.memoryCache.TryGetValue<DateTime>("TimeNow", out var value))
+            {
+                //Thread.Sleep(2000);
+                value = DateTime.UtcNow;
+                this.memoryCache.Set("TimeNow", value, TimeSpan.FromSeconds(10));
+            }
+            model.TimeNow = value;
 
             return View(model);
         }

@@ -34,7 +34,7 @@ namespace PTSchool.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //PT: USING CACHE!
+            //PT: USING IN-MEMORY CACHE!
             services.AddMemoryCache();
 
             //PT: USING CACHE! - RESPONSE CACHING (RECOMMENDED TO BROWSER):
