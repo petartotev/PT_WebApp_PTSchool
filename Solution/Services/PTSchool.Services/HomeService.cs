@@ -82,7 +82,7 @@ namespace PTSchool.Services
         {
             await RemoveCurrentArticlesAndSources();
 
-            var root = GetNewsRoot();
+            RootNewsServiceModel root = GetNewsRoot();
             await AddArticlesAndSourcesToDb(root);
         }
 
@@ -149,6 +149,7 @@ namespace PTSchool.Services
                 RootWeatherServiceModel rootWeatherApi = JsonConvert.DeserializeObject<RootWeatherServiceModel>(responseString);
                 return rootWeatherApi;
             }
+
             return null;
         }
 

@@ -2,16 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.Home;
 using PTSchool.Web.Models;
 using PTSchool.Web.Models.Home;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Mail;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace PTSchool.Web.Controllers
@@ -22,7 +19,7 @@ namespace PTSchool.Web.Controllers
         private readonly IHomeService homeService;
         private readonly IMapper mapper;
 
-        //PT: INJECT CACHE
+        // PT: INJECT IMemoryCache FOR CACHE
         public HomeController(IMemoryCache memoryCache, IHomeService homeService, IMapper mapper)
         {
             this.memoryCache = memoryCache;
@@ -35,22 +32,8 @@ namespace PTSchool.Web.Controllers
             return this.View();
         }
 
-        public IActionResult CacheTest()
-        {
-            if (!this.memoryCache.TryGetValue<DateTime>("TimeNow", out var value))
-            {
-                //Thread.Sleep(2000);
-                value = DateTime.UtcNow;
-                this.memoryCache.Set("TimeNow", value, TimeSpan.FromSeconds(10));
-            }
-            return this.Ok(value);
-        }
-
         public async Task<IActionResult> Index()
         {
-            //ToDo: Put that as comment as soon as possible
-            //await homeService.UpdateNewsLocalDb();
-
             HomeServiceModel homeServiceModel = await homeService.GetHomePageInformationPackage();
             HomeViewModel model = this.mapper.Map<HomeViewModel>(homeServiceModel);
 
@@ -59,9 +42,14 @@ namespace PTSchool.Web.Controllers
 
             if (!this.memoryCache.TryGetValue<DateTime>("TimeNow", out var value))
             {
-                //Thread.Sleep(2000);
                 value = DateTime.UtcNow;
                 this.memoryCache.Set("TimeNow", value, TimeSpan.FromSeconds(10));
+
+                //// PT: Every time someone gets this cached value its expiration will expand with (0,10,0) minutes.
+                //this.memoryCache.Set("TimeNow", value, new MemoryCacheEntryOptions
+                //{
+                //    SlidingExpiration = new TimeSpan(0, 10, 0)
+                //});
             }
             model.TimeNow = value;
 

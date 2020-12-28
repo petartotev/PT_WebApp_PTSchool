@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace PTSchool.Web.Controllers
 {
-    ////PT: [Authorize] <-> using Microsoft.AspNetCore.Authorization; 
-    ////PT: [Authorize] onto CONTROLLER works on all the ACTIONS the Controller has.
-    ////PT: If you want to exclude an ACTION from being [Authorize], please use [AllowAnonymous] attribute.
-    ////PT: If a USER tries to access /Controller/Action without being logged-in - the application automatically transfers him to the log-in page, saving the link to the last action:
-    ////PT: localhost:44301/Identity/Account/Login?ReturnUrl=%2FController%2FAction
+    //// PT: [Authorize] <-> using Microsoft.AspNetCore.Authorization; 
+    //// PT: [Authorize] onto CONTROLLER works on all the ACTIONS the Controller has.
+    //// PT: If you want to exclude an ACTION from being [Authorize], please use [AllowAnonymous] attribute.
+    //// PT: If a USER tries to access /Controller/Action without being logged-in - the application automatically transfers him to the log-in page, saving the link to the last action:
+    //// PT: localhost:44301/Identity/Account/Login?ReturnUrl=%2FController%2FAction
     
     [Authorize]
     public class TestController : Controller
@@ -23,7 +23,7 @@ namespace PTSchool.Web.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        ////PT: ROLES? => Dependency Inject RoleManager<IdentityRole> roleManager
+        //// PT: ROLES? => Dependency Inject RoleManager<IdentityRole> roleManager
         public TestController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -41,7 +41,7 @@ namespace PTSchool.Web.Controllers
             return this.View();
         }
 
-        ////PT: ROLES? => SET A VIEW ACCESSIBLE ONLY FOR ROLE "ADMIN"
+        //// PT: ROLES? => SET A VIEW ACCESSIBLE ONLY FOR ROLE "ADMIN"
         //[Authorize(Roles = "Admin")]
         [Authorize(Roles = "Admin, Owner")]
         public IActionResult Adminize()
@@ -50,7 +50,7 @@ namespace PTSchool.Web.Controllers
         }
 
 
-        ////PT: CLAIM => ADD CLAIM TO THIS.USER
+        //// PT: CLAIM => ADD CLAIM TO THIS.USER
         public async Task<IActionResult> AddClaimToUser()
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -58,11 +58,11 @@ namespace PTSchool.Web.Controllers
             return this.Json(result);
         }
 
-        ////PT: ROLES? => SET A NEW ROLE "ADMIN" AND ADD IT TO USER
+        //// PT: ROLES? => SET A NEW ROLE "ADMIN" AND ADD IT TO USER
         [AllowAnonymous]
         public async Task<IActionResult> AddRoleAdmin()
         {
-            ////PT: Check if this.User is "Admin":
+            //// PT: Check if this.User is "Admin":
             var isUserAdmin = this.User.IsInRole("Admin");
             var result = await roleManager.CreateAsync(new IdentityRole
             {
@@ -73,7 +73,7 @@ namespace PTSchool.Web.Controllers
             return this.Json(result);
         }
         
-        ////PT: ROLES? => SET A NEW ROLE "PARENT" AND ADD IT TO USER
+        //// PT: ROLES? => SET A NEW ROLE "PARENT" AND ADD IT TO USER
         public async Task<IActionResult> AddRoleParent()
         {
             var result = await roleManager.CreateAsync(new IdentityRole
@@ -85,7 +85,7 @@ namespace PTSchool.Web.Controllers
             return this.Json(result);
         }
 
-        ////PT: ROLES? => SET A NEW ROLE "TEACHER" AND ADD IT TO USER
+        //// PT: ROLES? => SET A NEW ROLE "TEACHER" AND ADD IT TO USER
         public async Task<IActionResult> AddRoleTeacher()
         {
             var result = await roleManager.CreateAsync(new IdentityRole
@@ -97,7 +97,7 @@ namespace PTSchool.Web.Controllers
             return this.Json(result);
         }
 
-        ////PT: ROLES? => SET A NEW ROLE "STUDENT" AND ADD IT TO USER
+        //// PT: ROLES? => SET A NEW ROLE "STUDENT" AND ADD IT TO USER
         public async Task<IActionResult> AddRoleStudent()
         {
             var result = await roleManager.CreateAsync(new IdentityRole
@@ -109,7 +109,7 @@ namespace PTSchool.Web.Controllers
             return this.Json(result);
         }
 
-        ////PT: This ACTION returns a Json with the whole information of the logged-in-USER.
+        //// PT: This ACTION returns a Json with the whole information of the logged-in-USER.
         //public async Task<IActionResult> WhoAmI2()
         //{
         //    var user = await this.userManager.GetUserAsync(this.User);
@@ -117,7 +117,7 @@ namespace PTSchool.Web.Controllers
         //}
 
 
-        ////PT: CHECK-USER-IDENTITY
+        //// PT: CHECK-USER-IDENTITY
         //public IActionResult WhoAmI()
         //{
         //    if (!this.User.Identity.IsAuthenticated)
@@ -131,7 +131,7 @@ namespace PTSchool.Web.Controllers
         //}
 
 
-        ////PT: PASSWORD-SIGN-IN
+        //// PT: PASSWORD-SIGN-IN
         //public async Task<IActionResult> Testify()
         //{
         //    //this.signInManager.SignOutAsync() / this.signInManager.SignInAsync() / 
@@ -140,7 +140,7 @@ namespace PTSchool.Web.Controllers
         //}
 
 
-        ////PT: CREATE NEW USER AND RETURN JSON WITH INFORMATION ABOUT RESULT.    
+        //// PT: CREATE NEW USER AND RETURN JSON WITH INFORMATION ABOUT RESULT.    
         //public async Task<IActionResult> Testify()
         //{                    
         //    var result = await this.userManager.CreateAsync(new IdentityUser

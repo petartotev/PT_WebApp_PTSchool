@@ -47,7 +47,7 @@ namespace PTSchool.Web.Controllers
         }
 
         [HttpPost]
-        [RequestSizeLimit(50 * 1024 * 1024)] //PT: By default is 30MB
+        [RequestSizeLimit(50 * 1024 * 1024)] // PT: By default is 30MB
         public IActionResult AddMark(MarkFullViewModel markProfileToAdd, int id)
         {
             var markProfileServiceModelToAdd = new MarkFullServiceModel
@@ -60,8 +60,8 @@ namespace PTSchool.Web.Controllers
 
             this.markService.AddMarkToStudentByStudentId(markProfileServiceModelToAdd);
 
-            //PT: TEMP-DATA
-            //PT: It is a KEY-VALUE pair that can be passes until it is used. Then it is automatically deleted!
+            // PT: TEMP-DATA
+            // PT: It is a KEY-VALUE pair that can be passes until it is used. Then it is automatically deleted!
             this.TempData["InfoMessage"] = "This message is coming from MarksController -> [Http Post] AddMark() Action -> MarkApproved() Action -> this.View(). It confirms that YOUR MARK WAS SUBMITTED SUCCESSFULLY!";
 
             return this.RedirectToAction("MarkApproved", new { id = id });

@@ -64,7 +64,7 @@ myConnectionDraw.start().catch(function (err) {
     return console.error(err.toString());
 });
 
-//PT: To escape HTML injection in chat:
+// PT: To escape HTML injection in chat:
 function escapeHtml(unsafe) {
     return unsafe
         .replace(/&/g, "&amp;")
