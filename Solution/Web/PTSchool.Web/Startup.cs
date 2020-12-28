@@ -17,7 +17,6 @@ using PTSchool.Web.Data;
 using PTSchool.Web.Hubs;
 using PTSchool.Web.Middlewares;
 using System;
-using System.Linq;
 using System.Security.Claims;
 
 namespace PTSchool.Web
@@ -34,20 +33,20 @@ namespace PTSchool.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // PT: USING CACHE (IN-MEMORY)!
+            // PT: CACHE (IN-MEMORY CACHING):
             services.AddMemoryCache();
 
-            // PT: USING CACHE (RESPONSE CACHING - RECOMMENDED TO BROWSER):
-            //services.AddResponseCaching();
-
-            // PT: USING CACHE (DISTRIBUTED CACHE - SQLSERVER):
-            // PT: NuGet => Install => Microsoft.Extensions.Caching.SqlServer.
+            // PT: CACHE (DISTRIBUTED CACHING - SQLSERVER):
+            // PT: NuGet => Install => Microsoft.Extensions.Caching.SqlServer. (step 1)
             //services.AddDistributedSqlServerCache(options =>
             //{
             //    options.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
             //    options.SchemaName = "dbo";
             //    options.TableName = "CacheRecords";
             //});
+
+            // PT: CACHE (RESPONSE CACHING - RECOMMENDED TO BROWSER) (step 1):
+            //services.AddResponseCaching();
 
             // PT: ADD SIGNALR (1)            
             // PT: 1) NuGet => Install => Microsoft.AspNetCore.SignalR.Protocols.MessagePack.
@@ -181,13 +180,13 @@ namespace PTSchool.Web
                 ReceiveBufferSize = 4 * 1024,
             });
 
-            // PT: USE CACHING USE SESSION
-            //app.UseResponseCaching();
-            //app.UseSession();
-
             // PT: USE COMPRESSION (ZIPPING) TO TRANSFER DATA!
             // PT: USE IN COMBINATION WITH services.AddResponseCompression(option => { option.EnableForHttps = true; });
             //app.UseResponseCompression();
+
+            // PT: CACHE (RESPONSE CACHING - RECOMMENDED TO BROWSER) (step 2)
+            //app.UseResponseCaching();
+            //app.UseSession();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

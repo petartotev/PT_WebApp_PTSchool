@@ -19,7 +19,7 @@ namespace PTSchool.Web.Controllers
         private readonly IHomeService homeService;
         private readonly IMapper mapper;
 
-        // PT: INJECT IMemoryCache FOR CACHE
+        // PT: CACHE (IN-MEMORY) - Inject IMemoryCache interface.
         public HomeController(IMemoryCache memoryCache, IHomeService homeService, IMapper mapper)
         {
             this.memoryCache = memoryCache;
@@ -32,6 +32,8 @@ namespace PTSchool.Web.Controllers
             return this.View();
         }
 
+        // PT: CACHE (RESPONSE CACHING - RECOMMENDED TO BROWSER) (step 3):
+        //[ResponseCache(Location = ResponseCacheLocation.Client, Duration = 60 /*sec*/ * 10 /*min*/)]
         public async Task<IActionResult> Index()
         {
             HomeServiceModel homeServiceModel = await homeService.GetHomePageInformationPackage();
@@ -73,6 +75,7 @@ namespace PTSchool.Web.Controllers
             return this.View();
         }
 
+        // PT: CACHE (RESPONSE CACHING - RECOMMENDED TO BROWSER) (step 3):
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
