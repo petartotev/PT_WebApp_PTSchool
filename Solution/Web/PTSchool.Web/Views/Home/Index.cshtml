@@ -51,34 +51,6 @@
 <partial name="_ScrollIndicatorPartial" />
 
 <div class="row">
-    <div class="col-md-12">
-        <div class="card card-stats">
-            <div class="card-body ">
-                <div class="row">
-                    <div class="col-2 col-md-1">
-                        <div class="icon-big text-center icon-warning">
-                            <i class="nc-icon nc-time-alarm"></i>
-                        </div>
-                    </div>
-                    <div class="col-10 col-md-11">
-                        <div class="numbers">
-                            <p class="card-category">Time</p>
-                            <p class="card-title">@Model.TimeNow</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                    <i class="fa fa-refresh"></i>
-                    This is DateTime.UtcNow that was In-Memory Cached within a time span of 10 seconds.
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
     <div class="col-md-9">
         <div class="card bg-warning">
             <div class="card-header">
@@ -99,10 +71,7 @@
                             </ul>
                         </p>
                         <hr class="border border-primary" />
-                        <!-- PT: CACHE (VIEW) -->
-                        <cache expires-after="TimeSpan.FromSeconds(30)" vary-by-query="id">
-                            <h6 class="text-center">Cache Test (30sec) &nbsp;&nbsp;|&nbsp;&nbsp; @DateTime.Now.ToString()</h6>
-                        </cache>
+                        <h6 class="text-center">Enjoy!</h6>
                     </div>
                     <div class="col-md-6">
                         <img class="img-fluid" src="~/images/PTSchool2.png" alt="LogoPTSchool">
@@ -111,7 +80,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">        
+    <div class="col-md-3">
         <div class="card card-stats text-white @colorCardWeather">
             <div class="card-body ">
                 <div class="row">
@@ -220,7 +189,6 @@
         </div>
     </div>
 </div>
-
 <div class="row">
     @foreach (var article in Model.News)
     {
@@ -240,6 +208,95 @@
         </div>
     }
 </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-2 col-md-1">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="nc-icon nc-time-alarm"></i>
+                        </div>
+                    </div>
+                    <div class="col-10 col-md-11">
+                        <div class="numbers">
+                            <p class="card-category">Time</p>
+                            <p class="card-title">@Model.TimeNowCachedInMemory</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="fa fa-refresh"></i>
+                    This is DateTime.UtcNow that was <mark>In-Memory Cached</mark> within a time span of 10 seconds.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-2 col-md-1">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="nc-icon nc-time-alarm"></i>
+                        </div>
+                    </div>
+                    <div class="col-10 col-md-11">
+                        <div class="numbers">
+                            <p class="card-category">Time</p>
+                            <!-- PT: CACHE (VIEW) -->
+                            <cache expires-after="TimeSpan.FromSeconds(20)" vary-by-query="id">
+                                <p class="card-title">@DateTime.Now.ToString()</p>
+                            </cache>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="fa fa-refresh"></i>
+                    This is DateTime.UtcNow that was <mark>In-View Cached</mark> (In-Memory) within a time span of 20 seconds via &lt;cache&gt;.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-2 col-md-1">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="nc-icon nc-time-alarm"></i>
+                        </div>
+                    </div>
+                    <div class="col-10 col-md-11">
+                        <div class="numbers">
+                            <p class="card-category">Time</p>
+                            <p class="card-title">@Model.TimeNowCachedDistributed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="fa fa-refresh"></i>
+                    This is DateTime.UtcNow that was <mark>Distributed Cached</mark> within a time span of 30 seconds.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
 <br />
 <br />
 

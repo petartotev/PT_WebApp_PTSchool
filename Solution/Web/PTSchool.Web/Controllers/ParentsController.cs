@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PTSchool.Web.Controllers
 {
-    [Authorize(Roles = "Teacher, Parent")]
+    [Authorize(Roles = "Admin, Teacher, Parent")]
     public class ParentsController : Controller
     {
         private readonly IParentService parentService;
@@ -21,7 +21,7 @@ namespace PTSchool.Web.Controllers
             this.mapper = mapper;
         }
 
-        [Authorize(Roles = "Teacher, Parent")]
+        [Authorize(Roles = "Admin, Teacher, Parent")]
         [RequestSizeLimit(50 * 1024 * 1024)] // LIMIT BODY: 50MB
         public async Task<IActionResult> AllParents(int page = 1)
         {
@@ -39,7 +39,7 @@ namespace PTSchool.Web.Controllers
             return await Task.Run(() => this.View(model));
         }
 
-        [Authorize(Roles = "Teacher, Parent")]
+        [Authorize(Roles = "Admin, Teacher, Parent")]
         public async Task<IActionResult> Parent(Guid id)
         {
             var parent = await parentService.GetParentFullByIdAsync(id);

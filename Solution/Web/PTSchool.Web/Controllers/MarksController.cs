@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PTSchool.Web.Controllers
 {
-    [Authorize(Roles = "Teacher, Parent, Student")]
+    [Authorize(Roles = "Admin, Teacher, Parent, Student")]
     public class MarksController : Controller
     {
         private readonly IMarkService markService;

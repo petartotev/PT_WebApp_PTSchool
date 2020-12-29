@@ -11,7 +11,9 @@ namespace PTSchool.Web.Models.Home
 
         public WeatherViewModel Weather { get; set; }
 
-        public DateTime TimeNow { get; set; }
+        public DateTime TimeNowCachedInMemory { get; set; }
+
+        public DateTime TimeNowCachedDistributed { get; set; }
 
         public int CountStudents { get; set; }
         public int CountTeachers { get; set; }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using PTSchool.Services.Contracts;
 using PTSchool.Services.Models.Home;
@@ -16,13 +17,16 @@ namespace PTSchool.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IMemoryCache memoryCache;
+        private readonly IDistributedCache distributedCache;
         private readonly IHomeService homeService;
         private readonly IMapper mapper;
 
         // PT: CACHE (IN-MEMORY) - Inject IMemoryCache interface.
-        public HomeController(IMemoryCache memoryCache, IHomeService homeService, IMapper mapper)
+        // PT: CACHE (DISTRIBUTED CACHING - SQLSERVER) - Inject IDistributedCache interface.
+        public HomeController(IMemoryCache memoryCache, IDistributedCache distributedCache, IHomeService homeService, IMapper mapper)
         {
             this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
             this.homeService = homeService;
             this.mapper = mapper;
         }
@@ -42,10 +46,10 @@ namespace PTSchool.Web.Controllers
             WeatherViewModel weather = this.mapper.Map<WeatherViewModel>(homeServiceModel.RootWeather);
             model.Weather = weather;
 
-            if (!this.memoryCache.TryGetValue<DateTime>("TimeNow", out var value))
+            if (!this.memoryCache.TryGetValue<DateTime>("TimeNowInMemory", out var valueInMemory))
             {
-                value = DateTime.UtcNow;
-                this.memoryCache.Set("TimeNow", value, TimeSpan.FromSeconds(10));
+                valueInMemory = DateTime.UtcNow;
+                this.memoryCache.Set("TimeNowInMemory", valueInMemory, TimeSpan.FromSeconds(10));
 
                 //// PT: Every time someone gets this cached value its expiration will expand with (0,10,0) minutes.
                 //this.memoryCache.Set("TimeNow", value, new MemoryCacheEntryOptions
@@ -53,7 +57,18 @@ namespace PTSchool.Web.Controllers
                 //    SlidingExpiration = new TimeSpan(0, 10, 0)
                 //});
             }
-            model.TimeNow = value;
+            model.TimeNowCachedInMemory = valueInMemory;
+
+            var valueDistributed = await this.distributedCache.GetStringAsync("TimeNowDistributed");
+            if (valueDistributed == null)
+            {
+                valueDistributed = DateTime.UtcNow.ToString();
+                await this.distributedCache.SetStringAsync("TimeNowDistributed", valueDistributed, new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
+                });
+            }
+            model.TimeNowCachedDistributed = DateTime.Parse(valueDistributed);
 
             return View(model);
         }
@@ -91,6 +106,7 @@ namespace PTSchool.Web.Controllers
         {
             return this.View();
         }
+
 
         public IActionResult EmailSend()
         {

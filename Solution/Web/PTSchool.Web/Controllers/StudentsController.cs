@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PTSchool.Web.Controllers
 {
-    [Authorize(Roles = "Teacher, Parent, Student")]
+    [Authorize(Roles = "Admin, Teacher, Parent, Student")]
     public class StudentsController : Controller
     {
         private readonly IStudentService studentService;
@@ -21,7 +21,7 @@ namespace PTSchool.Web.Controllers
             this.mapper = mapper;
         }
 
-        [Authorize(Roles = "Teacher, Parent, Student")]
+        [Authorize(Roles = "Admin, Teacher, Parent, Student")]
         public async Task<IActionResult> AllStudents(int page = 1)
         {
             var students = await this.studentService.GetAllStudentsLightByPageAsync(page);
@@ -39,7 +39,7 @@ namespace PTSchool.Web.Controllers
         }
 
         //[HttpPost]
-        //[Authorize(Roles = "Teacher, Parent, Student")]
+        //[Authorize(Roles = "Admin, Teacher, Parent, Student")]
         //public async Task<IActionResult> AllStudents(CollectionStudentsLightViewModels model)
         //{
         //    return this.View(model);
