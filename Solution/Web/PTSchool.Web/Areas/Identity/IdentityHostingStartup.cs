@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PTSchool.Web.Data;
 
 [assembly: HostingStartup(typeof(PTSchool.Web.Areas.Identity.IdentityHostingStartup))]
 namespace PTSchool.Web.Areas.Identity

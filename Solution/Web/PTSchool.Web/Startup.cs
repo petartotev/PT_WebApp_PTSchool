@@ -10,10 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PTSchool.Data;
+using PTSchool.Data.Models;
 using PTSchool.Services;
 using PTSchool.Services.Contracts;
 using PTSchool.Web.ConfigurationMapper;
-using PTSchool.Web.Data;
 using PTSchool.Web.Hubs;
 using PTSchool.Web.Middlewares;
 using System;
@@ -75,11 +75,9 @@ namespace PTSchool.Web
                 option.EnableForHttps = true;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<PTSchoolDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddDbContext<PTSchoolDbContext>();
 
             services.AddTransient<IParentService, ParentService>();
             services.AddTransient<IStudentService, StudentService>();
@@ -102,9 +100,9 @@ namespace PTSchool.Web
 
             // PT: OBLIGATORY FOR Authentication/Authorization processes...
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //.AddEntityFrameworkStores<ApplicationDbContext>(); //Default.
+            //.AddEntityFrameworkStores<PTSchoolDbContext>(); //Default.
 
-            services.AddDefaultIdentity<ApplicationUser>(options =>
+            services.AddDefaultIdentity<User>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true; //Default.
 
@@ -121,8 +119,9 @@ namespace PTSchool.Web
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredUniqueChars = 1; //Default is 1.
             })
-                .AddRoles<IdentityRole>() // PT: ROLES! ADD THIS LINE!!!
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddRoles<Role>()
+            .AddUserManager<UserManager<User>>()
+            .AddEntityFrameworkStores<PTSchoolDbContext>();
 
             // PT: Add Authentication FACEBOOK! LOG-IN!: 
             //services.AddAuthentication()

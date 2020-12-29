@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using PTSchool.Web.Data;
+using PTSchool.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +19,14 @@ namespace PTSchool.Web.Controllers
     [Authorize]
     public class TestController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
         //// PT: ROLES? => Dependency Inject RoleManager<IdentityRole> roleManager
         public TestController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             RoleManager<IdentityRole> roleManager
             )
         {

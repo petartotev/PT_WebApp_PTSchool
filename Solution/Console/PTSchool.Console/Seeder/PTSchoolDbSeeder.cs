@@ -1392,6 +1392,40 @@ namespace PTSchool.Console.Seeder
             System.Console.WriteLine($"\nSeedClubs completed!");
         }
 
+        public static void SeedRoles(PTSchoolDbContext db)
+        {
+            System.Console.WriteLine("SeedClubs started.");
+
+            db.Roles.Add(new Role
+            {
+                Name = "Admin",
+                NormalizedName = "ADMIN",
+            });
+            db.SaveChanges();
+
+            db.Roles.Add(new Role
+            {
+                Name = "Parent",
+                NormalizedName = "PARENT",
+            });
+            db.SaveChanges();
+
+            db.Roles.Add(new Role
+            {
+                Name = "Student",
+                NormalizedName = "STUDENT",
+            });
+            db.SaveChanges();
+
+            db.Roles.Add(new Role
+            {
+                Name = "Teacher",
+                NormalizedName = "TEACHER",
+            });
+            db.SaveChanges();
+
+            System.Console.WriteLine($"\nSeedClubs completed!");
+        }
 
         private static string GenerateEmail(string nameFirst, string nameLast)
         {

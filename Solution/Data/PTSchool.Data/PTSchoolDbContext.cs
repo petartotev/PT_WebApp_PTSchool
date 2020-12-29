@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PTSchool.Data.Models;
 using PTSchool.Data.Models.ApiNews;
+using System;
 
 namespace PTSchool.Data
 {
-    public class PTSchoolDbContext : DbContext
+    public class PTSchoolDbContext : IdentityDbContext<User, Role, Guid>
     {
         public PTSchoolDbContext(DbContextOptions<PTSchoolDbContext> options) : base(options)
         {
@@ -44,6 +46,8 @@ namespace PTSchool.Data
 
         public DbSet<Tictactoe> Tictactoe { get; set; }
 
+        public DbSet<User> ApplicationUsers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -55,7 +59,7 @@ namespace PTSchool.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
-            //modelBuilder.Entity<User>().ToTable("Users", "dbo");
+            modelBuilder.Entity<User>().ToTable("Users", "dbo");
         }
     }
 }

@@ -6,30 +6,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using PTSchool.Web.Data;
+using PTSchool.Data.Models;
 
 namespace PTSchool.Web.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
         public IndexModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
         public string Username { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string MiddleName { get; set; }
-
-        public string LastName { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -41,19 +35,15 @@ namespace PTSchool.Web.Areas.Identity.Pages.Account.Manage
         {
             [Phone]
             [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }            
+            public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(ApplicationUser user)
+        private async Task LoadAsync(User user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var thisUser = await _userManager.GetUserAsync(this.User);
 
             Username = userName;
-            FirstName = thisUser.FirstName;
-            MiddleName = thisUser.MiddleName;
-            LastName = thisUser.LastName;
 
             Input = new InputModel
             {
@@ -93,8 +83,8 @@ namespace PTSchool.Web.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    return RedirectToPage();
                 }
             }
 

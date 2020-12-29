@@ -1,4 +1,4 @@
-﻿@inject SignInManager<PTSchool.Web.Data.ApplicationUser> SignInManager
+﻿@inject SignInManager<PTSchool.Data.Models.User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
