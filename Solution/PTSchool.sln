@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTSchool.Web", "Web\PTSchoo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTSchool.Console", "Console\PTSchool.Console\PTSchool.Console.csproj", "{09DFE023-2718-4DAF-ABFC-5082460353CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTSchool.Services.Tests", "Services\PTSchool.Services.Tests\PTSchool.Services.Tests.csproj", "{1CFECB33-0689-48AB-A77B-4ECD8F81D5C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTSchool.Services.Tests", "Services\PTSchool.Services.Tests\PTSchool.Services.Tests.csproj", "{1CFECB33-0689-48AB-A77B-4ECD8F81D5C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

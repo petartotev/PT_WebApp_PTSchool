@@ -22,10 +22,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--<title>, <meta name="description" content="..."/>, <meta name="description" content="..."/> are obligatory for a better Google Search recognition...-->
+
+    <!--<title>, <meta name="description" content="..."/>, <meta name="keywords" content="..."/> => better Search Engine Optimization (SEO) a.k.a. Google Search recognition. -->
     <title>@ViewData["Title"] / PTSchool</title>
-    <meta name="description" conent="PTSchool is a platform that makes communication between Teachers, Students and Parents easy! Based on priority, parents receive notifications about their child's grades and notes. Sending a message between two of these T-S-P. Authentication and authorization guarantees security." />
-    <meta name="keywords" content="PT, School, Teachers, Parents, Students, Education, Platform" />
+    <meta name="description" content="PTSchool is a platform that makes communication between Teachers, Students and Parents easy! Based on priority, parents receive notifications about their child's grades and notes. Sending a message between two of these T-S-P. Authentication and authorization guarantees security." />
+    <meta name="keywords" content="PT, School, Teacher, Teachers, Parent, Parents, Student, Students, Education, Platform" />
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -53,6 +55,15 @@
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="@(titleExtended.ToLowerInvariant() == "home / envrionment" ? "active" : "")">
+                            <a class="bg-danger" asp-area="Admin" asp-controller="Dashboard" asp-action="Environment">
+                                <i class="nc-icon nc-glasses-2"></i>
+                                <p class="text-white">Admins Platform</p>
+                            </a>
+                        </li>
+                    }
                     <li class="@(titleExtended.ToLowerInvariant() == "students / studentcouncil" ? "active" : "")">
                         <a class="" asp-controller="Students" asp-action="StudentCouncil">
                             <i class="nc-icon nc-bank"></i>
@@ -100,7 +111,7 @@
                             <i class="nc-icon nc-globe"></i>
                             <p>API Services</p>
                         </a>
-                    </li>                
+                    </li>
                     <hr />
                     <li class="@(titleExtended.ToLowerInvariant() == "shooter / play" ? "active" : "")">
                         <a class="" asp-controller="Shooter" asp-action="Play">
@@ -193,6 +204,8 @@
             </nav>
             <!-- End Navbar -->
             <div class="content">
+                <!-- // PT: COOKIES (step 3 - add partial view to _Layout.cshtml) -->
+                <partial name="_CookieConsentPartial" />
                 <main role="main" class="pb-3">
                     @RenderBody()
                 </main>

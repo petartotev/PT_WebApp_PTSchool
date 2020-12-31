@@ -33,43 +33,50 @@ namespace PTSchool.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // PT: CACHE (IN-MEMORY CACHING):
+            // PT: CACHE (IN-MEMORY CACHING) (step 1)
             services.AddMemoryCache();
 
-            // PT: CACHE (DISTRIBUTED CACHING - SQLSERVER):
-            // PT: NuGet => Install => Microsoft.Extensions.Caching.SqlServer. (step 1)
-            //services.AddDistributedSqlServerCache(options =>
-            //{
-            //    options.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
-            //    options.SchemaName = "dbo";
-            //    options.TableName = "CacheRecords";
-            //});
+            // PT: CACHE (DISTRIBUTED CACHING - SQLSERVER) (step 1) + (step 2)
+            // PT: NuGet => Install => Microsoft.Extensions.Caching.SqlServer.
+            services.AddDistributedSqlServerCache(options =>
+            {
+                options.ConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
+                options.SchemaName = "dbo";
+                options.TableName = "CacheRecords";
+            });
+
+            // PT: COOKIES (step 1)
+            services.Configure<CookiePolicyOptions>(
+                options =>
+                {
+                    options.CheckConsentNeeded = context => true;
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                });
+
+            // PT: SESSION / COOKIES (step 1 - DISTRIBUTED CACHING NEEDED) + (step 2)
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(2);
+                options.Cookie.HttpOnly = true; // so that JavaScript doesn't see the cookie (XSS security?).
+                options.Cookie.IsEssential = true;
+            });
 
             // PT: CACHE (RESPONSE CACHING - RECOMMENDED TO BROWSER) (step 1):
             //services.AddResponseCaching();
 
-            // PT: ADD SIGNALR (1)            
-            // PT: 1) NuGet => Install => Microsoft.AspNetCore.SignalR.Protocols.MessagePack.
-            // PT: 2) .AddMessagePackProtocol() makes the App work with MessagePack, not JSON.
+
+            // PT: SIGNALR (step 1) + (step 2)       
+            // PT: NuGet => Install => Microsoft.AspNetCore.SignalR.Protocols.MessagePack.
+            // PT: .AddMessagePackProtocol() makes the App work with MessagePack, not JSON.
             services.AddSignalR(options =>
             {
                 options.EnableDetailedErrors = true;
             }).AddMessagePackProtocol();
 
-            // PT: ADD SESSION!
-            // PT: USE COOKIES! (2)
-            services.AddSession(options =>
-            {
-                //options.IdleTimeout = TimeSpan.FromDays(2);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
-
             // PT: ADD CROSS-ORIGIN RESOURCE SHARING /CORS/ (1)
             services.AddCors();
 
-            // PT: USE COMPRESSION! (ZIPPING) TO TRANSFER DATA
-            // PT: USE IN COMBINATION WITH app.UseResponseCompression();
+            // PT: COMPRESSION (ZIPPING TO TRANSFER DATA) (step 1)
             services.AddResponseCompression(option =>
             {
                 option.EnableForHttps = true;
@@ -136,15 +143,10 @@ namespace PTSchool.Web
             options.AddPolicy("BulgariansOnly", policy =>
             policy.RequireClaim(ClaimTypes.Country, "Bulgaria")));
 
-            // PT: USE COOKIES (3)
-            services.Configure<CookiePolicyOptions>(
-                options =>
-                {
-                    options.CheckConsentNeeded = context => true;
-                    options.MinimumSameSitePolicy = SameSiteMode.None;
-                });
 
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
+            // PT: Identity
             services.AddRazorPages();
 
             services.AddAutoMapper(cfg => cfg.AddProfile<PTSchoolProfile>());
@@ -156,8 +158,7 @@ namespace PTSchool.Web
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        // PT: MIDDLEWARES!
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline (middlewares).
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHomeService homeService)
         {
             if (env.IsDevelopment())
@@ -172,46 +173,47 @@ namespace PTSchool.Web
                 app.UseHsts();
             }
 
-            // PT: USE WEB SOCKETS! (1) (Computer communication protocol that provides full-duplex (two-way) communication channels, which are provided over a single TCP connection.
+            // PT: CACHE (RESPONSE CACHING - RECOMMENDED TO BROWSER) (step 2)
+            //app.UseResponseCaching();
+
+            // PT: WEB SOCKETS (step 1)
+            // NB: WEB SOCKETS = Computer communication protocol providing full-duplex (2-way) communication channels over a single TCP connection.
             app.UseWebSockets(new WebSocketOptions
             {
                 KeepAliveInterval = TimeSpan.FromSeconds(120),
                 ReceiveBufferSize = 4 * 1024,
             });
 
-            // PT: USE COMPRESSION (ZIPPING) TO TRANSFER DATA!
-            // PT: USE IN COMBINATION WITH services.AddResponseCompression(option => { option.EnableForHttps = true; });
-            //app.UseResponseCompression();
-
-            // PT: CACHE (RESPONSE CACHING - RECOMMENDED TO BROWSER) (step 2)
-            //app.UseResponseCaching();
-            //app.UseSession();
+            // PT: COMPRESSION (ZIPPING TO TRANSFER DATA) (step 2)
+            app.UseResponseCompression();
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "PTSchool.Web");
             });
 
-            // PT: USE COOKIES! (1)
-            //app.UseCookiePolicy();
-
             // PT: ADD CROSS-ORIGIN RESOURCE SHARING /CORS/ (2)
-            //app.UseCors(builder => builder.WithOrigins("https://mvcschool.com"));
+            //app.UseCors(builder => builder.WithOrigins("https://ptschool.com"));
+
+            // PT: COOKIES (step 2)
+            app.UseCookiePolicy();
+
+            // PT: SESSION / COOKIES (step 3)
+            app.UseSession();
 
             app.UseRouting();
 
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-            // PT: Authentication = The process of verifying the identity of a user or computer. Question = Who are you?
-            // PT: Authorization = The process of determining what a user is permitted to do on a computer or network. Question = What are you allowed to do?            
-            // PT: The 2 following MIDDLEWARES ARE OBLIGATORY FOR Authentication/Authorization processes... By defaul they are here.
+            // NB: Authentication = Who are you? Authorization = What are you allowed to do?            
+            // NB: These 2 middlewares are included by default. They are necessary for Authentication and Authorization processes.
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -221,28 +223,26 @@ namespace PTSchool.Web
 
             app.UseEndpoints(endpoints =>
             {
-                // PT: CREATE NEW AREAS:
-                // PT: 1. Areas(Folder) -> r.cl. -> Add -> |Area...| -> ADMIN...
-                // PT: 2.2. Put Attribute [Area("Admin")]
-                // PT: 2.1. Create Controller -> DashboardController : Controller
-                // PT: 2.3. Create new Action Index() => return this.View()
-                // PT: 3. Create new View(Folder) -> Dashboard(Folder) -> Index.cshtml(View)
-                // PT: 4. Put the next 3 lines here:
-                //endpoints.MapControllerRoute(
-                //    "areaRoute",
-                //    "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                // PT: 5. Copy the 2 files from Projects' Views(Folder) - _ViewImports.cshtml, _ViewStart.cshtml  
-                // PT: 6. Paste the 2 files here: Areas(Folder) -> Admin(Folder) -> Views(Folder)
-                // PT: 7. Now you can access it here: https://localhost:5001/Admin/Dashboard/Index/1
-                // PT: ADD SIGNALR (2)
+                // PT: SIGNALR (step 2)
                 endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapHub<PlayHub>("/playhubbb");
                 endpoints.MapHub<CanvasHub>("/canvashub");
-                // PT: BY DEFAULT:
-                endpoints.MapRazorPages();
+
+                // PT: AREAS (step 1 - register Areas Controller Route)
+                endpoints.MapControllerRoute(
+                    "areaRoute",
+                    "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                // PT: 5. Copy the 2 files from Projects' Views(Folder) - _ViewImports.cshtml, _ViewStart.cshtml  
+                // PT: 6. Paste the 2 files here: Areas(Folder) -> Admin(Folder) -> Views(Folder)
+                // PT: 7. Now you can access it here: https://localhost:5001/Admin/Dashboard/Index/1
+
+                // PT: DEFAULT
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                // PT: Identity
+                endpoints.MapRazorPages();
             });
         }
     }
