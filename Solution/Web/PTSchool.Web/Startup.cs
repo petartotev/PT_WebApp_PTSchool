@@ -230,17 +230,14 @@ namespace PTSchool.Web
 
                 // PT: AREAS (step 1 - register Areas Controller Route)
                 endpoints.MapControllerRoute(
-                    "areaRoute",
-                    "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-                // PT: 5. Copy the 2 files from Projects' Views(Folder) - _ViewImports.cshtml, _ViewStart.cshtml  
-                // PT: 6. Paste the 2 files here: Areas(Folder) -> Admin(Folder) -> Views(Folder)
-                // PT: 7. Now you can access it here: https://localhost:5001/Admin/Dashboard/Index/1
+                    name: "areaRoute",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 // PT: DEFAULT
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 // PT: Identity
                 endpoints.MapRazorPages();
             });

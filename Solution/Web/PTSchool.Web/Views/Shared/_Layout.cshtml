@@ -65,68 +65,68 @@
                         </li>
                     }
                     <li class="@(titleExtended.ToLowerInvariant() == "students / studentcouncil" ? "active" : "")">
-                        <a class="" asp-controller="Students" asp-action="StudentCouncil">
+                        <a class="" asp-area="" asp-controller="Students" asp-action="StudentCouncil">
                             <i class="nc-icon nc-bank"></i>
                             <p>Student Council</p>
                         </a>
                     </li>
                     <li class="@(titleExtended.ToLowerInvariant() == "students / allstudents" ? "active" : "")">
-                        <a class="" asp-controller="Students" asp-action="AllStudents">
+                        <a class="" asp-area="" asp-controller="Students" asp-action="AllStudents">
                             <i class="nc-icon nc-satisfied"></i>
                             <p>Students</p>
                         </a>
                     </li>
                     <li class="@(titleExtended.ToLowerInvariant() == "teachers / allteachers" ? "active" : "")">
-                        <a class="" asp-controller="Teachers" asp-action="AllTeachers">
+                        <a class="" asp-area="" asp-controller="Teachers" asp-action="AllTeachers">
                             <i class="nc-icon nc-circle-10"></i>
                             <p>Teachers</p>
                         </a>
                     </li>
                     <li class="@(titleExtended.ToLowerInvariant() == "parents / allparents" ? "active" : "")">
-                        <a class="" asp-controller="Parents" asp-action="AllParents">
+                        <a class="" asp-area="" asp-controller="Parents" asp-action="AllParents">
                             <i class="nc-icon nc-single-02"></i>
                             <p>Parents</p>
                         </a>
                     </li>
                     <li class="@(titleExtended.ToLowerInvariant() == "classes / allclasses" ? "active" : "")">
-                        <a class="" asp-controller="Classes" asp-action="AllClasses">
+                        <a class="" asp-area="" asp-controller="Classes" asp-action="AllClasses">
                             <i class="nc-icon nc-tile-56"></i>
                             <p>Classes</p>
                         </a>
                     </li>
                     <li class="@(titleExtended.ToLowerInvariant() == "clubs / allclubs" ? "active" : "")">
-                        <a class="" asp-controller="Clubs" asp-action="AllClubs">
+                        <a class="" asp-area="" asp-controller="Clubs" asp-action="AllClubs">
                             <i class="nc-icon nc-tile-56"></i>
                             <p>Clubs</p>
                         </a>
                     </li>
                     <li class="@(titleExtended.ToLowerInvariant() == "subjects / allsubjects" ? "active" : "")">
-                        <a class="" asp-controller="Subjects" asp-action="AllSubjects">
+                        <a class="" asp-area="" asp-controller="Subjects" asp-action="AllSubjects">
                             <i class="nc-icon nc-atom"></i>
                             <p>Subjects</p>
                         </a>
                     </li>
                     <li class="@(titleExtended.ToLowerInvariant() == "apiservices / general" ? "active" : "")">
-                        <a class="" asp-controller="ApiServices" asp-action="General">
+                        <a class="" asp-area="" asp-controller="ApiServices" asp-action="General">
                             <i class="nc-icon nc-globe"></i>
                             <p>API Services</p>
                         </a>
                     </li>
                     <hr />
                     <li class="@(titleExtended.ToLowerInvariant() == "shooter / play" ? "active" : "")">
-                        <a class="" asp-controller="Shooter" asp-action="Play">
+                        <a class="" asp-area="" asp-controller="Shooter" asp-action="Play">
                             <i class="nc-icon nc-spaceship"></i>
                             <p>Play Shooter!</p>
                         </a>
                     </li>
                     <li class="@(titleExtended.ToLowerInvariant() == "tictactoe / menu" ? "active" : "")">
-                        <a asp-controller="Tictactoe" asp-action="Menu">
+                        <a class="" asp-area="" asp-controller="Tictactoe" asp-action="Menu">
                             <i class="nc-icon nc-simple-remove"></i>
                             <p>Play Tictactoe!</p>
                         </a>
                     </li>
                     <li class="@(titleExtended.ToLowerInvariant() == "canvas / draw" ? "active" : "")">
-                        <a class="" asp-controller="Canvas" asp-action="Draw">
+                        <a class="" asp-area="" asp-controller="Canvas" asp-action="Draw">
                             <i class="nc-icon nc-palette"></i>
                             <p>Draw Canvas!</p>
                         </a>
