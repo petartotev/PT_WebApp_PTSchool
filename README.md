@@ -2,13 +2,13 @@
 
 ## General Information
 
+PT_WebApp_PTSchool is an ASP.NET Core MVC web application that provides an online platform for different services for Parents, Teachers and Students within a school institution.
+
+![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_00.jpg)
+
 _N.B. This is a "legacy" project created for educational purposes before the start of my Telerik Academy Alpha formal education._  
 _It is currently in a process of massive refactoring. The goal is to achieve the same quality as our final project in Telerik Academy which I created in collaboration with Iva Pavlova..._  
 Link: https://gitlab.com/Iva_Pavlova/team9projectplaylistgenerator
-
-PT_WebApp_PTSchool is an ASP.NET Core MVC Web Application that provides an online platform for different services for Parents, Teachers and Students within a school institution.
-
-![WebAppScreenshots](Resources/Screenshots/PTSchool_Screenshot_00.jpg)
 
 ## Technologies
 
